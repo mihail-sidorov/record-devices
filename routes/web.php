@@ -21,3 +21,7 @@ Route::get('/logout', function(){
 Route::get('/password/email', function(){
     return redirect()->route('home');
 });
+
+Route::get('/admin', 'AdminController@index')->name('admin');
+
+Route::get('/worker', 'WorkerController@index')->name('worker');

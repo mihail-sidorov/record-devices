@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class HomeController extends Controller
+class WorkerController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -24,15 +24,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        switch (Auth::user()->role) {
-            case 'admin':
-                return redirect()->route('admin');
-                break;
-            case 'worker':
-                return redirect()->route('worker');
-                break;
-            default:
-                abort(403);
+        if (Auth::user()->role === 'worker') {
+            return 'worker';
+        }
+        else {
+            abort(403);
         }
     }
 }
