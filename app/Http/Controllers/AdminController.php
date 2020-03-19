@@ -25,7 +25,7 @@ class AdminController extends Controller
     public function index()
     {
         if (Auth::user()->role === 'admin') {
-            return view('admin');
+            return view('admin.index');
         }
         else {
             abort(403);

@@ -6,3 +6,21 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+// Файл для общих стилей (отступов и тому подобного)
+@import 'common';
+
+// BEM компоненты
+@import 'bem/wrapper';
+
+@import 'bem/content';
+
+@import 'bem/tab-content-wrapper';
+
+@import 'bem/action-btn';
+
+@import 'bem/edit-btn';
+
+@import 'bem/del-btn';
+
+@import 'bem/add-btn';

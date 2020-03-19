@@ -1,0 +1,1 @@
+<button class="del-btn"><i class="far fa-trash-alt"></i></button>

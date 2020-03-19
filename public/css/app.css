@@ -10882,3 +10882,147 @@ a.text-dark:focus {
   }
 }
 
+.tab-pane {
+  padding-top: 20px;
+}
+
+.wrapper {
+  padding: 16px;
+}
+
+.content {
+  padding: 16px;
+  background-color: #fff;
+  border-radius: 0.25rem;
+}
+
+.tab-content-wrapper > * {
+  margin-bottom: 20px;
+}
+
+.tab-content-wrapper > *:last-child {
+  margin-bottom: 0;
+}
+
+.tab-content-wrapper .tab-content-wrapper__title {
+  margin-bottom: 10px;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.tab-content-wrapper .tab-content-wrapper__filter {
+  display: flex;
+  flex-direction: column;
+}
+
+.tab-content-wrapper .tab-content-wrapper__filter .tab-content-wrapper__filter-field {
+  max-width: 300px;
+  margin-bottom: 10px;
+  border: 1px solid #dee2e6;
+  padding: 6px 12px;
+  border-radius: 0.25rem;
+}
+
+.tab-content-wrapper .tab-content-wrapper__list .tab-content-wrapper__list-item {
+  margin-bottom: 10px;
+}
+
+.tab-content-wrapper .tab-content-wrapper__list .tab-content-wrapper__list-item:last-child {
+  margin-bottom: 0;
+}
+
+.tab-content-wrapper .tab-content-wrapper__list .tab-content-wrapper__list-item .tab-content-wrapper__list-item-head {
+  display: flex;
+  align-items: center;
+}
+
+.tab-content-wrapper .tab-content-wrapper__list .tab-content-wrapper__list-item .tab-content-wrapper__list-item-head .tab-content-wrapper__list-item-name {
+  margin-right: 20px;
+  cursor: pointer;
+}
+
+.tab-content-wrapper .tab-content-wrapper__list .tab-content-wrapper__list-item .tab-content-wrapper__list-item-head .tab-content-wrapper__list-item-name::before {
+  content: "+";
+  display: inline-block;
+  width: 15px;
+  color: #0064b4;
+}
+
+.tab-content-wrapper .tab-content-wrapper__list .tab-content-wrapper__list-item .tab-content-wrapper__list-item-head .tab-content-wrapper__list-item-name_show::before {
+  content: "-";
+}
+
+.tab-content-wrapper .tab-content-wrapper__list .tab-content-wrapper__list-item .tab-content-wrapper__list-item-head .edit-btn {
+  margin-right: 10px;
+}
+
+.tab-content-wrapper .tab-content-wrapper__list .tab-content-wrapper__list-item .tab-content-wrapper__list-item-body {
+  display: none;
+  padding-left: 15px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.action-btn {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  border: 1px solid #dee2e6;
+  border-radius: 50%;
+  background-color: transparent;
+  color: #0064b4;
+  padding: 0;
+  line-height: 40px;
+}
+
+.action-btn:hover {
+  background-color: #f8fafc;
+}
+
+.edit-btn {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  border: 1px solid #dee2e6;
+  border-radius: 50%;
+  background-color: transparent;
+  color: #0064b4;
+  padding: 0;
+  line-height: 30px;
+}
+
+.edit-btn:hover {
+  background-color: #f8fafc;
+}
+
+.del-btn {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  border: 1px solid #dee2e6;
+  border-radius: 50%;
+  background-color: transparent;
+  color: #0064b4;
+  padding: 0;
+  line-height: 30px;
+}
+
+.del-btn:hover {
+  background-color: #f8fafc;
+}
+
+.add-btn {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  border: 1px solid #dee2e6;
+  border-radius: 50%;
+  background-color: transparent;
+  color: #0064b4;
+  padding: 0;
+  line-height: 40px;
+}
+
+.add-btn:hover {
+  background-color: #f8fafc;
+}
+
