@@ -2,3 +2,25 @@
 
     padding-top: 20px;
 }
+
+.container {
+
+    margin-left: 0;
+    margin-right: 0;
+    padding: 0;
+    max-width: none !important;
+}
+
+.navbar-nav {
+
+    .nav-item {
+
+        &:last-child {
+
+            .nav-link {
+
+                padding-right: 0;
+            }
+        }
+    }
+}

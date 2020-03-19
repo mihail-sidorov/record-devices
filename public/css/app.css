@@ -10886,6 +10886,17 @@ a.text-dark:focus {
   padding-top: 20px;
 }
 
+.container {
+  margin-left: 0;
+  margin-right: 0;
+  padding: 0;
+  max-width: none !important;
+}
+
+.navbar-nav .nav-item:last-child .nav-link {
+  padding-right: 0;
+}
+
 .wrapper {
   padding: 16px;
 }
@@ -10915,7 +10926,7 @@ a.text-dark:focus {
 }
 
 .tab-content-wrapper .tab-content-wrapper__filter .tab-content-wrapper__filter-field {
-  max-width: 300px;
+  max-width: 400px;
   margin-bottom: 10px;
   border: 1px solid #dee2e6;
   padding: 6px 12px;
