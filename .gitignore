@@ -14,4 +14,9 @@ yarn-error.log
 /composer.lock
 /.*
 !/.gitignore
+!/.editorconfig
+!/.env
+!/.env.example
+!/.gitattributes
+!/.styleci.yml
 /*.zip
