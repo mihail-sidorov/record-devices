@@ -17,10 +17,22 @@
         </li>
     </ul>
     <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade show active" id="devices" role="tabpanel" aria-labelledby="devices-tab">@include('admin.devices.tab-content-wrapper')</div>
-        <div class="tab-pane fade" id="workers" role="tabpanel" aria-labelledby="workers-tab">@include('admin.workers.tab-content-wrapper')</div>
-        <div class="tab-pane fade" id="providers" role="tabpanel" aria-labelledby="providers-tab">@include('admin.providers.tab-content-wrapper')</div>
-        <div class="tab-pane fade" id="responsibles" role="tabpanel" aria-labelledby="responsibles-tab">@include('admin.responsibles.tab-content-wrapper')</div>
+        <div class="tab-pane fade show active admin-devices-tab-content-controller" id="devices" role="tabpanel" aria-labelledby="devices-tab">
+            @include('admin.devices.tab-content-wrapper')
+            @include('admin.devices.modal-window')
+        </div>
+        <div class="tab-pane fade admin-workers-tab-content-controller" id="workers" role="tabpanel" aria-labelledby="workers-tab">
+            @include('admin.workers.tab-content-wrapper')
+            @include('admin.workers.modal-window')
+        </div>
+        <div class="tab-pane fade admin-providers-tab-content-controller" id="providers" role="tabpanel" aria-labelledby="providers-tab">
+            @include('admin.providers.tab-content-wrapper')
+            @include('admin.providers.modal-window')
+        </div>
+        <div class="tab-pane fade admin-responsibles-tab-content-controller" id="responsibles" role="tabpanel" aria-labelledby="responsibles-tab">
+            @include('admin.responsibles.tab-content-wrapper')
+            @include('admin.responsibles.modal-window')
+        </div>
     </div>
 </div>
 @endsection

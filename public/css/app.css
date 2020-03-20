@@ -11037,3 +11037,90 @@ a.text-dark:focus {
   background-color: #f8fafc;
 }
 
+.modal-window {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  display: none;
+  z-index: 1000;
+}
+
+.modal-window .modal-window__cover {
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  opacity: 0;
+}
+
+.modal-window .modal-window__wrapper {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: translate(0, 120px) scale(0.9);
+  opacity: 0;
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+.modal-window .modal-window__wrapper .modal-window__content {
+  width: 100%;
+  max-width: 460px;
+  min-height: 440px;
+  border-radius: 0.25rem;
+  background-color: #fff;
+  padding: 50px;
+  position: relative;
+}
+
+.modal-window .modal-window__wrapper .modal-window__content .modal-window__close {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+}
+
+.modal-window .modal-window__wrapper .modal-window__content .modal-window__close:hover {
+  opacity: 0.6;
+}
+
+.modal-window .modal-window__wrapper .modal-window__content .modal-window__close::before,
+.modal-window .modal-window__wrapper .modal-window__content .modal-window__close::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 1px;
+  top: 50%;
+  left: 50%;
+  margin-left: -10px;
+  background-color: #495057;
+  transform: rotate(45deg);
+}
+
+.modal-window .modal-window__wrapper .modal-window__content .modal-window__close::after {
+  transform: rotate(-45deg);
+}
+
+.modal-window .modal-window__wrapper .modal-window__content .modal-window__head {
+  line-height: 3rem;
+  letter-spacing: 0.02em;
+  color: #343332;
+  margin-bottom: 32px;
+  font-size: 1.5rem;
+}
+
+.modal-window_animate .modal-window__wrapper {
+  transform: none;
+  opacity: 1;
+}
+

@@ -37059,7 +37059,21 @@ module.exports = function(module) {
  */
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
-__webpack_require__(/*! ./bem/tab-content-wrapper */ "./resources/js/bem/tab-content-wrapper.js"); //window.Vue = require('vue');
+__webpack_require__(/*! ./jquery.easing.compatibility */ "./resources/js/jquery.easing.compatibility.js");
+
+__webpack_require__(/*! ./jquery.easing.min */ "./resources/js/jquery.easing.min.js");
+
+__webpack_require__(/*! ./bem/tab-content-wrapper */ "./resources/js/bem/tab-content-wrapper.js");
+
+__webpack_require__(/*! ./bem/modal-window */ "./resources/js/bem/modal-window.js");
+
+__webpack_require__(/*! ./bem/controllers/admin-devices-tab-content-controller */ "./resources/js/bem/controllers/admin-devices-tab-content-controller.js");
+
+__webpack_require__(/*! ./bem/controllers/admin-workers-tab-content-controller */ "./resources/js/bem/controllers/admin-workers-tab-content-controller.js");
+
+__webpack_require__(/*! ./bem/controllers/admin-providers-tab-content-controller */ "./resources/js/bem/controllers/admin-providers-tab-content-controller.js");
+
+__webpack_require__(/*! ./bem/controllers/admin-responsibles-tab-content-controller */ "./resources/js/bem/controllers/admin-responsibles-tab-content-controller.js"); //window.Vue = require('vue');
 
 /**
  * The following block of code may be used to automatically register your
@@ -37080,6 +37094,126 @@ __webpack_require__(/*! ./bem/tab-content-wrapper */ "./resources/js/bem/tab-con
 // const app = new Vue({
 //     el: '#app',
 // });
+
+/***/ }),
+
+/***/ "./resources/js/bem/controllers/admin-devices-tab-content-controller.js":
+/*!******************************************************************************!*\
+  !*** ./resources/js/bem/controllers/admin-devices-tab-content-controller.js ***!
+  \******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// admin-devices-tab-content-controller
+$(document).ready(function () {
+  $('.admin-devices-tab-content-controller').find('.add-btn').click(function (e) {
+    $(e.currentTarget).closest('.admin-devices-tab-content-controller').find('.modal-window').addClass('modal-window_show');
+  });
+});
+
+/***/ }),
+
+/***/ "./resources/js/bem/controllers/admin-providers-tab-content-controller.js":
+/*!********************************************************************************!*\
+  !*** ./resources/js/bem/controllers/admin-providers-tab-content-controller.js ***!
+  \********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// admin-providers-tab-content-controller
+$(document).ready(function () {
+  $('.admin-providers-tab-content-controller').find('.add-btn').click(function (e) {
+    $(e.currentTarget).closest('.admin-providers-tab-content-controller').find('.modal-window').addClass('modal-window_show');
+  });
+});
+
+/***/ }),
+
+/***/ "./resources/js/bem/controllers/admin-responsibles-tab-content-controller.js":
+/*!***********************************************************************************!*\
+  !*** ./resources/js/bem/controllers/admin-responsibles-tab-content-controller.js ***!
+  \***********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// admin-responsibles-tab-content-controller
+$(document).ready(function () {
+  $('.admin-responsibles-tab-content-controller').find('.add-btn').click(function (e) {
+    $(e.currentTarget).closest('.admin-responsibles-tab-content-controller').find('.modal-window').addClass('modal-window_show');
+  });
+});
+
+/***/ }),
+
+/***/ "./resources/js/bem/controllers/admin-workers-tab-content-controller.js":
+/*!******************************************************************************!*\
+  !*** ./resources/js/bem/controllers/admin-workers-tab-content-controller.js ***!
+  \******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// admin-workers-tab-content-controller
+$(document).ready(function () {
+  $('.admin-workers-tab-content-controller').find('.add-btn').click(function (e) {
+    $(e.currentTarget).closest('.admin-workers-tab-content-controller').find('.modal-window').addClass('modal-window_show');
+  });
+});
+
+/***/ }),
+
+/***/ "./resources/js/bem/modal-window.js":
+/*!******************************************!*\
+  !*** ./resources/js/bem/modal-window.js ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+$('.modal-window').each(function (index, element) {
+  var observer = new MutationObserver(function (res) {
+    var self = res[0].target;
+
+    if ($(self).attr('class').indexOf('modal-window_show') + 1) {
+      $(self).find('.modal-window__cover').stop().animate({
+        opacity: '0.6'
+      }, {
+        duration: 300,
+        easing: 'easeInOut',
+        queue: false,
+        start: function start() {
+          $(self).css('display', 'block');
+          $(self).css('width');
+          $(self).addClass('modal-window_animate');
+        }
+      });
+    } else {
+      $(self).find('.modal-window__cover').stop().animate({
+        opacity: 0
+      }, {
+        duration: 300,
+        easing: 'easeInOut',
+        queue: false,
+        start: function start() {
+          $(self).removeClass('modal-window_animate');
+        },
+        complete: function complete() {
+          $(self).css('display', 'none');
+        }
+      });
+    }
+  });
+  observer.observe(element, {
+    attributes: true,
+    attributeFilter: ['class']
+  });
+});
+$('.modal-window__wrapper').click(function (e) {
+  if (e.target === e.currentTarget) {
+    $(e.currentTarget).parent().removeClass('modal-window_show');
+  }
+});
+$('.modal-window__close').click(function (e) {
+  $(e.currentTarget).closest('.modal-window').removeClass('modal-window_show');
+});
 
 /***/ }),
 
@@ -37154,6 +37288,203 @@ if (token) {
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     encrypted: true
 // });
+
+/***/ }),
+
+/***/ "./resources/js/jquery.easing.compatibility.js":
+/*!*****************************************************!*\
+  !*** ./resources/js/jquery.easing.compatibility.js ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+/*
+ * Easing Compatibility v1 - http://gsgd.co.uk/sandbox/jquery/easing
+ *
+ * Adds compatibility for applications that use the pre 1.2 easing names
+ *
+ * Copyright (c) 2007 George Smith
+ * Licensed under the MIT License:
+ *   http://www.opensource.org/licenses/mit-license.php
+ */
+(function ($) {
+  $.extend($.easing, {
+    easeIn: function easeIn(x, t, b, c, d) {
+      return $.easing.easeInQuad(x, t, b, c, d);
+    },
+    easeOut: function easeOut(x, t, b, c, d) {
+      return $.easing.easeOutQuad(x, t, b, c, d);
+    },
+    easeInOut: function easeInOut(x, t, b, c, d) {
+      return $.easing.easeInOutQuad(x, t, b, c, d);
+    },
+    expoin: function expoin(x, t, b, c, d) {
+      return $.easing.easeInExpo(x, t, b, c, d);
+    },
+    expoout: function expoout(x, t, b, c, d) {
+      return $.easing.easeOutExpo(x, t, b, c, d);
+    },
+    expoinout: function expoinout(x, t, b, c, d) {
+      return $.easing.easeInOutExpo(x, t, b, c, d);
+    },
+    bouncein: function bouncein(x, t, b, c, d) {
+      return $.easing.easeInBounce(x, t, b, c, d);
+    },
+    bounceout: function bounceout(x, t, b, c, d) {
+      return $.easing.easeOutBounce(x, t, b, c, d);
+    },
+    bounceinout: function bounceinout(x, t, b, c, d) {
+      return $.easing.easeInOutBounce(x, t, b, c, d);
+    },
+    elasin: function elasin(x, t, b, c, d) {
+      return $.easing.easeInElastic(x, t, b, c, d);
+    },
+    elasout: function elasout(x, t, b, c, d) {
+      return $.easing.easeOutElastic(x, t, b, c, d);
+    },
+    elasinout: function elasinout(x, t, b, c, d) {
+      return $.easing.easeInOutElastic(x, t, b, c, d);
+    },
+    backin: function backin(x, t, b, c, d) {
+      return $.easing.easeInBack(x, t, b, c, d);
+    },
+    backout: function backout(x, t, b, c, d) {
+      return $.easing.easeOutBack(x, t, b, c, d);
+    },
+    backinout: function backinout(x, t, b, c, d) {
+      return $.easing.easeInOutBack(x, t, b, c, d);
+    }
+  });
+})(jQuery);
+
+/***/ }),
+
+/***/ "./resources/js/jquery.easing.min.js":
+/*!*******************************************!*\
+  !*** ./resources/js/jquery.easing.min.js ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+!function (n) {
+   true ? !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")], __WEBPACK_AMD_DEFINE_RESULT__ = (function (e) {
+    return n(e);
+  }).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__)) : undefined;
+}(function (n) {
+  function e(n) {
+    var e = 7.5625,
+        t = 2.75;
+    return n < 1 / t ? e * n * n : n < 2 / t ? e * (n -= 1.5 / t) * n + .75 : n < 2.5 / t ? e * (n -= 2.25 / t) * n + .9375 : e * (n -= 2.625 / t) * n + .984375;
+  }
+
+  void 0 !== n.easing && (n.easing.jswing = n.easing.swing);
+  var t = Math.pow,
+      u = Math.sqrt,
+      r = Math.sin,
+      i = Math.cos,
+      a = Math.PI,
+      c = 1.70158,
+      o = 1.525 * c,
+      s = 2 * a / 3,
+      f = 2 * a / 4.5;
+  n.extend(n.easing, {
+    def: "easeOutQuad",
+    swing: function swing(e) {
+      return n.easing[n.easing.def](e);
+    },
+    easeInQuad: function easeInQuad(n) {
+      return n * n;
+    },
+    easeOutQuad: function easeOutQuad(n) {
+      return 1 - (1 - n) * (1 - n);
+    },
+    easeInOutQuad: function easeInOutQuad(n) {
+      return n < .5 ? 2 * n * n : 1 - t(-2 * n + 2, 2) / 2;
+    },
+    easeInCubic: function easeInCubic(n) {
+      return n * n * n;
+    },
+    easeOutCubic: function easeOutCubic(n) {
+      return 1 - t(1 - n, 3);
+    },
+    easeInOutCubic: function easeInOutCubic(n) {
+      return n < .5 ? 4 * n * n * n : 1 - t(-2 * n + 2, 3) / 2;
+    },
+    easeInQuart: function easeInQuart(n) {
+      return n * n * n * n;
+    },
+    easeOutQuart: function easeOutQuart(n) {
+      return 1 - t(1 - n, 4);
+    },
+    easeInOutQuart: function easeInOutQuart(n) {
+      return n < .5 ? 8 * n * n * n * n : 1 - t(-2 * n + 2, 4) / 2;
+    },
+    easeInQuint: function easeInQuint(n) {
+      return n * n * n * n * n;
+    },
+    easeOutQuint: function easeOutQuint(n) {
+      return 1 - t(1 - n, 5);
+    },
+    easeInOutQuint: function easeInOutQuint(n) {
+      return n < .5 ? 16 * n * n * n * n * n : 1 - t(-2 * n + 2, 5) / 2;
+    },
+    easeInSine: function easeInSine(n) {
+      return 1 - i(n * a / 2);
+    },
+    easeOutSine: function easeOutSine(n) {
+      return r(n * a / 2);
+    },
+    easeInOutSine: function easeInOutSine(n) {
+      return -(i(a * n) - 1) / 2;
+    },
+    easeInExpo: function easeInExpo(n) {
+      return 0 === n ? 0 : t(2, 10 * n - 10);
+    },
+    easeOutExpo: function easeOutExpo(n) {
+      return 1 === n ? 1 : 1 - t(2, -10 * n);
+    },
+    easeInOutExpo: function easeInOutExpo(n) {
+      return 0 === n ? 0 : 1 === n ? 1 : n < .5 ? t(2, 20 * n - 10) / 2 : (2 - t(2, -20 * n + 10)) / 2;
+    },
+    easeInCirc: function easeInCirc(n) {
+      return 1 - u(1 - t(n, 2));
+    },
+    easeOutCirc: function easeOutCirc(n) {
+      return u(1 - t(n - 1, 2));
+    },
+    easeInOutCirc: function easeInOutCirc(n) {
+      return n < .5 ? (1 - u(1 - t(2 * n, 2))) / 2 : (u(1 - t(-2 * n + 2, 2)) + 1) / 2;
+    },
+    easeInElastic: function easeInElastic(n) {
+      return 0 === n ? 0 : 1 === n ? 1 : -t(2, 10 * n - 10) * r((10 * n - 10.75) * s);
+    },
+    easeOutElastic: function easeOutElastic(n) {
+      return 0 === n ? 0 : 1 === n ? 1 : t(2, -10 * n) * r((10 * n - .75) * s) + 1;
+    },
+    easeInOutElastic: function easeInOutElastic(n) {
+      return 0 === n ? 0 : 1 === n ? 1 : n < .5 ? -(t(2, 20 * n - 10) * r((20 * n - 11.125) * f)) / 2 : t(2, -20 * n + 10) * r((20 * n - 11.125) * f) / 2 + 1;
+    },
+    easeInBack: function easeInBack(n) {
+      return (c + 1) * n * n * n - c * n * n;
+    },
+    easeOutBack: function easeOutBack(n) {
+      return 1 + (c + 1) * t(n - 1, 3) + c * t(n - 1, 2);
+    },
+    easeInOutBack: function easeInOutBack(n) {
+      return n < .5 ? t(2 * n, 2) * (7.189819 * n - o) / 2 : (t(2 * n - 2, 2) * ((o + 1) * (2 * n - 2) + o) + 2) / 2;
+    },
+    easeInBounce: function easeInBounce(n) {
+      return 1 - e(1 - n);
+    },
+    easeOutBounce: e,
+    easeInOutBounce: function easeInOutBounce(n) {
+      return n < .5 ? (1 - e(1 - 2 * n)) / 2 : (1 + e(2 * n - 1)) / 2;
+    }
+  });
+});
 
 /***/ }),
 
