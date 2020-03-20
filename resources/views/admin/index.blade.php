@@ -17,10 +17,10 @@
         </li>
     </ul>
     <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade show active" id="devices" role="tabpanel" aria-labelledby="devices-tab">@include('admin.tab-content-wrapper')</div>
-        <div class="tab-pane fade" id="workers" role="tabpanel" aria-labelledby="workers-tab">workers</div>
-        <div class="tab-pane fade" id="providers" role="tabpanel" aria-labelledby="providers-tab">providers</div>
-        <div class="tab-pane fade" id="responsibles" role="tabpanel" aria-labelledby="responsibles-tab">responsibles</div>
+        <div class="tab-pane fade show active" id="devices" role="tabpanel" aria-labelledby="devices-tab">@include('admin.devices.tab-content-wrapper')</div>
+        <div class="tab-pane fade" id="workers" role="tabpanel" aria-labelledby="workers-tab">@include('admin.workers.tab-content-wrapper')</div>
+        <div class="tab-pane fade" id="providers" role="tabpanel" aria-labelledby="providers-tab">@include('admin.providers.tab-content-wrapper')</div>
+        <div class="tab-pane fade" id="responsibles" role="tabpanel" aria-labelledby="responsibles-tab">@include('admin.responsibles.tab-content-wrapper')</div>
     </div>
 </div>
 @endsection
