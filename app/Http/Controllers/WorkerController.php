@@ -25,7 +25,7 @@ class WorkerController extends Controller
     public function index()
     {
         if (Auth::user()->role === 'worker') {
-            return 'worker';
+            return view('worker.index');
         }
         else {
             abort(403);
