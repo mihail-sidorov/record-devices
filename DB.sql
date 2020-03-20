@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Мар 18 2020 г., 15:59
+-- Время создания: Мар 20 2020 г., 15:20
 -- Версия сервера: 10.4.11-MariaDB
 -- Версия PHP: 7.4.3
 
@@ -21,6 +21,27 @@ SET time_zone = "+00:00";
 --
 -- База данных: `record_devices`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `devices`
+--
+
+CREATE TABLE `devices` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `model` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `serial_number` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `type_device_id` int(11) NOT NULL,
+  `receipt_date` int(11) NOT NULL,
+  `purchase_price` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `warranty` int(11) NOT NULL,
+  `worker_id` int(11) NOT NULL,
+  `provider_id` int(11) NOT NULL,
+  `responsibles_id` int(11) NOT NULL,
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'store'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -57,7 +78,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (1, '2014_10_12_000000_create_users_table', 1),
 (2, '2014_10_12_100000_create_password_resets_table', 1),
 (3, '2019_08_19_000000_create_failed_jobs_table', 1),
-(4, '2020_03_18_125119_add_role_field_to_users', 1);
+(4, '2020_03_18_125119_add_role_field_to_users', 1),
+(5, '2020_03_20_120059_create_devices_table', 2);
 
 -- --------------------------------------------------------
 
@@ -94,11 +116,17 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `role`) VALUES
-(2, 'Name', 'mail@mail.ru', NULL, '$2y$10$wJSUKpBgBs4zi9BkkJS0quxU3S/dW2N663F4HWHBnfSqQvZ752sxG', NULL, '2020-03-18 11:57:09', '2020-03-18 11:57:09', 'admin');
+(1, 'Name', 'mail@mail.ru', NULL, '$2y$10$wJSUKpBgBs4zi9BkkJS0quxU3S/dW2N663F4HWHBnfSqQvZ752sxG', NULL, '2020-03-18 11:57:09', '2020-03-18 11:57:09', 'admin');
 
 --
 -- Индексы сохранённых таблиц
 --
+
+--
+-- Индексы таблицы `devices`
+--
+ALTER TABLE `devices`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Индексы таблицы `failed_jobs`
@@ -130,6 +158,12 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT для таблицы `devices`
+--
+ALTER TABLE `devices`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT для таблицы `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
@@ -139,13 +173,13 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT для таблицы `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
