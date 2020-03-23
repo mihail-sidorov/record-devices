@@ -37106,8 +37106,81 @@ __webpack_require__(/*! ./bem/controllers/admin-responsibles-tab-content-control
 
 // admin-devices-tab-content-controller
 $(document).ready(function () {
-  $('.admin-devices-tab-content-controller').find('.add-btn').click(function (e) {
-    $(e.currentTarget).closest('.admin-devices-tab-content-controller').find('.modal-window').addClass('modal-window_show');
+  $('.admin-devices-tab-content-controller .add-btn').click(function (e) {
+    $('.admin-devices-tab-content-controller .add-device-modal-window .form-content__field').removeClass('form-content__field_error');
+    $('.admin-devices-tab-content-controller .add-device-modal-window .form-content__error').text('');
+    $(e.currentTarget).closest('.admin-devices-tab-content-controller').find('.add-device-modal-window').addClass('modal-window_show');
+  });
+  $('.admin-devices-tab-content-controller .add-device-modal-window .form-content__text').on('input', function (e) {
+    var $formContentField = $(e.currentTarget).closest('.form-content__field');
+    $formContentField.removeClass('form-content__field_error');
+    $formContentField.find('.form-content__error').text('');
+  });
+  $('.admin-devices-tab-content-controller .add-device-modal-window .form-content__select').on('change', function (e) {
+    var $formContentField = $(e.currentTarget).closest('.form-content__field');
+    $formContentField.removeClass('form-content__field_error');
+    $formContentField.find('.form-content__error').text('');
+  });
+  $('.admin-devices-tab-content-controller .add-device-modal-window .form-content').on('submit', function (e) {
+    var fields = $(e.currentTarget).serialize(),
+        $formContentField;
+    $(e.currentTarget).find('.form-content__field').removeClass('form-content__field_error');
+    $(e.currentTarget).find('.form-content__error').text('');
+    $.ajax({
+      type: 'POST',
+      url: 'admin/add-device',
+      data: fields,
+      error: function error(_error) {
+        if (_error.responseJSON.errors.name !== undefined) {
+          if (_error.responseJSON.errors.name[0]) {
+            $formContentField = $(e.currentTarget).find('.form-content__error[field-name="name"]').closest('.form-content__field');
+            $formContentField.addClass('form-content__field_error');
+            $formContentField.find('.form-content__error').text(_error.responseJSON.errors.name[0]);
+          }
+        }
+
+        if (_error.responseJSON.errors.model !== undefined) {
+          if (_error.responseJSON.errors.model[0]) {
+            $formContentField = $(e.currentTarget).find('.form-content__error[field-name="model"]').closest('.form-content__field');
+            $formContentField.addClass('form-content__field_error');
+            $formContentField.find('.form-content__error').text(_error.responseJSON.errors.model[0]);
+          }
+        }
+
+        if (_error.responseJSON.errors.serial_number !== undefined) {
+          if (_error.responseJSON.errors.serial_number[0]) {
+            $formContentField = $(e.currentTarget).find('.form-content__error[field-name="serial_number"]').closest('.form-content__field');
+            $formContentField.addClass('form-content__field_error');
+            $formContentField.find('.form-content__error').text(_error.responseJSON.errors.serial_number[0]);
+          }
+        }
+
+        if (_error.responseJSON.errors.type_device_id !== undefined) {
+          if (_error.responseJSON.errors.type_device_id[0]) {
+            $formContentField = $(e.currentTarget).find('.form-content__error[field-name="type_device_id"]').closest('.form-content__field');
+            $formContentField.addClass('form-content__field_error');
+            $formContentField.find('.form-content__error').text(_error.responseJSON.errors.type_device_id[0]);
+          }
+        }
+
+        if (_error.responseJSON.errors.purchase_price !== undefined) {
+          if (_error.responseJSON.errors.purchase_price[0]) {
+            $formContentField = $(e.currentTarget).find('.form-content__error[field-name="purchase_price"]').closest('.form-content__field');
+            $formContentField.addClass('form-content__field_error');
+            $formContentField.find('.form-content__error').text(_error.responseJSON.errors.purchase_price[0]);
+          }
+        }
+
+        if (_error.responseJSON.errors.warranty !== undefined) {
+          if (_error.responseJSON.errors.warranty[0]) {
+            $formContentField = $(e.currentTarget).find('.form-content__error[field-name="warranty"]').closest('.form-content__field');
+            $formContentField.addClass('form-content__field_error');
+            $formContentField.find('.form-content__error').text(_error.responseJSON.errors.warranty[0]);
+          }
+        }
+      }
+    });
+    return false;
   });
 });
 

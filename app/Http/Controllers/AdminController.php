@@ -31,4 +31,23 @@ class AdminController extends Controller
             abort(403);
         }
     }
+
+    public function addDevice(Request $request)
+    {
+        if ($request->ajax() && Auth::user()->role === 'admin') {
+            $this->validate($request, [
+                'name' => 'bail|required|max:255',
+                'model' => 'bail|required|max:255',
+                'serial_number' => 'bail|required|max:255',
+                'type_device_id' => 'bail|required',
+                'purchase_price' => 'bail|required|max:255',
+                'warranty' => 'bail|required',
+            ]);
+
+            return 'addDevice';
+        }
+        else {
+            abort(403);
+        }
+    }
 }

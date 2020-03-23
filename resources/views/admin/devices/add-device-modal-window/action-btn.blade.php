@@ -1,1 +1,0 @@
-<button class="action-btn add-device-btn"><i class="fas fa-check"></i></button>

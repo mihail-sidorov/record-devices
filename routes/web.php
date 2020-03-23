@@ -23,5 +23,6 @@ Route::get('/password/email', function(){
 });
 
 Route::get('/admin', 'AdminController@index')->name('admin');
+Route::post('/admin/add-device', 'AdminController@addDevice');
 
 Route::get('/worker', 'WorkerController@index')->name('worker');
