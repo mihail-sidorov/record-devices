@@ -19,7 +19,7 @@
     <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade show active admin-devices-tab-content-controller" id="devices" role="tabpanel" aria-labelledby="devices-tab">
             @include('admin.devices.tab-content-wrapper')
-            @include('admin.devices.modal-window')
+            @include('admin.devices.add-device-modal-window.modal-window')
         </div>
         <div class="tab-pane fade admin-workers-tab-content-controller" id="workers" role="tabpanel" aria-labelledby="workers-tab">
             @include('admin.workers.tab-content-wrapper')

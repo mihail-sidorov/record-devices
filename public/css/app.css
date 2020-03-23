@@ -11124,3 +11124,21 @@ a.text-dark:focus {
   opacity: 1;
 }
 
+.form-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-content .form-content__text,
+.form-content .form-content__select {
+  max-width: 400px;
+  margin-bottom: 20px;
+  border: 1px solid #dee2e6;
+  padding: 6px 12px;
+  border-radius: 0.25rem;
+}
+
+.form-content .form-content__title {
+  margin-bottom: 10px;
+}
+
