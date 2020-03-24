@@ -10973,6 +10973,33 @@ a.text-dark:focus {
   margin-bottom: 10px;
 }
 
+.tab-content-wrapper .tab-content-wrapper__list .tab-content-wrapper__list-item .tab-content-wrapper__list-item-body .tab-content-wrapper__list-item-body-table {
+  width: 100%;
+  border-spacing: 0;
+  border: 1px solid #dee2e6;
+  border-collapse: separate;
+  border-radius: 0.25rem;
+}
+
+.tab-content-wrapper .tab-content-wrapper__list .tab-content-wrapper__list-item .tab-content-wrapper__list-item-body .tab-content-wrapper__list-item-body-table td {
+  border: 1px solid #dee2e6;
+  border-top: 0;
+  border-left: 0;
+  padding: 6px 12px;
+}
+
+.tab-content-wrapper .tab-content-wrapper__list .tab-content-wrapper__list-item .tab-content-wrapper__list-item-body .tab-content-wrapper__list-item-body-table td:last-child {
+  border-right: 0;
+}
+
+.tab-content-wrapper .tab-content-wrapper__list .tab-content-wrapper__list-item .tab-content-wrapper__list-item-body .tab-content-wrapper__list-item-body-table thead td {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.tab-content-wrapper .tab-content-wrapper__list .tab-content-wrapper__list-item .tab-content-wrapper__list-item-body .tab-content-wrapper__list-item-body-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
 .action-btn {
   display: inline-block;
   width: 40px;

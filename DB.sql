@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Мар 24 2020 г., 09:59
+-- Время создания: Мар 24 2020 г., 15:55
 -- Версия сервера: 10.4.11-MariaDB
 -- Версия PHP: 7.4.3
 
@@ -36,12 +36,22 @@ CREATE TABLE `devices` (
   `type_device_id` int(11) NOT NULL,
   `receipt_date` int(11) NOT NULL,
   `purchase_price` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `warranty` int(11) NOT NULL,
+  `warranty` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `worker_id` int(11) DEFAULT NULL,
   `provider_id` int(11) DEFAULT NULL,
   `responsible_id` int(11) DEFAULT NULL,
   `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'store'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Дамп данных таблицы `devices`
+--
+
+INSERT INTO `devices` (`id`, `name`, `model`, `serial_number`, `type_device_id`, `receipt_date`, `purchase_price`, `warranty`, `worker_id`, `provider_id`, `responsible_id`, `status`) VALUES
+(1, 'Имя устройства 1', 'Модель устройства 1', 'Серийный номер устройства 1', 1, 1584997200, '1000', '1', NULL, NULL, NULL, 'store'),
+(2, 'Имя устройства 2', 'Модель устройства 2', 'Серийный номер устройства 2', 2, 1584997200, '2000', '2', NULL, NULL, NULL, 'store'),
+(3, 'Имя устройства 3', 'Модель устройства 3', 'Серийный номер устройства 3', 3, 1584910800, '3000', '3', NULL, NULL, NULL, 'store'),
+(4, 'Имя устройства 4', 'Модель устройства 4', 'Серийный номер устройства 4', 4, 1584824400, '4000', '4', NULL, NULL, NULL, 'store');
 
 -- --------------------------------------------------------
 
@@ -161,7 +171,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT для таблицы `devices`
 --
 ALTER TABLE `devices`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT для таблицы `failed_jobs`

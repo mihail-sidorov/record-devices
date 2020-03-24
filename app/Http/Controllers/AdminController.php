@@ -26,7 +26,11 @@ class AdminController extends Controller
     public function index()
     {
         if (Auth::user()->role === 'admin') {
-            return view('admin.index');
+            $devices = Devices::all();
+
+            return view('admin.index', [
+                'devices' => $devices,
+            ]);
         }
         else {
             abort(403);

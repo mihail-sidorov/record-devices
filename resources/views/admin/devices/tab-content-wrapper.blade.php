@@ -15,46 +15,47 @@
 
     <div class="tab-content-wrapper__title">Список:</div>
     <div class="tab-content-wrapper__list">
-        <div class="tab-content-wrapper__list-item">
-            <div class="tab-content-wrapper__list-item-head">
-                <div class="tab-content-wrapper__list-item-name">Устройство 1</div>
-                @include('edit-btn')
-                @include('del-btn')
+        @foreach ($devices as $device)
+            <div class="tab-content-wrapper__list-item">
+                <div class="tab-content-wrapper__list-item-head">
+                    <div class="tab-content-wrapper__list-item-name">{{ $device->name }}</div>
+                    @include('edit-btn')
+                    @include('del-btn')
+                </div>
+                <div class="tab-content-wrapper__list-item-body">
+                    <table class="tab-content-wrapper__list-item-body-table">
+                        <thead>
+                            <tr>
+                                <td>Модель</td>
+                                <td>Серийный номер</td>
+                                <td>Тип</td>
+                                <td>Дата поступления</td>
+                                <td>Закупочная цена</td>
+                                <td>Срок гарантии (мес.)</td>
+                                <td>Выдано сотруднику</td>
+                                <td>Ответственный</td>
+                                <td>Поставщик</td>
+                                <td>Статус</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>{{ $device->model }}</td>
+                            <td>{{ $device->serial_number }}</td>
+                            <td>{{ $device->type_device_id }}</td>
+                            <td>{{ $device->receipt_date }}</td>
+                            <td>{{ $device->purchase_price }}</td>
+                            <td>{{ $device->warranty }}</td>
+                            <td>{{ $device->worker_id }}</td>
+                            <td>{{ $device->provider_id }}</td>
+                            <td>{{ $device->responsible_id }}</td>
+                            <td>{{ $device->status }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            <div class="tab-content-wrapper__list-item-body">
-                Развернутая информация об устройстве 1
-            </div>
-        </div>
-        <div class="tab-content-wrapper__list-item">
-            <div class="tab-content-wrapper__list-item-head">
-                <div class="tab-content-wrapper__list-item-name">Устройство 2</div>
-                @include('edit-btn')
-                @include('del-btn')
-            </div>
-            <div class="tab-content-wrapper__list-item-body">
-                Развернутая информация об устройстве 2
-            </div>
-        </div>
-        <div class="tab-content-wrapper__list-item">
-            <div class="tab-content-wrapper__list-item-head">
-                <div class="tab-content-wrapper__list-item-name">Устройство 3</div>
-                @include('edit-btn')
-                @include('del-btn')
-            </div>
-            <div class="tab-content-wrapper__list-item-body">
-                Развернутая информация об устройстве 3
-            </div>
-        </div>
-        <div class="tab-content-wrapper__list-item">
-            <div class="tab-content-wrapper__list-item-head">
-                <div class="tab-content-wrapper__list-item-name">Устройство 4</div>
-                @include('edit-btn')
-                @include('del-btn')
-            </div>
-            <div class="tab-content-wrapper__list-item-body">
-                Развернутая информация об устройстве 4
-            </div>
-        </div>
+        @endforeach
     </div>
 
     @include('add-btn')
