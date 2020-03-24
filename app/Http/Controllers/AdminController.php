@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Devices;
 
 class AdminController extends Controller
 {
@@ -44,6 +45,20 @@ class AdminController extends Controller
                 'warranty' => 'bail|required',
                 'receipt_date' => 'date',
             ]);
+
+            $devices = new Devices;
+
+            date_default_timezone_set('Europe/Moscow');
+
+            $devices->name = $request->name;
+            $devices->model = $request->model;
+            $devices->serial_number = $request->serial_number;
+            $devices->type_device_id = $request->type_device_id;
+            $devices->purchase_price = $request->purchase_price;
+            $devices->warranty = $request->warranty;
+            $devices->receipt_date = strtotime($request->receipt_date);
+
+            $devices->save();
 
             return 'addDevice';
         }
