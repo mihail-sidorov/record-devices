@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Мар 20 2020 г., 15:20
+-- Время создания: Мар 24 2020 г., 09:59
 -- Версия сервера: 10.4.11-MariaDB
 -- Версия PHP: 7.4.3
 
@@ -37,9 +37,9 @@ CREATE TABLE `devices` (
   `receipt_date` int(11) NOT NULL,
   `purchase_price` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `warranty` int(11) NOT NULL,
-  `worker_id` int(11) NOT NULL,
-  `provider_id` int(11) NOT NULL,
-  `responsibles_id` int(11) NOT NULL,
+  `worker_id` int(11) DEFAULT NULL,
+  `provider_id` int(11) DEFAULT NULL,
+  `responsible_id` int(11) DEFAULT NULL,
   `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'store'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -116,7 +116,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `role`) VALUES
-(1, 'Name', 'mail@mail.ru', NULL, '$2y$10$wJSUKpBgBs4zi9BkkJS0quxU3S/dW2N663F4HWHBnfSqQvZ752sxG', NULL, '2020-03-18 11:57:09', '2020-03-18 11:57:09', 'admin');
+(1, 'Name', 'mail@mail.ru', NULL, '$2y$10$wJSUKpBgBs4zi9BkkJS0quxU3S/dW2N663F4HWHBnfSqQvZ752sxG', 'TWLBjmQNSaTr8lS91bvK8qblmYpiDo9aFC02EwY3brlW40LOV5YO2x2pQ3CG', '2020-03-18 11:57:09', '2020-03-18 11:57:09', 'admin');
 
 --
 -- Индексы сохранённых таблиц

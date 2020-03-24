@@ -22,9 +22,9 @@ class CreateDevicesTable extends Migration
             $table->integer('receipt_date');
             $table->string('purchase_price');
             $table->integer('warranty');
-            $table->integer('worker_id');
-            $table->integer('provider_id');
-            $table->integer('responsibles_id');
+            $table->integer('worker_id')->nullable();
+            $table->integer('provider_id')->nullable();
+            $table->integer('responsible_id')->nullable();
             $table->string('status')->default('store');
         });
     }
