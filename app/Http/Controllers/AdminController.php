@@ -42,12 +42,13 @@ class AdminController extends Controller
                 'type_device_id' => 'bail|required',
                 'purchase_price' => 'bail|required|max:255',
                 'warranty' => 'bail|required',
+                'receipt_date' => 'date',
             ]);
 
             return 'addDevice';
         }
         else {
-            abort(403);
+            return '403';
         }
     }
 }

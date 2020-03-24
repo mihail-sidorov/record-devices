@@ -14,7 +14,7 @@ $(document).ready(() => {
         $formContentField.find('.form-content__error').text('');
     });
 
-    $('.admin-devices-tab-content-controller .add-device-modal-window .form-content__select').on('change', (e) => {
+    $('.admin-devices-tab-content-controller .add-device-modal-window .form-content__select, .admin-devices-tab-content-controller .add-device-modal-window .form-content__date').on('change', (e) => {
         var $formContentField = $(e.currentTarget).closest('.form-content__field');
         $formContentField.removeClass('form-content__field_error');
         $formContentField.find('.form-content__error').text('');
@@ -29,7 +29,16 @@ $(document).ready(() => {
         $.ajax({
             type: 'POST',
             url: 'admin/add-device',
-            data: fields,           
+            data: fields,
+            success: (response) => {
+                if (response === '403') {
+                    window.location.href = '/';
+                }
+
+                if (response === 'addDevice') {
+                    window.location.href = '/admin';
+                }
+            },
             error:  (error) => {
                 if (error.responseJSON.errors.name !== undefined) {
                     if (error.responseJSON.errors.name[0]) {
@@ -78,7 +87,15 @@ $(document).ready(() => {
                         $formContentField.find('.form-content__error').text(error.responseJSON.errors.warranty[0]);
                     }
                 }
-            }    
+
+                if (error.responseJSON.errors.receipt_date !== undefined) {
+                    if (error.responseJSON.errors.receipt_date[0]) {
+                        $formContentField = $(e.currentTarget).find('.form-content__error[field-name="receipt_date"]').closest('.form-content__field');
+                        $formContentField.addClass('form-content__field_error');
+                        $formContentField.find('.form-content__error').text(error.responseJSON.errors.receipt_date[0]);
+                    }
+                }
+            },
         });
 
         return false;

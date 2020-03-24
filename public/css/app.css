@@ -11161,7 +11161,8 @@ a.text-dark:focus {
   box-shadow: 0 0 0 0.2rem rgba(227, 52, 47, 0.25) !important;
 }
 
-.form-content .form-content__field_error .form-content__select {
+.form-content .form-content__field_error .form-content__select,
+.form-content .form-content__field_error .form-content__date {
   border-color: #e3342f;
 }
 
