@@ -63,23 +63,34 @@ class AdminController extends Controller
             $devices->receipt_date = strtotime($request->receipt_date);
 
             $devices->save();
+        }
 
-            return 'addDevice';
-        }
-        else {
-            return '403';
-        }
+        return 'OK';
     }
 
     public function delDevice(Request $request)
     {
         if ($request->ajax() && Auth::user()->role === 'admin') {
             Devices::destroy($request->id);
-
-            return 'delDevice';
         }
-        else {
-            return '403';
+        
+        return 'OK';
+    }
+
+    public function writeEditDeviceForm(Request $request)
+    {
+        if ($request->ajax() && Auth::user()->role === 'admin') {
+            $device = Devices::find($request->id);
+
+            return "{
+                \"name\": \"$device->name\",
+                \"model\": \"$device->model\",
+                \"serial_number\": \"$device->serial_number\",
+                \"type_device_id\": \"$device->type_device_id\",
+                \"receipt_date\": \"$device->receipt_date\",
+                \"purchase_price\": \"$device->purchase_price\",
+                \"warranty\": \"$device->warranty\"
+            }";
         }
     }
 }

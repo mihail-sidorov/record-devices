@@ -9,6 +9,52 @@ $(document).ready(() => {
         $(e.currentTarget).closest('.admin-devices-tab-content-controller').find('.add-device-modal-window').addClass('modal-window_show');
     });
 
+    // Открываем модальное окно для редактирования устройства, обнуляем в нем сообщения об ошибках валидации и заполняем его данными
+    $('.admin-devices-tab-content-controller .edit-btn').click((e) => {
+        var deviceId = $(e.currentTarget).closest('.tab-content-wrapper__list-item').attr('id'), token = $('meta[name="csrf-token"]').attr('content');
+
+        $.ajax({
+            type: 'POST',
+            url: 'admin/write-edit-device-form',
+            data: {
+                _token: token,
+                id: deviceId,
+            },
+            dataType: 'json',
+            success: (response) => {
+                if (response) {
+                    $('.admin-devices-tab-content-controller .edit-device-modal-window .form-content__field').each((index, element) => {
+                        var $fieldNameElement = $(element).find('[name]'), fieldName = $fieldNameElement.attr('name'), date, year, month, day;
+
+                        if (fieldName === 'receipt_date' || fieldName === 'warranty') {
+                            date = new Date(response[fieldName] * 1000);
+                            year = date.getFullYear();
+                            month = +date.getMonth() + 1;
+                            day = +date.getDate();
+
+                            if (month < 10) {
+                                month = '0' + month;
+                            }
+                            if (day < 10) {
+                                day = '0' + day;
+                            }
+
+                            $fieldNameElement.val(`${year}-${month}-${day}`);
+                        }
+                        else {
+                            $fieldNameElement.val(response[fieldName]);
+                        }
+                    });
+
+                    $('.admin-devices-tab-content-controller .edit-device-modal-window .form-content__field').removeClass('form-content__field_error');
+                    $('.admin-devices-tab-content-controller .edit-device-modal-window .form-content__error').text('');
+
+                    $(e.currentTarget).closest('.admin-devices-tab-content-controller').find('.edit-device-modal-window').addClass('modal-window_show');
+                }
+            },
+        });
+    });
+
     // Обнуляем сообщения об ошибках валидации у текстовых полей
     $('.admin-devices-tab-content-controller .add-device-modal-window .form-content__text').on('input', (e) => {
         var $formContentField = $(e.currentTarget).closest('.form-content__field');
@@ -35,11 +81,7 @@ $(document).ready(() => {
             url: 'admin/add-device',
             data: fields,
             success: (response) => {
-                if (response === '403') {
-                    window.location.href = '/';
-                }
-
-                if (response === 'addDevice') {
+                if (response) {
                     window.location.href = '/admin';
                 }
             },
@@ -80,11 +122,7 @@ $(document).ready(() => {
                     id: deviceId,
                 },
                 success: (response) => {
-                    if (response === '403') {
-                        window.location.href = '/';
-                    }
-
-                    if (response === 'delDevice') {
+                    if (response) {
                         window.location.href = '/admin';
                     }
                 },
