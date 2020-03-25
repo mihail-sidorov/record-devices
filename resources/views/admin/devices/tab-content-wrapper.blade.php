@@ -16,7 +16,7 @@
     <div class="tab-content-wrapper__title">Список:</div>
     <div class="tab-content-wrapper__list">
         @foreach ($devices as $device)
-            <div class="tab-content-wrapper__list-item">
+            <div class="tab-content-wrapper__list-item" id="{{ $device->id }}">
                 <div class="tab-content-wrapper__list-item-head">
                     <div class="tab-content-wrapper__list-item-name">{{ $device->name }}</div>
                     @include('edit-btn')

@@ -70,4 +70,16 @@ class AdminController extends Controller
             return '403';
         }
     }
+
+    public function delDevice(Request $request)
+    {
+        if ($request->ajax() && Auth::user()->role === 'admin') {
+            Devices::destroy($request->id);
+
+            return 'delDevice';
+        }
+        else {
+            return '403';
+        }
+    }
 }

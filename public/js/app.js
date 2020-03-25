@@ -37106,21 +37106,25 @@ __webpack_require__(/*! ./bem/controllers/admin-responsibles-tab-content-control
 
 // admin-devices-tab-content-controller
 $(document).ready(function () {
+  // Открываем модальное окно для добавления устройства и обнуляем в нем сообщения об ошибках валидации
   $('.admin-devices-tab-content-controller .add-btn').click(function (e) {
     $('.admin-devices-tab-content-controller .add-device-modal-window .form-content__field').removeClass('form-content__field_error');
     $('.admin-devices-tab-content-controller .add-device-modal-window .form-content__error').text('');
     $(e.currentTarget).closest('.admin-devices-tab-content-controller').find('.add-device-modal-window').addClass('modal-window_show');
-  });
+  }); // Обнуляем сообщения об ошибках валидации у текстовых полей
+
   $('.admin-devices-tab-content-controller .add-device-modal-window .form-content__text').on('input', function (e) {
     var $formContentField = $(e.currentTarget).closest('.form-content__field');
     $formContentField.removeClass('form-content__field_error');
     $formContentField.find('.form-content__error').text('');
-  });
+  }); // Обнуляем сообщения об ошибках валидации у дат и выпадающих списков
+
   $('.admin-devices-tab-content-controller .add-device-modal-window .form-content__select, .admin-devices-tab-content-controller .add-device-modal-window .form-content__date').on('change', function (e) {
     var $formContentField = $(e.currentTarget).closest('.form-content__field');
     $formContentField.removeClass('form-content__field_error');
     $formContentField.find('.form-content__error').text('');
-  });
+  }); // Валидация формы добавления устройства
+
   $('.admin-devices-tab-content-controller .add-device-modal-window .form-content').on('submit', function (e) {
     var fields = $(e.currentTarget).serialize(),
         $formContentField;
@@ -37140,64 +37144,52 @@ $(document).ready(function () {
         }
       },
       error: function error(_error) {
-        if (_error.responseJSON.errors.name !== undefined) {
-          if (_error.responseJSON.errors.name[0]) {
-            $formContentField = $(e.currentTarget).find('.form-content__error[field-name="name"]').closest('.form-content__field');
-            $formContentField.addClass('form-content__field_error');
-            $formContentField.find('.form-content__error').text(_error.responseJSON.errors.name[0]);
-          }
-        }
+        var errors;
 
-        if (_error.responseJSON.errors.model !== undefined) {
-          if (_error.responseJSON.errors.model[0]) {
-            $formContentField = $(e.currentTarget).find('.form-content__error[field-name="model"]').closest('.form-content__field');
-            $formContentField.addClass('form-content__field_error');
-            $formContentField.find('.form-content__error').text(_error.responseJSON.errors.model[0]);
-          }
-        }
+        if (_error.status === 422) {
+          errors = _error.responseJSON.errors;
 
-        if (_error.responseJSON.errors.serial_number !== undefined) {
-          if (_error.responseJSON.errors.serial_number[0]) {
-            $formContentField = $(e.currentTarget).find('.form-content__error[field-name="serial_number"]').closest('.form-content__field');
-            $formContentField.addClass('form-content__field_error');
-            $formContentField.find('.form-content__error').text(_error.responseJSON.errors.serial_number[0]);
-          }
-        }
-
-        if (_error.responseJSON.errors.type_device_id !== undefined) {
-          if (_error.responseJSON.errors.type_device_id[0]) {
-            $formContentField = $(e.currentTarget).find('.form-content__error[field-name="type_device_id"]').closest('.form-content__field');
-            $formContentField.addClass('form-content__field_error');
-            $formContentField.find('.form-content__error').text(_error.responseJSON.errors.type_device_id[0]);
-          }
-        }
-
-        if (_error.responseJSON.errors.purchase_price !== undefined) {
-          if (_error.responseJSON.errors.purchase_price[0]) {
-            $formContentField = $(e.currentTarget).find('.form-content__error[field-name="purchase_price"]').closest('.form-content__field');
-            $formContentField.addClass('form-content__field_error');
-            $formContentField.find('.form-content__error').text(_error.responseJSON.errors.purchase_price[0]);
-          }
-        }
-
-        if (_error.responseJSON.errors.warranty !== undefined) {
-          if (_error.responseJSON.errors.warranty[0]) {
-            $formContentField = $(e.currentTarget).find('.form-content__error[field-name="warranty"]').closest('.form-content__field');
-            $formContentField.addClass('form-content__field_error');
-            $formContentField.find('.form-content__error').text(_error.responseJSON.errors.warranty[0]);
-          }
-        }
-
-        if (_error.responseJSON.errors.receipt_date !== undefined) {
-          if (_error.responseJSON.errors.receipt_date[0]) {
-            $formContentField = $(e.currentTarget).find('.form-content__error[field-name="receipt_date"]').closest('.form-content__field');
-            $formContentField.addClass('form-content__field_error');
-            $formContentField.find('.form-content__error').text(_error.responseJSON.errors.receipt_date[0]);
+          if (errors !== undefined) {
+            for (var key in errors) {
+              if (errors[key][0]) {
+                $formContentField = $(e.currentTarget).find(".form-content__error[field-name=\"".concat(key, "\"]")).closest('.form-content__field');
+                $formContentField.addClass('form-content__field_error');
+                $formContentField.find('.form-content__error').text(errors[key][0]);
+              }
+            }
           }
         }
       }
     });
     return false;
+  }); // Удаление устройства
+
+  $('.admin-devices-tab-content-controller .tab-content-wrapper__list').on('click', '.del-btn', function (e) {
+    var deviceId,
+        token,
+        deviceName = $(e.currentTarget).closest('.tab-content-wrapper__list-item-head').find('.tab-content-wrapper__list-item-name').text();
+
+    if (confirm("\u0412\u044B \u0434\u0435\u0439\u0441\u0442\u0432\u0438\u0442\u0435\u043B\u044C\u043D\u043E \u0445\u043E\u0442\u0438\u0442\u0435 \u0443\u0434\u0430\u043B\u0438\u0442\u044C \u0443\u0441\u0442\u0440\u043E\u0439\u0441\u0442\u0432\u043E \"".concat(deviceName, "\"?"))) {
+      deviceId = $(e.currentTarget).closest('.tab-content-wrapper__list-item').attr('id');
+      token = $('meta[name="csrf-token"]').attr('content');
+      $.ajax({
+        type: 'POST',
+        url: 'admin/del-device',
+        data: {
+          _token: token,
+          id: deviceId
+        },
+        success: function success(response) {
+          if (response === '403') {
+            window.location.href = '/';
+          }
+
+          if (response === 'delDevice') {
+            window.location.href = '/admin';
+          }
+        }
+      });
+    }
   });
 });
 
