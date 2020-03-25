@@ -68,6 +68,37 @@ class AdminController extends Controller
         return 'OK';
     }
 
+    public function editDevice(Request $request)
+    {
+        if ($request->ajax() && Auth::user()->role === 'admin') {
+            $this->validate($request, [
+                'name' => 'bail|required|max:255',
+                'model' => 'bail|required|max:255',
+                'serial_number' => 'bail|required|max:255',
+                'type_device_id' => 'bail|required',
+                'purchase_price' => 'bail|required|max:255',
+                'warranty' => 'date',
+                'receipt_date' => 'date',
+            ]);
+
+            $devices = Devices::find($request->id);
+
+            date_default_timezone_set('Europe/Moscow');
+
+            $devices->name = $request->name;
+            $devices->model = $request->model;
+            $devices->serial_number = $request->serial_number;
+            $devices->type_device_id = $request->type_device_id;
+            $devices->purchase_price = $request->purchase_price;
+            $devices->warranty = strtotime($request->warranty);
+            $devices->receipt_date = strtotime($request->receipt_date);
+
+            $devices->save();
+        }
+
+        return 'OK';
+    }
+
     public function delDevice(Request $request)
     {
         if ($request->ajax() && Auth::user()->role === 'admin') {

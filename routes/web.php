@@ -26,5 +26,6 @@ Route::get('/admin', 'AdminController@index')->name('admin');
 Route::post('/admin/add-device', 'AdminController@addDevice');
 Route::post('/admin/del-device', 'AdminController@delDevice');
 Route::post('/admin/write-edit-device-form', 'AdminController@writeEditDeviceForm');
+Route::post('/admin/edit-device', 'AdminController@editDevice');
 
 Route::get('/worker', 'WorkerController@index')->name('worker');

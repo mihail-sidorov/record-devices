@@ -1,6 +1,8 @@
 <form class="form-content">
     @csrf
 
+    <input type="hidden" name="id" value="">
+
     <div class="form-content__field">
         <div class="form-content__title">Имя устройства:</div>
         <input class="form-content__text" type="text" name="name">

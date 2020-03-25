@@ -37153,6 +37153,7 @@ $(document).ready(function () {
               $fieldNameElement.val(response[fieldName]);
             }
           });
+          $('.admin-devices-tab-content-controller .edit-device-modal-window .form-content input[name="id"]').val(deviceId);
           $('.admin-devices-tab-content-controller .edit-device-modal-window .form-content__field').removeClass('form-content__field_error');
           $('.admin-devices-tab-content-controller .edit-device-modal-window .form-content__error').text('');
           $(e.currentTarget).closest('.admin-devices-tab-content-controller').find('.edit-device-modal-window').addClass('modal-window_show');
@@ -37161,17 +37162,17 @@ $(document).ready(function () {
     });
   }); // Обнуляем сообщения об ошибках валидации у текстовых полей
 
-  $('.admin-devices-tab-content-controller .add-device-modal-window .form-content__text').on('input', function (e) {
+  $('.admin-devices-tab-content-controller .add-device-modal-window .form-content__text, .admin-devices-tab-content-controller .edit-device-modal-window .form-content__text').on('input', function (e) {
     var $formContentField = $(e.currentTarget).closest('.form-content__field');
     $formContentField.removeClass('form-content__field_error');
     $formContentField.find('.form-content__error').text('');
   }); // Обнуляем сообщения об ошибках валидации у дат и выпадающих списков
 
-  $('.admin-devices-tab-content-controller .add-device-modal-window .form-content__select, .admin-devices-tab-content-controller .add-device-modal-window .form-content__date').on('change', function (e) {
+  $('.admin-devices-tab-content-controller .add-device-modal-window .form-content__select, .admin-devices-tab-content-controller .add-device-modal-window .form-content__date, .admin-devices-tab-content-controller .edit-device-modal-window .form-content__select, .admin-devices-tab-content-controller .edit-device-modal-window .form-content__date').on('change', function (e) {
     var $formContentField = $(e.currentTarget).closest('.form-content__field');
     $formContentField.removeClass('form-content__field_error');
     $formContentField.find('.form-content__error').text('');
-  }); // Валидация формы добавления устройства
+  }); // Валидация и добавление устройства
 
   $('.admin-devices-tab-content-controller .add-device-modal-window .form-content').on('submit', function (e) {
     var fields = $(e.currentTarget).serialize(),
@@ -37192,6 +37193,41 @@ $(document).ready(function () {
 
         if (_error.status === 422) {
           errors = _error.responseJSON.errors;
+
+          if (errors !== undefined) {
+            for (var key in errors) {
+              if (errors[key][0]) {
+                $formContentField = $(e.currentTarget).find(".form-content__error[field-name=\"".concat(key, "\"]")).closest('.form-content__field');
+                $formContentField.addClass('form-content__field_error');
+                $formContentField.find('.form-content__error').text(errors[key][0]);
+              }
+            }
+          }
+        }
+      }
+    });
+    return false;
+  }); // Валидация и редактирование устройства
+
+  $('.admin-devices-tab-content-controller .edit-device-modal-window .form-content').on('submit', function (e) {
+    var fields = $(e.currentTarget).serialize(),
+        $formContentField;
+    $(e.currentTarget).find('.form-content__field').removeClass('form-content__field_error');
+    $(e.currentTarget).find('.form-content__error').text('');
+    $.ajax({
+      type: 'POST',
+      url: 'admin/edit-device',
+      data: fields,
+      success: function success(response) {
+        if (response) {
+          window.location.href = '/admin';
+        }
+      },
+      error: function error(_error2) {
+        var errors;
+
+        if (_error2.status === 422) {
+          errors = _error2.responseJSON.errors;
 
           if (errors !== undefined) {
             for (var key in errors) {
