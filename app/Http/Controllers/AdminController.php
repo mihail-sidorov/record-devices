@@ -46,7 +46,7 @@ class AdminController extends Controller
                 'serial_number' => 'bail|required|max:255',
                 'type_device_id' => 'bail|required',
                 'purchase_price' => 'bail|required|max:255',
-                'warranty' => 'bail|required',
+                'warranty' => 'date',
                 'receipt_date' => 'date',
             ]);
 
@@ -59,7 +59,7 @@ class AdminController extends Controller
             $devices->serial_number = $request->serial_number;
             $devices->type_device_id = $request->type_device_id;
             $devices->purchase_price = $request->purchase_price;
-            $devices->warranty = $request->warranty;
+            $devices->warranty = strtotime($request->warranty);
             $devices->receipt_date = strtotime($request->receipt_date);
 
             $devices->save();
