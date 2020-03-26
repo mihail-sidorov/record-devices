@@ -15,46 +15,31 @@
 
     <div class="tab-content-wrapper__title">Список:</div>
     <div class="tab-content-wrapper__list">
-        <div class="tab-content-wrapper__list-item">
-            <div class="tab-content-wrapper__list-item-head">
-                <div class="tab-content-wrapper__list-item-name">Сотрудник 1</div>
-                @include('edit-btn')
-                @include('del-btn')
+        @foreach ($workers as $worker)
+            <div class="tab-content-wrapper__list-item" id="{{ $worker->id }}">
+                <div class="tab-content-wrapper__list-item-head">
+                    <div class="tab-content-wrapper__list-item-name">{{ $worker->name }}</div>
+                    @include('edit-btn')
+                    @include('del-btn')
+                </div>
+                <div class="tab-content-wrapper__list-item-body">
+                    <table class="tab-content-wrapper__list-item-body-table">
+                        <thead>
+                            <tr>
+                                <td>Должность</td>
+                                <td>Отдел</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>{{ $worker->post }}</td>
+                            <td>{{ $worker->department_id }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            <div class="tab-content-wrapper__list-item-body">
-                Развернутая информация о сотруднике 1
-            </div>
-        </div>
-        <div class="tab-content-wrapper__list-item">
-            <div class="tab-content-wrapper__list-item-head">
-                <div class="tab-content-wrapper__list-item-name">Сотрудник 2</div>
-                @include('edit-btn')
-                @include('del-btn')
-            </div>
-            <div class="tab-content-wrapper__list-item-body">
-                Развернутая информация о сотруднике 2
-            </div>
-        </div>
-        <div class="tab-content-wrapper__list-item">
-            <div class="tab-content-wrapper__list-item-head">
-                <div class="tab-content-wrapper__list-item-name">Сотрудник 3</div>
-                @include('edit-btn')
-                @include('del-btn')
-            </div>
-            <div class="tab-content-wrapper__list-item-body">
-                Развернутая информация о сотруднике 3
-            </div>
-        </div>
-        <div class="tab-content-wrapper__list-item">
-            <div class="tab-content-wrapper__list-item-head">
-                <div class="tab-content-wrapper__list-item-name">Сотрудник 4</div>
-                @include('edit-btn')
-                @include('del-btn')
-            </div>
-            <div class="tab-content-wrapper__list-item-body">
-                Развернутая информация о сотруднике 4
-            </div>
-        </div>
+        @endforeach
     </div>
 
     @include('add-btn')

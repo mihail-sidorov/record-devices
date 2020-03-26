@@ -16,7 +16,7 @@ $(document).ready(() => {
         $formContentField.find('.form-content__error').text('');
     });
 
-    // Обнуляем сообщения об ошибках валидации у дат и выпадающих списков
+    // Обнуляем сообщения об ошибках валидации у выпадающих списков
     $('.admin-workers-tab-content-controller .add-worker-modal-window .form-content__select').on('change', (e) => {
         var $formContentField = $(e.currentTarget).closest('.form-content__field');
         $formContentField.removeClass('form-content__field_error');
@@ -58,5 +58,29 @@ $(document).ready(() => {
         });
 
         return false;
+    });
+
+    // Удаление сотрудника
+    $('.admin-workers-tab-content-controller .tab-content-wrapper__list').on('click', '.del-btn', (e) => {
+        var workerId, token, workerName = $(e.currentTarget).closest('.tab-content-wrapper__list-item-head').find('.tab-content-wrapper__list-item-name').text();
+
+        if (confirm(`Вы действительно хотите удалить сотрудника "${workerName}"?`)) {
+            workerId = $(e.currentTarget).closest('.tab-content-wrapper__list-item').attr('id');
+            token = $('meta[name="csrf-token"]').attr('content');
+            
+            $.ajax({
+                type: 'POST',
+                url: 'admin/del-worker',
+                data: {
+                    _token: token,
+                    id: workerId,
+                },
+                success: (response) => {
+                    if (response) {
+                        window.location.href = '/admin';
+                    }
+                },
+            });
+        }
     });
 });

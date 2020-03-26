@@ -37323,7 +37323,7 @@ $(document).ready(function () {
     var $formContentField = $(e.currentTarget).closest('.form-content__field');
     $formContentField.removeClass('form-content__field_error');
     $formContentField.find('.form-content__error').text('');
-  }); // Обнуляем сообщения об ошибках валидации у дат и выпадающих списков
+  }); // Обнуляем сообщения об ошибках валидации у выпадающих списков
 
   $('.admin-workers-tab-content-controller .add-worker-modal-window .form-content__select').on('change', function (e) {
     var $formContentField = $(e.currentTarget).closest('.form-content__field');
@@ -37364,6 +37364,30 @@ $(document).ready(function () {
       }
     });
     return false;
+  }); // Удаление сотрудника
+
+  $('.admin-workers-tab-content-controller .tab-content-wrapper__list').on('click', '.del-btn', function (e) {
+    var workerId,
+        token,
+        workerName = $(e.currentTarget).closest('.tab-content-wrapper__list-item-head').find('.tab-content-wrapper__list-item-name').text();
+
+    if (confirm("\u0412\u044B \u0434\u0435\u0439\u0441\u0442\u0432\u0438\u0442\u0435\u043B\u044C\u043D\u043E \u0445\u043E\u0442\u0438\u0442\u0435 \u0443\u0434\u0430\u043B\u0438\u0442\u044C \u0441\u043E\u0442\u0440\u0443\u0434\u043D\u0438\u043A\u0430 \"".concat(workerName, "\"?"))) {
+      workerId = $(e.currentTarget).closest('.tab-content-wrapper__list-item').attr('id');
+      token = $('meta[name="csrf-token"]').attr('content');
+      $.ajax({
+        type: 'POST',
+        url: 'admin/del-worker',
+        data: {
+          _token: token,
+          id: workerId
+        },
+        success: function success(response) {
+          if (response) {
+            window.location.href = '/admin';
+          }
+        }
+      });
+    }
   });
 });
 

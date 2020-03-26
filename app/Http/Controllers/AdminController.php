@@ -28,9 +28,11 @@ class AdminController extends Controller
     {
         if (Auth::user()->role === 'admin') {
             $devices = Devices::all();
+            $workers = Workers::all();
 
             return view('admin.index', [
                 'devices' => $devices,
+                'workers' => $workers,
             ]);
         }
         else {
@@ -125,6 +127,15 @@ class AdminController extends Controller
     {
         if ($request->ajax() && Auth::user()->role === 'admin') {
             Devices::destroy($request->id);
+        }
+        
+        return 'OK';
+    }
+
+    public function delWorker(Request $request)
+    {
+        if ($request->ajax() && Auth::user()->role === 'admin') {
+            Workers::destroy($request->id);
         }
         
         return 'OK';
