@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Devices;
+use App\Workers;
 
 class AdminController extends Controller
 {
@@ -63,6 +64,27 @@ class AdminController extends Controller
             $devices->receipt_date = strtotime($request->receipt_date);
 
             $devices->save();
+        }
+
+        return 'OK';
+    }
+
+    public function addWorker(Request $request)
+    {
+        if ($request->ajax() && Auth::user()->role === 'admin') {
+            $this->validate($request, [
+                'name' => 'bail|required|max:255',
+                'post' => 'bail|required|max:255',
+                'department_id' => 'bail|required|max:255',
+            ]);
+
+            $workers = new Workers;
+
+            $workers->name = $request->name;
+            $workers->post = $request->post;
+            $workers->department_id = $request->department_id;
+
+            $workers->save();
         }
 
         return 'OK';

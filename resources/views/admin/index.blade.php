@@ -24,7 +24,7 @@
         </div>
         <div class="tab-pane fade admin-workers-tab-content-controller" id="workers" role="tabpanel" aria-labelledby="workers-tab">
             @include('admin.workers.tab-content-wrapper')
-            @include('admin.workers.modal-window')
+            @include('admin.workers.add-worker-modal-window.modal-window')
         </div>
         <div class="tab-pane fade admin-providers-tab-content-controller" id="providers" role="tabpanel" aria-labelledby="providers-tab">
             @include('admin.providers.tab-content-wrapper')
