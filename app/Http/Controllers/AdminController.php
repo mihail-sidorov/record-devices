@@ -123,6 +123,27 @@ class AdminController extends Controller
         return 'OK';
     }
 
+    public function editWorker(Request $request)
+    {
+        if ($request->ajax() && Auth::user()->role === 'admin') {
+            $this->validate($request, [
+                'name' => 'bail|required|max:255',
+                'post' => 'bail|required|max:255',
+                'department_id' => 'bail|required|max:255',
+            ]);
+
+            $workers = Workers::find($request->id);
+
+            $workers->name = $request->name;
+            $workers->post = $request->post;
+            $workers->department_id = $request->department_id;
+
+            $workers->save();
+        }
+
+        return 'OK';
+    }
+
     public function delDevice(Request $request)
     {
         if ($request->ajax() && Auth::user()->role === 'admin') {
