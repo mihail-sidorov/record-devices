@@ -9,6 +9,36 @@ $(document).ready(() => {
         $(e.currentTarget).closest('.admin-workers-tab-content-controller').find('.add-worker-modal-window').addClass('modal-window_show');
     });
 
+    // Открываем модальное окно для редактирования сотрудника, обнуляем в нем сообщения об ошибках валидации и заполняем его данными
+    $('.admin-workers-tab-content-controller .edit-btn').click((e) => {
+        var workerId = $(e.currentTarget).closest('.tab-content-wrapper__list-item').attr('id'), token = $('meta[name="csrf-token"]').attr('content');
+
+        $.ajax({
+            type: 'POST',
+            url: 'admin/write-edit-worker-form',
+            data: {
+                _token: token,
+                id: workerId,
+            },
+            dataType: 'json',
+            success: (response) => {
+                if (response) {
+                    $('.admin-workers-tab-content-controller .edit-worker-modal-window .form-content__field').each((index, element) => {
+                        var $fieldNameElement = $(element).find('[name]'), fieldName = $fieldNameElement.attr('name');
+
+                        $fieldNameElement.val(response[fieldName]);
+                    });
+
+                    $('.admin-workers-tab-content-controller .edit-worker-modal-window .form-content input[name="id"]').val(workerId);
+                    $('.admin-workers-tab-content-controller .edit-worker-modal-window .form-content__field').removeClass('form-content__field_error');
+                    $('.admin-workers-tab-content-controller .edit-worker-modal-window .form-content__error').text('');
+
+                    $(e.currentTarget).closest('.admin-workers-tab-content-controller').find('.edit-worker-modal-window').addClass('modal-window_show');
+                }
+            },
+        });
+    });
+
     // Обнуляем сообщения об ошибках валидации у текстовых полей
     $('.admin-workers-tab-content-controller .add-worker-modal-window .form-content__text').on('input', (e) => {
         var $formContentField = $(e.currentTarget).closest('.form-content__field');

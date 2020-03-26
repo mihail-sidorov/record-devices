@@ -157,4 +157,17 @@ class AdminController extends Controller
             }";
         }
     }
+
+    public function writeEditWorkerForm(Request $request)
+    {
+        if ($request->ajax() && Auth::user()->role === 'admin') {
+            $worker = Workers::find($request->id);
+
+            return "{
+                \"name\": \"$worker->name\",
+                \"post\": \"$worker->post\",
+                \"department_id\": \"$worker->department_id\"
+            }";
+        }
+    }
 }
