@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Мар 25 2020 г., 09:31
+-- Время создания: Мар 26 2020 г., 09:29
 -- Версия сервера: 10.4.11-MariaDB
 -- Версия PHP: 7.4.3
 
@@ -48,7 +48,8 @@ CREATE TABLE `devices` (
 --
 
 INSERT INTO `devices` (`id`, `name`, `model`, `serial_number`, `type_device_id`, `receipt_date`, `purchase_price`, `warranty`, `worker_id`, `provider_id`, `responsible_id`, `status`) VALUES
-(1, 'Имя устройства 1', 'Модель устройства 1', 'Серийный номер устройства 1', 1, 1584478800, '1000', 1618866000, NULL, NULL, NULL, 'store');
+(3, 'Имя устройства 11', 'Модель устройства 11', 'Серийный номер устройства 11', 1, 1585170000, '10001', 1585256400, NULL, NULL, NULL, 'store'),
+(4, 'Имя устройства 22', 'Модель устройства 22', 'Серийный номер устройства 22', 3, 1585083600, '20002', 1585515600, NULL, NULL, NULL, 'store');
 
 -- --------------------------------------------------------
 
@@ -86,7 +87,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (2, '2014_10_12_100000_create_password_resets_table', 1),
 (3, '2019_08_19_000000_create_failed_jobs_table', 1),
 (4, '2020_03_18_125119_add_role_field_to_users', 1),
-(6, '2020_03_20_120059_create_devices_table', 2);
+(6, '2020_03_20_120059_create_devices_table', 2),
+(7, '2020_03_26_081100_create_workers_table', 3);
 
 -- --------------------------------------------------------
 
@@ -125,6 +127,27 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `role`) VALUES
 (1, 'Name', 'mail@mail.ru', NULL, '$2y$10$wJSUKpBgBs4zi9BkkJS0quxU3S/dW2N663F4HWHBnfSqQvZ752sxG', 'TWLBjmQNSaTr8lS91bvK8qblmYpiDo9aFC02EwY3brlW40LOV5YO2x2pQ3CG', '2020-03-18 11:57:09', '2020-03-18 11:57:09', 'admin');
 
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `workers`
+--
+
+CREATE TABLE `workers` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `post` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `department_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Дамп данных таблицы `workers`
+--
+
+INSERT INTO `workers` (`id`, `name`, `post`, `department_id`) VALUES
+(1, 'Сотрудник 1', 'Должность 1', 1),
+(2, 'Сотрудник 2', 'Должность 2', 2);
+
 --
 -- Индексы сохранённых таблиц
 --
@@ -161,6 +184,12 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `users_email_unique` (`email`);
 
 --
+-- Индексы таблицы `workers`
+--
+ALTER TABLE `workers`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT для сохранённых таблиц
 --
 
@@ -168,7 +197,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT для таблицы `devices`
 --
 ALTER TABLE `devices`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT для таблицы `failed_jobs`
@@ -180,13 +209,19 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT для таблицы `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT для таблицы `workers`
+--
+ALTER TABLE `workers`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
