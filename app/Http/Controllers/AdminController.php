@@ -164,6 +164,23 @@ class AdminController extends Controller
         return 'OK';
     }
 
+    public function editProvider(Request $request)
+    {
+        if ($request->ajax() && Auth::user()->role === 'admin') {
+            $this->validate($request, [
+                'name' => 'bail|required|max:255',
+            ]);
+
+            $providers = Providers::find($request->id);
+
+            $providers->name = $request->name;
+
+            $providers->save();
+        }
+
+        return 'OK';
+    }
+
     public function delDevice(Request $request)
     {
         if ($request->ajax() && Auth::user()->role === 'admin') {
@@ -208,6 +225,17 @@ class AdminController extends Controller
                 \"name\": \"$worker->name\",
                 \"post\": \"$worker->post\",
                 \"department_id\": \"$worker->department_id\"
+            }";
+        }
+    }
+
+    public function writeEditProviderForm(Request $request)
+    {
+        if ($request->ajax() && Auth::user()->role === 'admin') {
+            $provider = Providers::find($request->id);
+
+            return "{
+                \"name\": \"$provider->name\"
             }";
         }
     }

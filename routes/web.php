@@ -30,7 +30,9 @@ Route::post('/admin/del-device', 'AdminController@delDevice');
 Route::post('/admin/del-worker', 'AdminController@delWorker');
 Route::post('/admin/write-edit-device-form', 'AdminController@writeEditDeviceForm');
 Route::post('/admin/write-edit-worker-form', 'AdminController@writeEditWorkerForm');
+Route::post('/admin/write-edit-provider-form', 'AdminController@writeEditProviderForm');
 Route::post('/admin/edit-device', 'AdminController@editDevice');
 Route::post('/admin/edit-worker', 'AdminController@editWorker');
+Route::post('/admin/edit-provider', 'AdminController@editProvider');
 
 Route::get('/worker', 'WorkerController@index')->name('worker');
