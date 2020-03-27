@@ -30,10 +30,12 @@ class AdminController extends Controller
         if (Auth::user()->role === 'admin') {
             $devices = Devices::all();
             $workers = Workers::all();
+            $providers = Providers::all();
 
             return view('admin.index', [
                 'devices' => $devices,
                 'workers' => $workers,
+                'providers' => $providers,
             ]);
         }
         else {
