@@ -29,7 +29,7 @@
         </div>
         <div class="tab-pane fade admin-providers-tab-content-controller" id="providers" role="tabpanel" aria-labelledby="providers-tab">
             @include('admin.providers.tab-content-wrapper')
-            @include('admin.providers.modal-window')
+            @include('admin.providers.add-provider-modal-window.modal-window')
         </div>
         <div class="tab-pane fade admin-responsibles-tab-content-controller" id="responsibles" role="tabpanel" aria-labelledby="responsibles-tab">
             @include('admin.responsibles.tab-content-wrapper')

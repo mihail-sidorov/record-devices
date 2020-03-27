@@ -25,6 +25,7 @@ Route::get('/password/email', function(){
 Route::get('/admin', 'AdminController@index')->name('admin');
 Route::post('/admin/add-device', 'AdminController@addDevice');
 Route::post('/admin/add-worker', 'AdminController@addWorker');
+Route::post('/admin/add-provider', 'AdminController@addProvider');
 Route::post('/admin/del-device', 'AdminController@delDevice');
 Route::post('/admin/del-worker', 'AdminController@delWorker');
 Route::post('/admin/write-edit-device-form', 'AdminController@writeEditDeviceForm');

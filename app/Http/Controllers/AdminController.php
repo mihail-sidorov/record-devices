@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Devices;
 use App\Workers;
+use App\Providers;
 
 class AdminController extends Controller
 {
@@ -87,6 +88,23 @@ class AdminController extends Controller
             $workers->department_id = $request->department_id;
 
             $workers->save();
+        }
+
+        return 'OK';
+    }
+
+    public function addProvider(Request $request)
+    {
+        if ($request->ajax() && Auth::user()->role === 'admin') {
+            $this->validate($request, [
+                'name' => 'bail|required|max:255',
+            ]);
+
+            $providers = new Providers;
+
+            $providers->name = $request->name;
+
+            $providers->save();
         }
 
         return 'OK';
