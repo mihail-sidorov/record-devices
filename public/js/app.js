@@ -37388,6 +37388,30 @@ $(document).ready(function () {
       }
     });
     return false;
+  }); // Удаление поставщика
+
+  $('.admin-providers-tab-content-controller .tab-content-wrapper__list').on('click', '.del-btn', function (e) {
+    var providerId,
+        token,
+        providerName = $(e.currentTarget).closest('.tab-content-wrapper__list-item-head').find('.tab-content-wrapper__list-item-name').text();
+
+    if (confirm("\u0412\u044B \u0434\u0435\u0439\u0441\u0442\u0432\u0438\u0442\u0435\u043B\u044C\u043D\u043E \u0445\u043E\u0442\u0438\u0442\u0435 \u0443\u0434\u0430\u043B\u0438\u0442\u044C \u043F\u043E\u0441\u0442\u0430\u0432\u0449\u0438\u043A\u0430 \"".concat(providerName, "\"?"))) {
+      providerId = $(e.currentTarget).closest('.tab-content-wrapper__list-item').attr('id');
+      token = $('meta[name="csrf-token"]').attr('content');
+      $.ajax({
+        type: 'POST',
+        url: 'admin/del-provider',
+        data: {
+          _token: token,
+          id: providerId
+        },
+        success: function success(response) {
+          if (response) {
+            window.location.href = '/admin';
+          }
+        }
+      });
+    }
   });
 });
 

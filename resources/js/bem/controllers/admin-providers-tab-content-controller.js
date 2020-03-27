@@ -119,4 +119,28 @@ $(document).ready(() => {
 
         return false;
     });
+
+    // Удаление поставщика
+    $('.admin-providers-tab-content-controller .tab-content-wrapper__list').on('click', '.del-btn', (e) => {
+        var providerId, token, providerName = $(e.currentTarget).closest('.tab-content-wrapper__list-item-head').find('.tab-content-wrapper__list-item-name').text();
+
+        if (confirm(`Вы действительно хотите удалить поставщика "${providerName}"?`)) {
+            providerId = $(e.currentTarget).closest('.tab-content-wrapper__list-item').attr('id');
+            token = $('meta[name="csrf-token"]').attr('content');
+            
+            $.ajax({
+                type: 'POST',
+                url: 'admin/del-provider',
+                data: {
+                    _token: token,
+                    id: providerId,
+                },
+                success: (response) => {
+                    if (response) {
+                        window.location.href = '/admin';
+                    }
+                },
+            });
+        }
+    });
 });
