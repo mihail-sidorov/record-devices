@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Devices;
 use App\Workers;
 use App\Providers;
+use App\Responsibles;
 
 class AdminController extends Controller
 {
@@ -31,11 +32,13 @@ class AdminController extends Controller
             $devices = Devices::all();
             $workers = Workers::all();
             $providers = Providers::all();
+            $responsibles = Responsibles::all();
 
             return view('admin.index', [
                 'devices' => $devices,
                 'workers' => $workers,
                 'providers' => $providers,
+                'responsibles' => $responsibles,
             ]);
         }
         else {
@@ -107,6 +110,27 @@ class AdminController extends Controller
             $providers->name = $request->name;
 
             $providers->save();
+        }
+
+        return 'OK';
+    }
+
+    public function addResponsible(Request $request)
+    {
+        if ($request->ajax() && Auth::user()->role === 'admin') {
+            $this->validate($request, [
+                'name' => 'bail|required|max:255',
+                'post' => 'bail|required|max:255',
+                'department_id' => 'bail|required|max:255',
+            ]);
+
+            $responsibles = new Responsibles;
+
+            $responsibles->name = $request->name;
+            $responsibles->post = $request->post;
+            $responsibles->department_id = $request->department_id;
+
+            $responsibles->save();
         }
 
         return 'OK';

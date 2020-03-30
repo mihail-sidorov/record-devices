@@ -34,7 +34,7 @@
         </div>
         <div class="tab-pane fade admin-responsibles-tab-content-controller" id="responsibles" role="tabpanel" aria-labelledby="responsibles-tab">
             @include('admin.responsibles.tab-content-wrapper')
-            @include('admin.responsibles.modal-window')
+            @include('admin.responsibles.add-responsible-modal-window.modal-window')
         </div>
     </div>
 </div>

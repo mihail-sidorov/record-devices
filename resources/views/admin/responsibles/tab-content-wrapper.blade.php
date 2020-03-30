@@ -3,52 +3,43 @@
     <div class="tab-content-wrapper__filter">
         <input class="tab-content-wrapper__filter-field" type="text" placeholder="ФИО">
         <input class="tab-content-wrapper__filter-field" type="text" placeholder="Должность">
+        <select class="tab-content-wrapper__filter-field">
+            <option value="">Отдел 1</option>
+            <option value="">Отдел 2</option>
+            <option value="">Отдел 3</option>
+            <option value="">Отдел 4</option>
+        </select>
         
         @include('action-btn')
     </div>
 
     <div class="tab-content-wrapper__title">Список:</div>
     <div class="tab-content-wrapper__list">
-        <div class="tab-content-wrapper__list-item">
-            <div class="tab-content-wrapper__list-item-head">
-                <div class="tab-content-wrapper__list-item-name">Ответственный 1</div>
-                @include('edit-btn')
-                @include('del-btn')
+        @foreach ($responsibles as $responsible)
+            <div class="tab-content-wrapper__list-item">
+                <div class="tab-content-wrapper__list-item-head">
+                    <div class="tab-content-wrapper__list-item-name">{{ $responsible->name }}</div>
+                    @include('edit-btn')
+                    @include('del-btn')
+                </div>
+                <div class="tab-content-wrapper__list-item-body">
+                    <table class="tab-content-wrapper__list-item-body-table">
+                        <thead>
+                            <tr>
+                                <td>Должность</td>
+                                <td>Отдел</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>{{ $responsible->post }}</td>
+                            <td>{{ $responsible->department_id }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            <div class="tab-content-wrapper__list-item-body">
-                Развернутая информация об ответственном 1
-            </div>
-        </div>
-        <div class="tab-content-wrapper__list-item">
-            <div class="tab-content-wrapper__list-item-head">
-                <div class="tab-content-wrapper__list-item-name">Ответственный 2</div>
-                @include('edit-btn')
-                @include('del-btn')
-            </div>
-            <div class="tab-content-wrapper__list-item-body">
-                Развернутая информация об ответственном 2
-            </div>
-        </div>
-        <div class="tab-content-wrapper__list-item">
-            <div class="tab-content-wrapper__list-item-head">
-                <div class="tab-content-wrapper__list-item-name">Ответственный 3</div>
-                @include('edit-btn')
-                @include('del-btn')
-            </div>
-            <div class="tab-content-wrapper__list-item-body">
-                Развернутая информация об ответственном 3
-            </div>
-        </div>
-        <div class="tab-content-wrapper__list-item">
-            <div class="tab-content-wrapper__list-item-head">
-                <div class="tab-content-wrapper__list-item-name">Ответственный 4</div>
-                @include('edit-btn')
-                @include('del-btn')
-            </div>
-            <div class="tab-content-wrapper__list-item-body">
-                Развернутая информация об ответственном 4
-            </div>
-        </div>
+        @endforeach
     </div>
 
     @include('add-btn')
