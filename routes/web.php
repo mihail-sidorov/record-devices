@@ -27,6 +27,7 @@ Route::post('/admin/add-device', 'AdminController@addDevice');
 Route::post('/admin/add-worker', 'AdminController@addWorker');
 Route::post('/admin/add-provider', 'AdminController@addProvider');
 Route::post('/admin/add-responsible', 'AdminController@addResponsible');
+Route::post('/admin/add-department', 'AdminController@addDepartment');
 Route::post('/admin/del-device', 'AdminController@delDevice');
 Route::post('/admin/del-worker', 'AdminController@delWorker');
 Route::post('/admin/del-provider', 'AdminController@delProvider');

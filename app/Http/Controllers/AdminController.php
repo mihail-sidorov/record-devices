@@ -8,6 +8,7 @@ use App\Devices;
 use App\Workers;
 use App\Providers;
 use App\Responsibles;
+use App\Departments;
 
 class AdminController extends Controller
 {
@@ -33,12 +34,14 @@ class AdminController extends Controller
             $workers = Workers::all();
             $providers = Providers::all();
             $responsibles = Responsibles::all();
+            $departments = Departments::all();
 
             return view('admin.index', [
                 'devices' => $devices,
                 'workers' => $workers,
                 'providers' => $providers,
                 'responsibles' => $responsibles,
+                'departments' => $departments,
             ]);
         }
         else {
@@ -131,6 +134,25 @@ class AdminController extends Controller
             $responsibles->department_id = $request->department_id;
 
             $responsibles->save();
+        }
+
+        return 'OK';
+    }
+
+    public function addDepartment(Request $request)
+    {
+        if ($request->ajax() && Auth::user()->role === 'admin') {
+            $this->validate($request, [
+                'name' => 'bail|required|max:255',
+                'description' => 'bail|required|max:255',
+            ]);
+
+            $departments = new Departments;
+
+            $departments->name = $request->name;
+            $departments->description = $request->description;
+
+            $departments->save();
         }
 
         return 'OK';

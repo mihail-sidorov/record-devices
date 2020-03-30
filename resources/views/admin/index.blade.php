@@ -15,6 +15,9 @@
         <li class="nav-item">
             <a class="nav-link" id="responsibles-tab" data-toggle="tab" href="#responsibles" role="tab" aria-controls="responsibles" aria-selected="false">Ответственные</a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" id="departments-tab" data-toggle="tab" href="#departments" role="tab" aria-controls="departments" aria-selected="false">Отделы</a>
+        </li>
     </ul>
     <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade show active admin-devices-tab-content-controller" id="devices" role="tabpanel" aria-labelledby="devices-tab">
@@ -36,6 +39,10 @@
             @include('admin.responsibles.tab-content-wrapper')
             @include('admin.responsibles.add-responsible-modal-window.modal-window')
             @include('admin.responsibles.edit-responsible-modal-window.modal-window')
+        </div>
+        <div class="tab-pane fade admin-departments-tab-content-controller" id="departments" role="tabpanel" aria-labelledby="departments-tab">
+            @include('admin.departments.tab-content-wrapper')
+            @include('admin.departments.add-department-modal-window.modal-window')
         </div>
     </div>
 </div>
