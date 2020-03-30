@@ -253,6 +253,15 @@ class AdminController extends Controller
         return 'OK';
     }
 
+    public function delResponsible(Request $request)
+    {
+        if ($request->ajax() && Auth::user()->role === 'admin') {
+            Responsibles::destroy($request->id);
+        }
+        
+        return 'OK';
+    }
+
     public function writeEditDeviceForm(Request $request)
     {
         if ($request->ajax() && Auth::user()->role === 'admin') {

@@ -126,4 +126,28 @@ $(document).ready(() => {
 
         return false;
     });
+
+    // Удаление ответственного
+    $('.admin-responsibles-tab-content-controller .tab-content-wrapper__list').on('click', '.del-btn', (e) => {
+        var responsibleId, token, responsibleName = $(e.currentTarget).closest('.tab-content-wrapper__list-item-head').find('.tab-content-wrapper__list-item-name').text();
+
+        if (confirm(`Вы действительно хотите удалить ответственного "${responsibleName}"?`)) {
+            responsibleId = $(e.currentTarget).closest('.tab-content-wrapper__list-item').attr('id');
+            token = $('meta[name="csrf-token"]').attr('content');
+            
+            $.ajax({
+                type: 'POST',
+                url: 'admin/del-responsible',
+                data: {
+                    _token: token,
+                    id: responsibleId,
+                },
+                success: (response) => {
+                    if (response) {
+                        window.location.href = '/admin';
+                    }
+                },
+            });
+        }
+    });
 });
