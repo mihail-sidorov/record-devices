@@ -11064,6 +11064,11 @@ a.text-dark:focus {
   background-color: #f8fafc;
 }
 
+html.hide-scroll,
+body.hide-scroll {
+  overflow: hidden;
+}
+
 .modal-window {
   position: fixed;
   width: 100%;
@@ -11088,11 +11093,12 @@ a.text-dark:focus {
   top: 0;
   left: 0;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
   transform: translate(0, 120px) scale(0.9);
   opacity: 0;
   transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  overflow: hidden;
 }
 
 .modal-window .modal-window__wrapper .modal-window__content {
@@ -11103,6 +11109,9 @@ a.text-dark:focus {
   background-color: #fff;
   padding: 50px;
   position: relative;
+  flex-shrink: 0;
+  margin-top: auto;
+  margin-bottom: auto;
 }
 
 .modal-window .modal-window__wrapper .modal-window__content .modal-window__close {
@@ -11149,6 +11158,10 @@ a.text-dark:focus {
 .modal-window_animate .modal-window__wrapper {
   transform: none;
   opacity: 1;
+}
+
+.modal-window_open .modal-window__wrapper {
+  overflow: auto;
 }
 
 .form-content {

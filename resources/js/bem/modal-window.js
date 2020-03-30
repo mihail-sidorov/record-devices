@@ -15,6 +15,10 @@ $('.modal-window').each((index, element) => {
                         $(self).css('display', 'block');
                         $(self).css('width');
                         $(self).addClass('modal-window_animate');
+                        $('html, body').addClass('hide-scroll');
+                    },
+                    complete: () => {
+                        $(self).addClass('modal-window_open');
                     },
                 },
             );
@@ -30,9 +34,11 @@ $('.modal-window').each((index, element) => {
                     queue: false,
                     start: () => {
                         $(self).removeClass('modal-window_animate');
+                        $(self).removeClass('modal-window_open');
                     },
                     complete: () => {
                         $(self).css('display', 'none');
+                        $('html, body').removeClass('hide-scroll');
                     },
                 }
             );

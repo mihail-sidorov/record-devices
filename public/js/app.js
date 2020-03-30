@@ -37743,6 +37743,10 @@ $('.modal-window').each(function (index, element) {
           $(self).css('display', 'block');
           $(self).css('width');
           $(self).addClass('modal-window_animate');
+          $('html, body').addClass('hide-scroll');
+        },
+        complete: function complete() {
+          $(self).addClass('modal-window_open');
         }
       });
     } else {
@@ -37754,9 +37758,11 @@ $('.modal-window').each(function (index, element) {
         queue: false,
         start: function start() {
           $(self).removeClass('modal-window_animate');
+          $(self).removeClass('modal-window_open');
         },
         complete: function complete() {
           $(self).css('display', 'none');
+          $('html, body').removeClass('hide-scroll');
         }
       });
     }
