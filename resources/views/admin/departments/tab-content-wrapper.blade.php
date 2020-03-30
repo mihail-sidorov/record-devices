@@ -15,7 +15,7 @@
                 $description = str_replace("\r", '<br/>', $description);
                 $description = str_replace("\n", '<br/>', $description);
             ?>
-            <div class="tab-content-wrapper__list-item">
+            <div class="tab-content-wrapper__list-item" id="{{ $department->id }}">
                 <div class="tab-content-wrapper__list-item-head">
                     <div class="tab-content-wrapper__list-item-name">{{ $department->name }}</div>
                     @include('edit-btn')

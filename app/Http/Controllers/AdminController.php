@@ -248,6 +248,25 @@ class AdminController extends Controller
         return 'OK';
     }
 
+    public function editDepartment(Request $request)
+    {
+        if ($request->ajax() && Auth::user()->role === 'admin') {
+            $this->validate($request, [
+                'name' => 'bail|required|max:255',
+                'description' => 'bail|required|max:255',
+            ]);
+
+            $departments = Departments::find($request->id);
+
+            $departments->name = $request->name;
+            $departments->description = $request->description;
+
+            $departments->save();
+        }
+
+        return 'OK';
+    }
+
     public function delDevice(Request $request)
     {
         if ($request->ajax() && Auth::user()->role === 'admin') {
@@ -334,6 +353,23 @@ class AdminController extends Controller
                 \"name\": \"$responsible->name\",
                 \"post\": \"$responsible->post\",
                 \"department_id\": \"$responsible->department_id\"
+            }";
+        }
+    }
+
+    public function writeEditDepartmentForm(Request $request)
+    {
+        if ($request->ajax() && Auth::user()->role === 'admin') {
+            $department = Departments::find($request->id);
+
+            $description = $department->description;
+            $description = str_replace("\r\n", '***', $description);
+            $description = str_replace("\r", '**', $description);
+            $description = str_replace("\n", '*', $description);
+
+            return "{
+                \"name\": \"$department->name\",
+                \"description\": \"$description\"
             }";
         }
     }

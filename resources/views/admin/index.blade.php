@@ -43,6 +43,7 @@
         <div class="tab-pane fade admin-departments-tab-content-controller" id="departments" role="tabpanel" aria-labelledby="departments-tab">
             @include('admin.departments.tab-content-wrapper')
             @include('admin.departments.add-department-modal-window.modal-window')
+            @include('admin.departments.edit-department-modal-window.modal-window')
         </div>
     </div>
 </div>

@@ -36,9 +36,11 @@ Route::post('/admin/write-edit-device-form', 'AdminController@writeEditDeviceFor
 Route::post('/admin/write-edit-worker-form', 'AdminController@writeEditWorkerForm');
 Route::post('/admin/write-edit-provider-form', 'AdminController@writeEditProviderForm');
 Route::post('/admin/write-edit-responsible-form', 'AdminController@writeEditResponsibleForm');
+Route::post('/admin/write-edit-department-form', 'AdminController@writeEditDepartmentForm');
 Route::post('/admin/edit-device', 'AdminController@editDevice');
 Route::post('/admin/edit-worker', 'AdminController@editWorker');
 Route::post('/admin/edit-provider', 'AdminController@editProvider');
 Route::post('/admin/edit-responsible', 'AdminController@editResponsible');
+Route::post('/admin/edit-department', 'AdminController@editDepartment');
 
 Route::get('/worker', 'WorkerController@index')->name('worker');
