@@ -27,9 +27,9 @@ $(document).ready(() => {
 
                         if (fieldName === 'description') {
                             description = response[fieldName];
-                            description = description.replace('***', "\r\n");
-                            description = description.replace('**', "\r");
-                            description = description.replace('*', "\n");
+                            description = description.replace(/\*\*\*/g, "\r\n");
+                            description = description.replace(/\*\*/g, "\r");
+                            description = description.replace(/\*/g, "\n");
 
                             $fieldNameElement.val(description);
                         }

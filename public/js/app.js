@@ -37135,9 +37135,9 @@ $(document).ready(function () {
 
             if (fieldName === 'description') {
               description = response[fieldName];
-              description = description.replace('***', "\r\n");
-              description = description.replace('**', "\r");
-              description = description.replace('*', "\n");
+              description = description.replace(/\*\*\*/g, "\r\n");
+              description = description.replace(/\*\*/g, "\r");
+              description = description.replace(/\*/g, "\n");
               $fieldNameElement.val(description);
             } else {
               $fieldNameElement.val(response[fieldName]);
@@ -37461,7 +37461,16 @@ $(document).ready(function () {
           $('.admin-providers-tab-content-controller .edit-provider-modal-window .form-content__field').each(function (index, element) {
             var $fieldNameElement = $(element).find('[name]'),
                 fieldName = $fieldNameElement.attr('name');
-            $fieldNameElement.val(response[fieldName]);
+
+            if (fieldName === 'description') {
+              description = response[fieldName];
+              description = description.replace(/\*\*\*/g, "\r\n");
+              description = description.replace(/\*\*/g, "\r");
+              description = description.replace(/\*/g, "\n");
+              $fieldNameElement.val(description);
+            } else {
+              $fieldNameElement.val(response[fieldName]);
+            }
           });
           $('.admin-providers-tab-content-controller .edit-provider-modal-window .form-content input[name="id"]').val(providerId);
           $('.admin-providers-tab-content-controller .edit-provider-modal-window .form-content__field').removeClass('form-content__field_error');

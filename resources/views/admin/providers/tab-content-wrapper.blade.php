@@ -9,6 +9,12 @@
     <div class="tab-content-wrapper__title">Список:</div>
     <div class="tab-content-wrapper__list">
         @foreach ($providers as $provider)
+            <?php
+                $description = $provider->description;
+                $description = str_replace("\r\n", '<br/>', $description);
+                $description = str_replace("\r", '<br/>', $description);
+                $description = str_replace("\n", '<br/>', $description);
+            ?>
             <div class="tab-content-wrapper__list-item" id="{{ $provider->id }}">
                 <div class="tab-content-wrapper__list-item-head">
                     <div class="tab-content-wrapper__list-item-name">{{ $provider->name }}</div>
@@ -16,7 +22,18 @@
                     @include('del-btn')
                 </div>
                 <div class="tab-content-wrapper__list-item-body">
-                    Развернутая информация о поставщике 1
+                    <table class="tab-content-wrapper__list-item-body-table">
+                        <thead>
+                            <tr>
+                                <td>Описание</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td><?php echo $description; ?></td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         @endforeach

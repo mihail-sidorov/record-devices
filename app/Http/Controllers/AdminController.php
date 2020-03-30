@@ -106,11 +106,13 @@ class AdminController extends Controller
         if ($request->ajax() && Auth::user()->role === 'admin') {
             $this->validate($request, [
                 'name' => 'bail|required|max:255',
+                'description' => 'bail|required|max:255',
             ]);
 
             $providers = new Providers;
 
             $providers->name = $request->name;
+            $providers->description = $request->description;
 
             $providers->save();
         }
@@ -215,11 +217,13 @@ class AdminController extends Controller
         if ($request->ajax() && Auth::user()->role === 'admin') {
             $this->validate($request, [
                 'name' => 'bail|required|max:255',
+                'description' => 'bail|required|max:255',
             ]);
 
             $providers = Providers::find($request->id);
 
             $providers->name = $request->name;
+            $providers->description = $request->description;
 
             $providers->save();
         }
@@ -347,8 +351,14 @@ class AdminController extends Controller
         if ($request->ajax() && Auth::user()->role === 'admin') {
             $provider = Providers::find($request->id);
 
+            $description = $provider->description;
+            $description = str_replace("\r\n", '***', $description);
+            $description = str_replace("\r", '**', $description);
+            $description = str_replace("\n", '*', $description);
+
             return "{
-                \"name\": \"$provider->name\"
+                \"name\": \"$provider->name\",
+                \"description\": \"$description\"
             }";
         }
     }
