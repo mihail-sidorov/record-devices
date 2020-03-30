@@ -205,6 +205,27 @@ class AdminController extends Controller
         return 'OK';
     }
 
+    public function editResponsible(Request $request)
+    {
+        if ($request->ajax() && Auth::user()->role === 'admin') {
+            $this->validate($request, [
+                'name' => 'bail|required|max:255',
+                'post' => 'bail|required|max:255',
+                'department_id' => 'bail|required|max:255',
+            ]);
+
+            $responsibles = Responsibles::find($request->id);
+
+            $responsibles->name = $request->name;
+            $responsibles->post = $request->post;
+            $responsibles->department_id = $request->department_id;
+
+            $responsibles->save();
+        }
+
+        return 'OK';
+    }
+
     public function delDevice(Request $request)
     {
         if ($request->ajax() && Auth::user()->role === 'admin') {
@@ -269,6 +290,19 @@ class AdminController extends Controller
 
             return "{
                 \"name\": \"$provider->name\"
+            }";
+        }
+    }
+
+    public function writeEditResponsibleForm(Request $request)
+    {
+        if ($request->ajax() && Auth::user()->role === 'admin') {
+            $responsible = Responsibles::find($request->id);
+
+            return "{
+                \"name\": \"$responsible->name\",
+                \"post\": \"$responsible->post\",
+                \"department_id\": \"$responsible->department_id\"
             }";
         }
     }
