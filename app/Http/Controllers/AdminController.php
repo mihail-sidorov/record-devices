@@ -303,6 +303,15 @@ class AdminController extends Controller
         return 'OK';
     }
 
+    public function delDepartment(Request $request)
+    {
+        if ($request->ajax() && Auth::user()->role === 'admin') {
+            Departments::destroy($request->id);
+        }
+        
+        return 'OK';
+    }
+
     public function writeEditDeviceForm(Request $request)
     {
         if ($request->ajax() && Auth::user()->role === 'admin') {
