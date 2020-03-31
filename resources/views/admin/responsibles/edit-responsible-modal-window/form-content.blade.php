@@ -18,10 +18,9 @@
     <div class="form-content__field">
         <div class="form-content__title">Отдел:</div>
         <select class="form-content__select" name="department_id">
-            <option value="1">Отдел 1</option>
-            <option value="2">Отдел 2</option>
-            <option value="3">Отдел 3</option>
-            <option value="4">Отдел 4</option>
+            @foreach ($departments as $department)
+                <option value="{{ $department->id }}">{{ $department->name }}</option>
+            @endforeach
         </select>
         <div class="form-content__error" field-name="department_id"></div>
     </div>

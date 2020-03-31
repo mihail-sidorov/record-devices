@@ -4,10 +4,9 @@
         <input class="tab-content-wrapper__filter-field" type="text" placeholder="ФИО">
         <input class="tab-content-wrapper__filter-field" type="text" placeholder="Должность">
         <select class="tab-content-wrapper__filter-field">
-            <option value="">Отдел 1</option>
-            <option value="">Отдел 2</option>
-            <option value="">Отдел 3</option>
-            <option value="">Отдел 4</option>
+            @foreach ($departments as $department)
+                <option value="{{ $department->id }}">{{ $department->name }}</option>
+            @endforeach
         </select>
         
         @include('action-btn')
