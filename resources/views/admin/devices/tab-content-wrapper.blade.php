@@ -17,6 +17,8 @@
     <div class="tab-content-wrapper__list">
         @foreach ($devices as $device)
             <?php
+                date_default_timezone_set('Europe/Moscow');
+
                 $ts = $device->receipt_date;
                 $d = new DateTime();
                 $d->setTimestamp($ts);
