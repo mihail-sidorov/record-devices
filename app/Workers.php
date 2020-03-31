@@ -19,4 +19,11 @@ class Workers extends Model
      * @var bool
      */
     public $timestamps = false;
+
+    public function department()
+    {
+        return $this->belongsTo('App\Departments', 'department_id')->withDefault([
+            'name' => 'К данному сотруднику не прикреплен отдел!',
+        ]);
+    }
 }

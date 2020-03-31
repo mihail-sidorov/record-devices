@@ -32,7 +32,7 @@
                         <tbody>
                         <tr>
                             <td>{{ $worker->post }}</td>
-                            <td>{{ $worker->department_id }}</td>
+                            <td>{{ $worker->department->name }}</td>
                         </tr>
                         </tbody>
                     </table>
