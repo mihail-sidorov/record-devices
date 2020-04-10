@@ -27,9 +27,42 @@ class AdminController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index($tab_name = 'devices')
     {
         if (Auth::user()->role === 'admin') {
+            $active_tabs = [
+                'devices' => [],
+                'workers' => [],
+                'providers'=> [],
+                'responsibles' => [],
+                'departments' => [],
+            ];
+
+            switch ($tab_name) {
+                case 'devices':
+                    $active_tabs['devices'][] = ' active';
+                    $active_tabs['devices'][] = ' show active';
+                    break;
+                case 'workers':
+                    $active_tabs['workers'][] = ' active';
+                    $active_tabs['workers'][] = ' show active';
+                    break;
+                case 'providers':
+                    $active_tabs['providers'][] = ' active';
+                    $active_tabs['providers'][] = ' show active';
+                    break;
+                case 'responsibles':
+                    $active_tabs['responsibles'][] = ' active';
+                    $active_tabs['responsibles'][] = ' show active';
+                    break;
+                case 'departments':
+                    $active_tabs['departments'][] = ' active';
+                    $active_tabs['departments'][] = ' show active';
+                    break;
+                default:
+                    abort(404);
+            }
+
             $devices = Devices::all();
             $workers = Workers::all();
             $providers = Providers::all();
@@ -42,6 +75,7 @@ class AdminController extends Controller
                 'providers' => $providers,
                 'responsibles' => $responsibles,
                 'departments' => $departments,
+                'active_tabs' => $active_tabs,
             ]);
         }
         else {

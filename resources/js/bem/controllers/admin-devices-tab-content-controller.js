@@ -15,7 +15,7 @@ $(document).ready(() => {
 
         $.ajax({
             type: 'POST',
-            url: 'admin/write-edit-device-form',
+            url: '/admin/write-edit-device-form',
             data: {
                 _token: token,
                 id: deviceId,
@@ -79,11 +79,11 @@ $(document).ready(() => {
 
         $.ajax({
             type: 'POST',
-            url: 'admin/add-device',
+            url: '/admin/add-device',
             data: fields,
             success: (response) => {
                 if (response) {
-                    window.location.href = '/admin';
+                    window.location.href = '/admin/tab/devices';
                 }
             },
             error:  (error) => {
@@ -116,11 +116,11 @@ $(document).ready(() => {
 
         $.ajax({
             type: 'POST',
-            url: 'admin/edit-device',
+            url: '/admin/edit-device',
             data: fields,
             success: (response) => {
                 if (response) {
-                    window.location.href = '/admin';
+                    window.location.href = '/admin/tab/devices';
                 }
             },
             error:  (error) => {
@@ -154,14 +154,14 @@ $(document).ready(() => {
             
             $.ajax({
                 type: 'POST',
-                url: 'admin/del-device',
+                url: '/admin/del-device',
                 data: {
                     _token: token,
                     id: deviceId,
                 },
                 success: (response) => {
                     if (response) {
-                        window.location.href = '/admin';
+                        window.location.href = '/admin/tab/devices';
                     }
                 },
             });

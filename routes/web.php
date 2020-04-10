@@ -43,5 +43,6 @@ Route::post('/admin/edit-worker', 'AdminController@editWorker');
 Route::post('/admin/edit-provider', 'AdminController@editProvider');
 Route::post('/admin/edit-responsible', 'AdminController@editResponsible');
 Route::post('/admin/edit-department', 'AdminController@editDepartment');
+Route::get('/admin/tab/{tab_name}', 'AdminController@index');
 
 Route::get('/worker', 'WorkerController@index')->name('worker');

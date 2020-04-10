@@ -15,7 +15,7 @@ $(document).ready(() => {
 
         $.ajax({
             type: 'POST',
-            url: 'admin/write-edit-provider-form',
+            url: '/admin/write-edit-provider-form',
             data: {
                 _token: token,
                 id: providerId,
@@ -65,11 +65,11 @@ $(document).ready(() => {
 
         $.ajax({
             type: 'POST',
-            url: 'admin/add-provider',
+            url: '/admin/add-provider',
             data: fields,
             success: (response) => {
                 if (response) {
-                    window.location.href = '/admin';
+                    window.location.href = '/admin/tab/providers';
                 }
             },
             error:  (error) => {
@@ -102,11 +102,11 @@ $(document).ready(() => {
 
         $.ajax({
             type: 'POST',
-            url: 'admin/edit-provider',
+            url: '/admin/edit-provider',
             data: fields,
             success: (response) => {
                 if (response) {
-                    window.location.href = '/admin';
+                    window.location.href = '/admin/tab/providers';
                 }
             },
             error:  (error) => {
@@ -140,14 +140,14 @@ $(document).ready(() => {
             
             $.ajax({
                 type: 'POST',
-                url: 'admin/del-provider',
+                url: '/admin/del-provider',
                 data: {
                     _token: token,
                     id: providerId,
                 },
                 success: (response) => {
                     if (response) {
-                        window.location.href = '/admin';
+                        window.location.href = '/admin/tab/providers';
                     }
                 },
             });

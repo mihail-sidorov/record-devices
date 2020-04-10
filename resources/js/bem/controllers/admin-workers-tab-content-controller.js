@@ -15,7 +15,7 @@ $(document).ready(() => {
 
         $.ajax({
             type: 'POST',
-            url: 'admin/write-edit-worker-form',
+            url: '/admin/write-edit-worker-form',
             data: {
                 _token: token,
                 id: workerId,
@@ -62,11 +62,11 @@ $(document).ready(() => {
 
         $.ajax({
             type: 'POST',
-            url: 'admin/add-worker',
+            url: '/admin/add-worker',
             data: fields,
             success: (response) => {
                 if (response) {
-                    window.location.href = '/admin';
+                    window.location.href = '/admin/tab/workers';
                 }
             },
             error:  (error) => {
@@ -99,11 +99,11 @@ $(document).ready(() => {
 
         $.ajax({
             type: 'POST',
-            url: 'admin/edit-worker',
+            url: '/admin/edit-worker',
             data: fields,
             success: (response) => {
                 if (response) {
-                    window.location.href = '/admin';
+                    window.location.href = '/admin/tab/workers';
                 }
             },
             error:  (error) => {
@@ -137,14 +137,14 @@ $(document).ready(() => {
             
             $.ajax({
                 type: 'POST',
-                url: 'admin/del-worker',
+                url: '/admin/del-worker',
                 data: {
                     _token: token,
                     id: workerId,
                 },
                 success: (response) => {
                     if (response) {
-                        window.location.href = '/admin';
+                        window.location.href = '/admin/tab/workers';
                     }
                 },
             });

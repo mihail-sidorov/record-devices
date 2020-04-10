@@ -14,7 +14,7 @@ $(document).ready(() => {
 
         $.ajax({
             type: 'POST',
-            url: 'admin/write-edit-department-form',
+            url: '/admin/write-edit-department-form',
             data: {
                 _token: token,
                 id: departmentId,
@@ -64,11 +64,11 @@ $(document).ready(() => {
 
         $.ajax({
             type: 'POST',
-            url: 'admin/add-department',
+            url: '/admin/add-department',
             data: fields,
             success: (response) => {
                 if (response) {
-                    window.location.href = '/admin';
+                    window.location.href = '/admin/tab/departments';
                 }
             },
             error:  (error) => {
@@ -101,11 +101,11 @@ $(document).ready(() => {
 
         $.ajax({
             type: 'POST',
-            url: 'admin/edit-department',
+            url: '/admin/edit-department',
             data: fields,
             success: (response) => {
                 if (response) {
-                    window.location.href = '/admin';
+                    window.location.href = '/admin/tab/departments';
                 }
             },
             error:  (error) => {
@@ -139,14 +139,14 @@ $(document).ready(() => {
             
             $.ajax({
                 type: 'POST',
-                url: 'admin/del-department',
+                url: '/admin/del-department',
                 data: {
                     _token: token,
                     id: departmentId,
                 },
                 success: (response) => {
                     if (response) {
-                        window.location.href = '/admin';
+                        window.location.href = '/admin/tab/departments';
                     }
                 },
             });

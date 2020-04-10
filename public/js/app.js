@@ -37120,7 +37120,7 @@ $(document).ready(function () {
         token = $('meta[name="csrf-token"]').attr('content');
     $.ajax({
       type: 'POST',
-      url: 'admin/write-edit-department-form',
+      url: '/admin/write-edit-department-form',
       data: {
         _token: token,
         id: departmentId
@@ -37165,11 +37165,11 @@ $(document).ready(function () {
     $(e.currentTarget).find('.form-content__error').text('');
     $.ajax({
       type: 'POST',
-      url: 'admin/add-department',
+      url: '/admin/add-department',
       data: fields,
       success: function success(response) {
         if (response) {
-          window.location.href = '/admin';
+          window.location.href = '/admin/tab/departments';
         }
       },
       error: function error(_error) {
@@ -37200,11 +37200,11 @@ $(document).ready(function () {
     $(e.currentTarget).find('.form-content__error').text('');
     $.ajax({
       type: 'POST',
-      url: 'admin/edit-department',
+      url: '/admin/edit-department',
       data: fields,
       success: function success(response) {
         if (response) {
-          window.location.href = '/admin';
+          window.location.href = '/admin/tab/departments';
         }
       },
       error: function error(_error2) {
@@ -37238,14 +37238,14 @@ $(document).ready(function () {
       token = $('meta[name="csrf-token"]').attr('content');
       $.ajax({
         type: 'POST',
-        url: 'admin/del-department',
+        url: '/admin/del-department',
         data: {
           _token: token,
           id: departmentId
         },
         success: function success(response) {
           if (response) {
-            window.location.href = '/admin';
+            window.location.href = '/admin/tab/departments';
           }
         }
       });
@@ -37276,7 +37276,7 @@ $(document).ready(function () {
         token = $('meta[name="csrf-token"]').attr('content');
     $.ajax({
       type: 'POST',
-      url: 'admin/write-edit-device-form',
+      url: '/admin/write-edit-device-form',
       data: {
         _token: token,
         id: deviceId
@@ -37339,11 +37339,11 @@ $(document).ready(function () {
     $(e.currentTarget).find('.form-content__error').text('');
     $.ajax({
       type: 'POST',
-      url: 'admin/add-device',
+      url: '/admin/add-device',
       data: fields,
       success: function success(response) {
         if (response) {
-          window.location.href = '/admin';
+          window.location.href = '/admin/tab/devices';
         }
       },
       error: function error(_error) {
@@ -37374,11 +37374,11 @@ $(document).ready(function () {
     $(e.currentTarget).find('.form-content__error').text('');
     $.ajax({
       type: 'POST',
-      url: 'admin/edit-device',
+      url: '/admin/edit-device',
       data: fields,
       success: function success(response) {
         if (response) {
-          window.location.href = '/admin';
+          window.location.href = '/admin/tab/devices';
         }
       },
       error: function error(_error2) {
@@ -37412,14 +37412,14 @@ $(document).ready(function () {
       token = $('meta[name="csrf-token"]').attr('content');
       $.ajax({
         type: 'POST',
-        url: 'admin/del-device',
+        url: '/admin/del-device',
         data: {
           _token: token,
           id: deviceId
         },
         success: function success(response) {
           if (response) {
-            window.location.href = '/admin';
+            window.location.href = '/admin/tab/devices';
           }
         }
       });
@@ -37450,7 +37450,7 @@ $(document).ready(function () {
         token = $('meta[name="csrf-token"]').attr('content');
     $.ajax({
       type: 'POST',
-      url: 'admin/write-edit-provider-form',
+      url: '/admin/write-edit-provider-form',
       data: {
         _token: token,
         id: providerId
@@ -37494,11 +37494,11 @@ $(document).ready(function () {
     $(e.currentTarget).find('.form-content__error').text('');
     $.ajax({
       type: 'POST',
-      url: 'admin/add-provider',
+      url: '/admin/add-provider',
       data: fields,
       success: function success(response) {
         if (response) {
-          window.location.href = '/admin';
+          window.location.href = '/admin/tab/providers';
         }
       },
       error: function error(_error) {
@@ -37529,11 +37529,11 @@ $(document).ready(function () {
     $(e.currentTarget).find('.form-content__error').text('');
     $.ajax({
       type: 'POST',
-      url: 'admin/edit-provider',
+      url: '/admin/edit-provider',
       data: fields,
       success: function success(response) {
         if (response) {
-          window.location.href = '/admin';
+          window.location.href = '/admin/tab/providers';
         }
       },
       error: function error(_error2) {
@@ -37567,14 +37567,14 @@ $(document).ready(function () {
       token = $('meta[name="csrf-token"]').attr('content');
       $.ajax({
         type: 'POST',
-        url: 'admin/del-provider',
+        url: '/admin/del-provider',
         data: {
           _token: token,
           id: providerId
         },
         success: function success(response) {
           if (response) {
-            window.location.href = '/admin';
+            window.location.href = '/admin/tab/providers';
           }
         }
       });
@@ -37605,7 +37605,7 @@ $(document).ready(function () {
         token = $('meta[name="csrf-token"]').attr('content');
     $.ajax({
       type: 'POST',
-      url: 'admin/write-edit-responsible-form',
+      url: '/admin/write-edit-responsible-form',
       data: {
         _token: token,
         id: responsibleId
@@ -37646,11 +37646,11 @@ $(document).ready(function () {
     $(e.currentTarget).find('.form-content__error').text('');
     $.ajax({
       type: 'POST',
-      url: 'admin/add-responsible',
+      url: '/admin/add-responsible',
       data: fields,
       success: function success(response) {
         if (response) {
-          window.location.href = '/admin';
+          window.location.href = '/admin/tab/responsibles';
         }
       },
       error: function error(_error) {
@@ -37681,11 +37681,11 @@ $(document).ready(function () {
     $(e.currentTarget).find('.form-content__error').text('');
     $.ajax({
       type: 'POST',
-      url: 'admin/edit-responsible',
+      url: '/admin/edit-responsible',
       data: fields,
       success: function success(response) {
         if (response) {
-          window.location.href = '/admin';
+          window.location.href = '/admin/tab/responsibles';
         }
       },
       error: function error(_error2) {
@@ -37719,14 +37719,14 @@ $(document).ready(function () {
       token = $('meta[name="csrf-token"]').attr('content');
       $.ajax({
         type: 'POST',
-        url: 'admin/del-responsible',
+        url: '/admin/del-responsible',
         data: {
           _token: token,
           id: responsibleId
         },
         success: function success(response) {
           if (response) {
-            window.location.href = '/admin';
+            window.location.href = '/admin/tab/responsibles';
           }
         }
       });
@@ -37757,7 +37757,7 @@ $(document).ready(function () {
         token = $('meta[name="csrf-token"]').attr('content');
     $.ajax({
       type: 'POST',
-      url: 'admin/write-edit-worker-form',
+      url: '/admin/write-edit-worker-form',
       data: {
         _token: token,
         id: workerId
@@ -37798,11 +37798,11 @@ $(document).ready(function () {
     $(e.currentTarget).find('.form-content__error').text('');
     $.ajax({
       type: 'POST',
-      url: 'admin/add-worker',
+      url: '/admin/add-worker',
       data: fields,
       success: function success(response) {
         if (response) {
-          window.location.href = '/admin';
+          window.location.href = '/admin/tab/workers';
         }
       },
       error: function error(_error) {
@@ -37833,11 +37833,11 @@ $(document).ready(function () {
     $(e.currentTarget).find('.form-content__error').text('');
     $.ajax({
       type: 'POST',
-      url: 'admin/edit-worker',
+      url: '/admin/edit-worker',
       data: fields,
       success: function success(response) {
         if (response) {
-          window.location.href = '/admin';
+          window.location.href = '/admin/tab/workers';
         }
       },
       error: function error(_error2) {
@@ -37871,14 +37871,14 @@ $(document).ready(function () {
       token = $('meta[name="csrf-token"]').attr('content');
       $.ajax({
         type: 'POST',
-        url: 'admin/del-worker',
+        url: '/admin/del-worker',
         data: {
           _token: token,
           id: workerId
         },
         success: function success(response) {
           if (response) {
-            window.location.href = '/admin';
+            window.location.href = '/admin/tab/workers';
           }
         }
       });
