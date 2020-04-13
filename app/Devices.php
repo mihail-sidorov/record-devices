@@ -19,4 +19,9 @@ class Devices extends Model
      * @var bool
      */
     public $timestamps = false;
+
+    public function device_worker()
+    {
+        return $this->hasMany('App\DeviceWorker', 'device_id', 'id');
+    }
 }

@@ -9,6 +9,7 @@ use App\Workers;
 use App\Providers;
 use App\Responsibles;
 use App\Departments;
+use App\DeviceWorker;
 
 class AdminController extends Controller
 {
@@ -189,6 +190,39 @@ class AdminController extends Controller
             $departments->description = $request->description;
 
             $departments->save();
+        }
+
+        return 'OK';
+    }
+
+    public function attachWorker(Request $request)
+    {
+        if ($request->ajax() && Auth::user()->role === 'admin') {
+            $this->validate($request, [
+                'worker_id' => 'bail|required|max:255',
+            ]);
+
+            date_default_timezone_set('Europe/Moscow');
+
+            $device_worker = new DeviceWorker;
+
+            $device_worker->device_id = $request->device_id;
+            $device_worker->worker_id = $request->worker_id;
+
+            $device_worker->save();
+        }
+
+        return 'OK';
+    }
+
+    public function unattachWorker(Request $request)
+    {
+        if ($request->ajax() && Auth::user()->role === 'admin') {
+            date_default_timezone_set('Europe/Moscow');
+
+            $device_worker = DeviceWorker::where('device_id', $request->device_id)->orderby('id', 'desc')->first();
+            $device_worker->attach = 1;
+            $device_worker->save();
         }
 
         return 'OK';

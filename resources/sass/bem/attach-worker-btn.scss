@@ -1,0 +1,17 @@
+.attach-worker-btn {
+
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border: 1px solid #dee2e6;
+    border-radius: 50%;
+    background-color: transparent;
+    color: #0064b4;
+    padding: 0;
+    line-height: 30px;
+
+    &:hover {
+
+        background-color: #f8fafc;
+    }
+}

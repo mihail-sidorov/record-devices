@@ -1,1 +1,1 @@
-<button class="add-btn"><i class="fas fa-plus"></i></button>
+<button class="add-btn app-btn"><i class="fas fa-plus"></i></button>

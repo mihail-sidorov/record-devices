@@ -60,6 +60,15 @@
                 <div class="tab-content-wrapper__list-item-head">
                     <div class="tab-content-wrapper__list-item-name">{{ $device->name }}</div>
                     @include('edit-btn')
+                    
+                    @if ($device->device_worker()->count() === 0)
+                        @include('attach-worker-btn')
+                    @elseif ($device->device_worker()->orderby('id', 'desc')->first()->attach)
+                        @include('attach-worker-btn')
+                    @else
+                        @include('unattach-worker-btn')
+                    @endif
+
                     @include('del-btn')
                 </div>
                 <div class="tab-content-wrapper__list-item-body">

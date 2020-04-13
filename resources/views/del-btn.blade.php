@@ -1,1 +1,1 @@
-<button class="del-btn"><i class="far fa-trash-alt"></i></button>
+<button class="del-btn app-btn"><i class="far fa-trash-alt"></i></button>

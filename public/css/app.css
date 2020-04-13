@@ -10962,7 +10962,7 @@ a.text-dark:focus {
   content: "-";
 }
 
-.tab-content-wrapper .tab-content-wrapper__list .tab-content-wrapper__list-item .tab-content-wrapper__list-item-head .edit-btn {
+.tab-content-wrapper .tab-content-wrapper__list .tab-content-wrapper__list-item .tab-content-wrapper__list-item-head .app-btn {
   margin-right: 10px;
 }
 
@@ -11061,6 +11061,38 @@ a.text-dark:focus {
 }
 
 .add-btn:hover {
+  background-color: #f8fafc;
+}
+
+.attach-worker-btn {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  border: 1px solid #dee2e6;
+  border-radius: 50%;
+  background-color: transparent;
+  color: #0064b4;
+  padding: 0;
+  line-height: 30px;
+}
+
+.attach-worker-btn:hover {
+  background-color: #f8fafc;
+}
+
+.unattach-worker-btn {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  border: 1px solid #dee2e6;
+  border-radius: 50%;
+  background-color: transparent;
+  color: #0064b4;
+  padding: 0;
+  line-height: 30px;
+}
+
+.unattach-worker-btn:hover {
   background-color: #f8fafc;
 }
 

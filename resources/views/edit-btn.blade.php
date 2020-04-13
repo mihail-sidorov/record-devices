@@ -1,1 +1,1 @@
-<button class="edit-btn"><i class="fas fa-pencil-alt"></i></button>
+<button class="edit-btn app-btn"><i class="fas fa-pencil-alt"></i></button>

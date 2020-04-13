@@ -37269,6 +37269,14 @@ $(document).ready(function () {
     $('.admin-devices-tab-content-controller .add-device-modal-window .form-content__field').removeClass('form-content__field_error');
     $('.admin-devices-tab-content-controller .add-device-modal-window .form-content__error').text('');
     $(e.currentTarget).closest('.admin-devices-tab-content-controller').find('.add-device-modal-window').addClass('modal-window_show');
+  }); // Открываем модальное окно для прикрепления к устройству сотрудника и обнуляем в нем сообщения об ошибках валидации
+
+  $('.admin-devices-tab-content-controller .attach-worker-btn').click(function (e) {
+    var deviceId = $(e.currentTarget).closest('.tab-content-wrapper__list-item').attr('id');
+    $('.admin-devices-tab-content-controller .attach-worker-modal-window .form-content input[name="device_id"]').val(deviceId);
+    $('.admin-devices-tab-content-controller .attach-worker-modal-window .form-content__field').removeClass('form-content__field_error');
+    $('.admin-devices-tab-content-controller .attach-worker-modal-window .form-content__error').text('');
+    $(e.currentTarget).closest('.admin-devices-tab-content-controller').find('.attach-worker-modal-window').addClass('modal-window_show');
   }); // Открываем модальное окно для редактирования устройства, обнуляем в нем сообщения об ошибках валидации и заполняем его данными
 
   $('.admin-devices-tab-content-controller .edit-btn').click(function (e) {
@@ -37365,6 +37373,41 @@ $(document).ready(function () {
       }
     });
     return false;
+  }); // Валидация и прикрепление сотрудника к устройству
+
+  $('.admin-devices-tab-content-controller .attach-worker-modal-window .form-content').on('submit', function (e) {
+    var fields = $(e.currentTarget).serialize(),
+        $formContentField;
+    $(e.currentTarget).find('.form-content__field').removeClass('form-content__field_error');
+    $(e.currentTarget).find('.form-content__error').text('');
+    $.ajax({
+      type: 'POST',
+      url: '/admin/attach-worker',
+      data: fields,
+      success: function success(response) {
+        if (response) {
+          window.location.href = '/admin/tab/devices';
+        }
+      },
+      error: function error(_error2) {
+        var errors;
+
+        if (_error2.status === 422) {
+          errors = _error2.responseJSON.errors;
+
+          if (errors !== undefined) {
+            for (var key in errors) {
+              if (errors[key][0]) {
+                $formContentField = $(e.currentTarget).find(".form-content__error[field-name=\"".concat(key, "\"]")).closest('.form-content__field');
+                $formContentField.addClass('form-content__field_error');
+                $formContentField.find('.form-content__error').text(errors[key][0]);
+              }
+            }
+          }
+        }
+      }
+    });
+    return false;
   }); // Валидация и редактирование устройства
 
   $('.admin-devices-tab-content-controller .edit-device-modal-window .form-content').on('submit', function (e) {
@@ -37381,11 +37424,11 @@ $(document).ready(function () {
           window.location.href = '/admin/tab/devices';
         }
       },
-      error: function error(_error2) {
+      error: function error(_error3) {
         var errors;
 
-        if (_error2.status === 422) {
-          errors = _error2.responseJSON.errors;
+        if (_error3.status === 422) {
+          errors = _error3.responseJSON.errors;
 
           if (errors !== undefined) {
             for (var key in errors) {
@@ -37416,6 +37459,28 @@ $(document).ready(function () {
         data: {
           _token: token,
           id: deviceId
+        },
+        success: function success(response) {
+          if (response) {
+            window.location.href = '/admin/tab/devices';
+          }
+        }
+      });
+    }
+  }); // Открепление сотрудника
+
+  $('.admin-devices-tab-content-controller .tab-content-wrapper__list').on('click', '.unattach-worker-btn', function (e) {
+    var deviceId, token;
+
+    if (confirm('Вы действительно хотите открепить сотрудника от устройства?')) {
+      deviceId = $(e.currentTarget).closest('.tab-content-wrapper__list-item').attr('id');
+      token = $('meta[name="csrf-token"]').attr('content');
+      $.ajax({
+        type: 'POST',
+        url: '/admin/unattach-worker',
+        data: {
+          _token: token,
+          device_id: deviceId
         },
         success: function success(response) {
           if (response) {
