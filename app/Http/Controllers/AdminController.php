@@ -95,6 +95,8 @@ class AdminController extends Controller
                 'purchase_price' => 'bail|required|max:255',
                 'warranty' => 'date',
                 'receipt_date' => 'date',
+                'responsible_id' => 'bail|required|max:255',
+                'provider_id' => 'bail|required|max:255',
             ]);
 
             $devices = new Devices;
@@ -108,6 +110,8 @@ class AdminController extends Controller
             $devices->purchase_price = $request->purchase_price;
             $devices->warranty = strtotime($request->warranty);
             $devices->receipt_date = strtotime($request->receipt_date);
+            $devices->responsible_id = $request->responsible_id;
+            $devices->provider_id = $request->provider_id;
 
             $devices->save();
         }
@@ -239,6 +243,8 @@ class AdminController extends Controller
                 'purchase_price' => 'bail|required|max:255',
                 'warranty' => 'date',
                 'receipt_date' => 'date',
+                'responsible_id' => 'bail|required|max:255',
+                'provider_id' => 'bail|required|max:255',
             ]);
 
             $devices = Devices::find($request->id);
@@ -252,6 +258,8 @@ class AdminController extends Controller
             $devices->purchase_price = $request->purchase_price;
             $devices->warranty = strtotime($request->warranty);
             $devices->receipt_date = strtotime($request->receipt_date);
+            $devices->responsible_id = $request->responsible_id;
+            $devices->provider_id = $request->provider_id;
 
             $devices->save();
         }
@@ -396,7 +404,9 @@ class AdminController extends Controller
                 \"type_device_id\": \"$device->type_device_id\",
                 \"receipt_date\": \"$device->receipt_date\",
                 \"purchase_price\": \"$device->purchase_price\",
-                \"warranty\": \"$device->warranty\"
+                \"warranty\": \"$device->warranty\",
+                \"responsible_id\": \"$device->responsible_id\",
+                \"provider_id\": \"$device->provider_id\"
             }";
         }
     }

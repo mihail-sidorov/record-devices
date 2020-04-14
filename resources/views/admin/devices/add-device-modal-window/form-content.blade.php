@@ -31,6 +31,26 @@
     </div>
 
     <div class="form-content__field">
+        <div class="form-content__title">Ответственный на складе:</div>
+        <select class="form-content__select" name="responsible_id">
+            @foreach ($responsibles as $responsible)
+                <option value="{{ $responsible->id }}">{{ $responsible->name }}</option>
+            @endforeach
+        </select>
+        <div class="form-content__error" field-name="responsible_id"></div>
+    </div>
+
+    <div class="form-content__field">
+        <div class="form-content__title">Поставщик:</div>
+        <select class="form-content__select" name="provider_id">
+            @foreach ($providers as $provider)
+                <option value="{{ $provider->id }}">{{ $provider->name }}</option>
+            @endforeach
+        </select>
+        <div class="form-content__error" field-name="provider_id"></div>
+    </div>
+
+    <div class="form-content__field">
         <div class="form-content__title">Дата поступления устройства:</div>
         <input class="form-content__date" type="date" name="receipt_date">
         <div class="form-content__error" field-name="receipt_date"></div>

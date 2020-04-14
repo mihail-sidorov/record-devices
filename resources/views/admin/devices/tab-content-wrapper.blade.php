@@ -54,7 +54,8 @@
                 $device_worker_count = $device->device_worker()->count();
                 $device_worker_last = $device->device_worker()->orderby('id', 'desc')->first();
                 $worker = null;
-                $responsible = null;
+                $responsible = $device->responsible;
+                $provider = $device->provider;
             ?>
             <div class="tab-content-wrapper__list-item" id="{{ $device->id }}">
                 <div class="tab-content-wrapper__list-item-head">
@@ -114,7 +115,11 @@
                                         {{ $responsible->name }}
                                     @endif
                                 </td>
-                                <td></td>
+                                <td>
+                                    @if ($provider)
+                                        {{ $provider->name }}
+                                    @endif
+                                </td>
                                 <td>
                                     <?php
                                         switch ($status) {

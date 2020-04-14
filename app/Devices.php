@@ -24,4 +24,14 @@ class Devices extends Model
     {
         return $this->hasMany('App\DeviceWorker', 'device_id', 'id');
     }
+
+    public function responsible()
+    {
+        return $this->hasOne('App\Responsibles', 'id', 'responsible_id');
+    }
+
+    public function provider()
+    {
+        return $this->hasOne('App\Providers', 'id', 'provider_id');
+    }
 }
