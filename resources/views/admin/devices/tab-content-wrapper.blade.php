@@ -75,6 +75,9 @@
                             $status = 2;
                             $worker = App\Workers::find($device_worker_last->worker_id);
                             $responsible = $worker->responsible;
+                            if (!$responsible) {
+                                $responsible = $device->responsible;
+                            }
                         ?>
                     @else
                         <?php if ($status) { ?>
