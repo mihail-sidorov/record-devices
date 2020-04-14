@@ -221,7 +221,7 @@ class AdminController extends Controller
             date_default_timezone_set('Europe/Moscow');
 
             $device_worker = DeviceWorker::where('device_id', $request->device_id)->orderby('id', 'desc')->first();
-            $device_worker->attach = 1;
+            $device_worker->attach = 0;
             $device_worker->save();
         }
 

@@ -18,7 +18,7 @@ class CreateDeviceWorkerTable extends Migration
             $table->integer('device_id');
             $table->integer('worker_id');
             $table->timestamps();
-            $table->boolean('attach')->default(false);
+            $table->boolean('attach')->default(true);
         });
     }
 

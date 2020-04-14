@@ -22,8 +22,11 @@ class Workers extends Model
 
     public function department()
     {
-        return $this->belongsTo('App\Departments', 'department_id')->withDefault([
-            'name' => 'К данному сотруднику не прикреплен отдел!',
-        ]);
+        return $this->hasOne('App\Departments', 'id', 'department_id');
+    }
+
+    public function responsible()
+    {
+        return $this->hasOne('App\Responsibles', 'department_id', 'department_id');
     }
 }

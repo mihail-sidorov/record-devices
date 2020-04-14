@@ -22,8 +22,6 @@ class Responsibles extends Model
 
     public function department()
     {
-        return $this->belongsTo('App\Departments', 'department_id')->withDefault([
-            'name' => 'К данному ответственному не прикреплен отдел!',
-        ]);
+        return $this->hasOne('App\Departments', 'id', 'department_id');
     }
 }

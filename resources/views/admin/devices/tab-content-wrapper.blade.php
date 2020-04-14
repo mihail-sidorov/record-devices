@@ -19,6 +19,13 @@
             <?php
                 date_default_timezone_set('Europe/Moscow');
 
+                $status = 1;
+                $current_date = new DateTime();
+                $current_date_timestamp = $current_date->getTimestamp();
+                if ($current_date_timestamp - $device->receipt_date > 1728000) {
+                    $status = 0;
+                }
+
                 $ts = $device->receipt_date;
                 $d = new DateTime();
                 $d->setTimestamp($ts);
@@ -43,30 +50,32 @@
                         $type_device = 'Оргтехника';
                         break;
                 }
-                
-                switch ($device->status) {
-                    case 'store':
-                        $status = 'На складе';
-                        break;
-                    case 'given':
-                        $status = 'Выдан';
-                        break;
-                    case 'write_off':
-                        $status = 'Списан';
-                        break;
-                }
+
+                $device_worker_count = $device->device_worker()->count();
+                $device_worker_last = $device->device_worker()->orderby('id', 'desc')->first();
+                $worker = null;
+                $responsible = null;
             ?>
             <div class="tab-content-wrapper__list-item" id="{{ $device->id }}">
                 <div class="tab-content-wrapper__list-item-head">
                     <div class="tab-content-wrapper__list-item-name">{{ $device->name }}</div>
                     @include('edit-btn')
                     
-                    @if ($device->device_worker()->count() === 0)
-                        @include('attach-worker-btn')
-                    @elseif ($device->device_worker()->orderby('id', 'desc')->first()->attach)
-                        @include('attach-worker-btn')
-                    @else
+                    @if ($device_worker_count === 0)
+                        <?php if ($status) { ?>
+                            @include('attach-worker-btn')
+                        <?php } ?>
+                    @elseif ($device_worker_last->attach)
                         @include('unattach-worker-btn')
+                        <?php
+                            $status = 2;
+                            $worker = App\Workers::find($device_worker_last->worker_id);
+                            $responsible = $worker->responsible;
+                        ?>
+                    @else
+                        <?php if ($status) { ?>
+                            @include('attach-worker-btn')
+                        <?php } ?>
                     @endif
 
                     @include('del-btn')
@@ -88,18 +97,42 @@
                             </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>{{ $device->model }}</td>
-                            <td>{{ $device->serial_number }}</td>
-                            <td>{{ $type_device }}</td>
-                            <td>{{ $device->receipt_date }}</td>
-                            <td>{{ $device->purchase_price }}</td>
-                            <td>{{ $device->warranty }}</td>
-                            <td>{{ $device->worker_id }}</td>
-                            <td>{{ $device->provider_id }}</td>
-                            <td>{{ $device->responsible_id }}</td>
-                            <td>{{ $status }}</td>
-                        </tr>
+                            <tr>
+                                <td>{{ $device->model }}</td>
+                                <td>{{ $device->serial_number }}</td>
+                                <td>{{ $type_device }}</td>
+                                <td>{{ $device->receipt_date }}</td>
+                                <td>{{ $device->purchase_price }}</td>
+                                <td>{{ $device->warranty }}</td>
+                                <td>
+                                    @if ($worker)
+                                        {{ $worker->name }}
+                                    @endif
+                                </td>
+                                <td>
+                                    @if ($responsible)
+                                        {{ $responsible->name }}
+                                    @endif
+                                </td>
+                                <td></td>
+                                <td>
+                                    <?php
+                                        switch ($status) {
+                                            case 0:
+                                                $status = 'Списан';
+                                                break;
+                                            case 1:
+                                                $status = 'На складе';
+                                                break;
+                                            case 2:
+                                                $status = 'Выдан';
+                                                break;
+                                        }
+
+                                        echo $status;
+                                    ?>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>

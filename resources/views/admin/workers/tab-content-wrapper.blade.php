@@ -32,7 +32,11 @@
                         <tbody>
                         <tr>
                             <td>{{ $worker->post }}</td>
-                            <td>{{ $worker->department->name }}</td>
+                            <td>
+                                @if ($worker->department)
+                                    {{ $worker->department->name }}
+                                @endif
+                            </td>
                         </tr>
                         </tbody>
                     </table>
