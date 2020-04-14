@@ -22,7 +22,7 @@
                 $status = 1;
                 $current_date = new DateTime();
                 $current_date_timestamp = $current_date->getTimestamp();
-                if ($current_date_timestamp - $device->receipt_date > 1728000) {
+                if ($current_date_timestamp - $device->receipt_date > 1728) {
                     $status = 0;
                 }
 
@@ -130,13 +130,13 @@
                                     <?php
                                         switch ($status) {
                                             case 0:
-                                                $status = 'Списан';
+                                                $status = 'Списано';
                                                 break;
                                             case 1:
                                                 $status = 'На складе';
                                                 break;
                                             case 2:
-                                                $status = 'Выдан';
+                                                $status = 'Выдано';
                                                 break;
                                         }
 
