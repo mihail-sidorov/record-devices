@@ -26,15 +26,18 @@
                     $status = 0;
                 }
 
+                $ts = $device->warranty;
+                $d = new DateTime();
+                $d->setTimestamp($ts);
+                $warranty = $d->format('d-m-Y');
+                if ($device->warranty - $current_date_timestamp <= 0) {
+                    $warranty = "Истекла $warranty";
+                }
+
                 $ts = $device->receipt_date;
                 $d = new DateTime();
                 $d->setTimestamp($ts);
                 $device->receipt_date = $d->format('d-m-Y');
-
-                $ts = $device->warranty;
-                $d = new DateTime();
-                $d->setTimestamp($ts);
-                $device->warranty = $d->format('d-m-Y');
 
                 switch ($device->type_device_id) {
                     case 1:
@@ -104,7 +107,7 @@
                                 <td>{{ $type_device }}</td>
                                 <td>{{ $device->receipt_date }}</td>
                                 <td>{{ $device->purchase_price }}</td>
-                                <td>{{ $device->warranty }}</td>
+                                <td>{{ $warranty }}</td>
                                 <td>
                                     @if ($worker)
                                         {{ $worker->name }}
