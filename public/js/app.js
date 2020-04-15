@@ -37318,6 +37318,14 @@ $(document).ready(function () {
             } else {
               $fieldNameElement.val(response[fieldName]);
             }
+
+            if (fieldName === 'inventar_number') {
+              if (!$fieldNameElement.val()) {
+                $(element).hide();
+              } else {
+                $(element).show();
+              }
+            }
           });
           $('.admin-devices-tab-content-controller .edit-device-modal-window .form-content input[name="id"]').val(deviceId);
           $('.admin-devices-tab-content-controller .edit-device-modal-window .form-content__field').removeClass('form-content__field_error');
@@ -37341,16 +37349,16 @@ $(document).ready(function () {
   }); // Показываем поле для введения инвентарного номера при выборе рабочего места
 
   $('.admin-devices-tab-content-controller .add-device-modal-window input[name="inventar_number"]').closest('.form-content__field').hide();
-  $('.admin-devices-tab-content-controller .add-device-modal-window select[name="type_device_id"]').on('change', function (e) {
-    var $formContentField = $('.admin-devices-tab-content-controller .add-device-modal-window input[name="inventar_number"]').closest('.form-content__field');
+  $('.admin-devices-tab-content-controller .add-device-modal-window select[name="type_device_id"], .admin-devices-tab-content-controller .edit-device-modal-window select[name="type_device_id"]').on('change', function (e) {
+    var $inventarNumber = $(e.currentTarget).closest('.form-content').find('[name="inventar_number"]'),
+        $formContentField = $inventarNumber.closest('.form-content__field');
     $formContentField.removeClass('form-content__field_error');
     $formContentField.find('.form-content__error').text('');
 
     if ($(e.currentTarget).val() === '2') {
       $formContentField.show();
-      $('.admin-devices-tab-content-controller .add-device-modal-window input[name="inventar_number"]').focus();
+      $inventarNumber.focus();
     } else {
-      $('.admin-devices-tab-content-controller .add-device-modal-window input[name="inventar_number"]').val('');
       $formContentField.hide();
     }
   }); // Валидация и добавление устройства
