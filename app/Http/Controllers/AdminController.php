@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 use App\Devices;
 use App\Workers;
 use App\Providers;
@@ -87,7 +88,7 @@ class AdminController extends Controller
     public function addDevice(Request $request)
     {
         if ($request->ajax() && Auth::user()->role === 'admin') {
-            $this->validate($request, [
+            $validate_arr = [
                 'name' => 'bail|required|max:255',
                 'model' => 'bail|required|max:255',
                 'serial_number' => 'bail|required|max:255',
@@ -97,7 +98,16 @@ class AdminController extends Controller
                 'receipt_date' => 'date',
                 'responsible_id' => 'bail|required|max:255',
                 'provider_id' => 'bail|required|max:255',
-            ]);
+            ];
+
+            if ($request->type_device_id === '2') {
+                $validate_arr += ['inventar_number' => 'bail|required|max:255'];
+            }
+            else {
+                $request->inventar_number = '';
+            }
+            
+            $this->validate($request, $validate_arr);
 
             $devices = new Devices;
 
@@ -106,6 +116,7 @@ class AdminController extends Controller
             $devices->name = $request->name;
             $devices->model = $request->model;
             $devices->serial_number = $request->serial_number;
+            $devices->inventar_number = $request->inventar_number;
             $devices->type_device_id = $request->type_device_id;
             $devices->purchase_price = $request->purchase_price;
             $devices->warranty = strtotime($request->warranty);

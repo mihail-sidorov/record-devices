@@ -37338,6 +37338,21 @@ $(document).ready(function () {
     var $formContentField = $(e.currentTarget).closest('.form-content__field');
     $formContentField.removeClass('form-content__field_error');
     $formContentField.find('.form-content__error').text('');
+  }); // Показываем поле для введения инвентарного номера при выборе рабочего места
+
+  $('.admin-devices-tab-content-controller .add-device-modal-window input[name="inventar_number"]').closest('.form-content__field').hide();
+  $('.admin-devices-tab-content-controller .add-device-modal-window select[name="type_device_id"]').on('change', function (e) {
+    var $formContentField = $('.admin-devices-tab-content-controller .add-device-modal-window input[name="inventar_number"]').closest('.form-content__field');
+    $formContentField.removeClass('form-content__field_error');
+    $formContentField.find('.form-content__error').text('');
+
+    if ($(e.currentTarget).val() === '2') {
+      $formContentField.show();
+      $('.admin-devices-tab-content-controller .add-device-modal-window input[name="inventar_number"]').focus();
+    } else {
+      $('.admin-devices-tab-content-controller .add-device-modal-window input[name="inventar_number"]').val('');
+      $formContentField.hide();
+    }
   }); // Валидация и добавление устройства
 
   $('.admin-devices-tab-content-controller .add-device-modal-window .form-content').on('submit', function (e) {

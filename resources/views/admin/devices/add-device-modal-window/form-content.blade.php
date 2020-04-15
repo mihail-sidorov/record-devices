@@ -20,6 +20,12 @@
     </div>
 
     <div class="form-content__field">
+        <div class="form-content__title">Инвентарный номер устройства:</div>
+        <input class="form-content__text" type="text" name="inventar_number">
+        <div class="form-content__error" field-name="inventar_number"></div>
+    </div>
+
+    <div class="form-content__field">
         <div class="form-content__title">Тип устройства:</div>
         <select class="form-content__select" name="type_device_id">
             <option value="1">Портативный</option>
