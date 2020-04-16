@@ -34,4 +34,9 @@ class Devices extends Model
     {
         return $this->hasOne('App\Providers', 'id', 'provider_id');
     }
+
+    public function category()
+    {
+        return $this->hasOne('App\Categories', 'id', 'category_id');
+    }
 }

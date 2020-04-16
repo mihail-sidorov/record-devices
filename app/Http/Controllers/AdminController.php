@@ -106,6 +106,7 @@ class AdminController extends Controller
                 'receipt_date' => 'date',
                 'responsible_id' => 'bail|required|max:255',
                 'provider_id' => 'bail|required|max:255',
+                'category_id' => 'bail|required|max:255',
             ];
 
             if ($request->type_device_id === '2') {
@@ -131,6 +132,7 @@ class AdminController extends Controller
             $devices->receipt_date = strtotime($request->receipt_date);
             $devices->responsible_id = $request->responsible_id;
             $devices->provider_id = $request->provider_id;
+            $devices->category_id = $request->category_id;
 
             $devices->save();
         }
@@ -283,6 +285,7 @@ class AdminController extends Controller
                 'receipt_date' => 'date',
                 'responsible_id' => 'bail|required|max:255',
                 'provider_id' => 'bail|required|max:255',
+                'category_id' => 'bail|required|max:255',
             ];
 
             if ($request->type_device_id === '2') {
@@ -308,6 +311,7 @@ class AdminController extends Controller
             $devices->receipt_date = strtotime($request->receipt_date);
             $devices->responsible_id = $request->responsible_id;
             $devices->provider_id = $request->provider_id;
+            $devices->category_id = $request->category_id;
 
             $devices->save();
         }
@@ -483,7 +487,8 @@ class AdminController extends Controller
                 \"purchase_price\": \"$device->purchase_price\",
                 \"warranty\": \"$device->warranty\",
                 \"responsible_id\": \"$device->responsible_id\",
-                \"provider_id\": \"$device->provider_id\"
+                \"provider_id\": \"$device->provider_id\",
+                \"category_id\": \"$device->category_id\"
             }";
         }
     }

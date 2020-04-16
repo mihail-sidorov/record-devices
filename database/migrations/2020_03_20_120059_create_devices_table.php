@@ -25,6 +25,7 @@ class CreateDevicesTable extends Migration
             $table->integer('warranty');
             $table->integer('responsible_id');
             $table->integer('provider_id');
+            $table->integer('category_id');
         });
     }
 

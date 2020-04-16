@@ -22,7 +22,7 @@
                 $status = 1;
                 $current_date = new DateTime();
                 $current_date_timestamp = $current_date->getTimestamp();
-                if ($current_date_timestamp - $device->receipt_date > 1728) {
+                if ($current_date_timestamp - $device->receipt_date > 864000) {
                     $status = 0;
                 }
 
@@ -59,6 +59,7 @@
                 $worker = null;
                 $responsible = $device->responsible;
                 $provider = $device->provider;
+                $category = $device->category;
             ?>
             <div class="tab-content-wrapper__list-item" id="{{ $device->id }}">
                 <div class="tab-content-wrapper__list-item-head">
@@ -101,6 +102,7 @@
                                 <td>Ответственный</td>
                                 <td>Поставщик</td>
                                 <td>Статус</td>
+                                <td>Категория</td>
                             </tr>
                         </thead>
                         <tbody>
@@ -142,6 +144,11 @@
 
                                         echo $status;
                                     ?>
+                                </td>
+                                <td>
+                                    @if ($category)
+                                        {{ $category->name }}
+                                    @endif
                                 </td>
                             </tr>
                         </tbody>
