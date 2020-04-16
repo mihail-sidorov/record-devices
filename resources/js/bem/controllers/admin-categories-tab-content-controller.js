@@ -128,4 +128,28 @@ $(document).ready(() => {
 
         return false;
     });
+
+    // Удаление категории
+    $('.admin-categories-tab-content-controller .tab-content-wrapper__list').on('click', '.del-btn', (e) => {
+        var categoryId, token, categoryName = $(e.currentTarget).closest('.tab-content-wrapper__list-item-head').find('.tab-content-wrapper__list-item-name').text();
+
+        if (confirm(`Вы действительно хотите удалить категорию "${categoryName}"?`)) {
+            categoryId = $(e.currentTarget).closest('.tab-content-wrapper__list-item').attr('id');
+            token = $('meta[name="csrf-token"]').attr('content');
+            
+            $.ajax({
+                type: 'POST',
+                url: '/admin/del-category',
+                data: {
+                    _token: token,
+                    id: categoryId,
+                },
+                success: (response) => {
+                    if (response) {
+                        window.location.href = '/admin/tab/categories';
+                    }
+                },
+            });
+        }
+    });
 });
