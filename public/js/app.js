@@ -37075,7 +37075,9 @@ __webpack_require__(/*! ./bem/controllers/admin-providers-tab-content-controller
 
 __webpack_require__(/*! ./bem/controllers/admin-responsibles-tab-content-controller */ "./resources/js/bem/controllers/admin-responsibles-tab-content-controller.js");
 
-__webpack_require__(/*! ./bem/controllers/admin-departments-tab-content-controller */ "./resources/js/bem/controllers/admin-departments-tab-content-controller.js"); //window.Vue = require('vue');
+__webpack_require__(/*! ./bem/controllers/admin-departments-tab-content-controller */ "./resources/js/bem/controllers/admin-departments-tab-content-controller.js");
+
+__webpack_require__(/*! ./bem/controllers/admin-categories-tab-content-controller */ "./resources/js/bem/controllers/admin-categories-tab-content-controller.js"); //window.Vue = require('vue');
 
 /**
  * The following block of code may be used to automatically register your
@@ -37096,6 +37098,138 @@ __webpack_require__(/*! ./bem/controllers/admin-departments-tab-content-controll
 // const app = new Vue({
 //     el: '#app',
 // });
+
+/***/ }),
+
+/***/ "./resources/js/bem/controllers/admin-categories-tab-content-controller.js":
+/*!*********************************************************************************!*\
+  !*** ./resources/js/bem/controllers/admin-categories-tab-content-controller.js ***!
+  \*********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// admin-categories-tab-content-controller
+$(document).ready(function () {
+  // Открываем модальное окно для добавления категории и обнуляем в нем сообщения об ошибках валидации
+  $('.admin-categories-tab-content-controller').find('.add-btn').click(function (e) {
+    $('.admin-categories-tab-content-controller .add-category-modal-window .form-content__field').removeClass('form-content__field_error');
+    $('.admin-categories-tab-content-controller .add-category-modal-window .form-content__error').text('');
+    $(e.currentTarget).closest('.admin-categories-tab-content-controller').find('.add-category-modal-window').addClass('modal-window_show');
+  }); // Открываем модальное окно для редактирования категории, обнуляем в нем сообщения об ошибках валидации и заполняем его данными
+
+  $('.admin-categories-tab-content-controller .edit-btn').click(function (e) {
+    var categoryId = $(e.currentTarget).closest('.tab-content-wrapper__list-item').attr('id'),
+        token = $('meta[name="csrf-token"]').attr('content');
+    $.ajax({
+      type: 'POST',
+      url: '/admin/write-edit-category-form',
+      data: {
+        _token: token,
+        id: categoryId
+      },
+      dataType: 'json',
+      success: function success(response) {
+        if (response) {
+          $('.admin-categories-tab-content-controller .edit-category-modal-window .form-content__field').each(function (index, element) {
+            var $fieldNameElement = $(element).find('[name]'),
+                fieldName = $fieldNameElement.attr('name'),
+                description;
+
+            if (fieldName === 'description') {
+              description = response[fieldName];
+              description = description.replace(/\*\*\*/g, "\r\n");
+              description = description.replace(/\*\*/g, "\r");
+              description = description.replace(/\*/g, "\n");
+              $fieldNameElement.val(description);
+            } else {
+              $fieldNameElement.val(response[fieldName]);
+            }
+          });
+          $('.admin-categories-tab-content-controller .edit-category-modal-window .form-content input[name="id"]').val(categoryId);
+          $('.admin-categories-tab-content-controller .edit-category-modal-window .form-content__field').removeClass('form-content__field_error');
+          $('.admin-categories-tab-content-controller .edit-category-modal-window .form-content__error').text('');
+          $(e.currentTarget).closest('.admin-categories-tab-content-controller').find('.edit-category-modal-window').addClass('modal-window_show');
+        }
+      }
+    });
+  }); // Обнуляем сообщения об ошибках валидации у текстовых полей
+
+  $('.admin-categories-tab-content-controller .add-category-modal-window .form-content__text, .admin-categories-tab-content-controller .edit-category-modal-window .form-content__text').on('input', function (e) {
+    var $formContentField = $(e.currentTarget).closest('.form-content__field');
+    $formContentField.removeClass('form-content__field_error');
+    $formContentField.find('.form-content__error').text('');
+  }); // Валидация и добавление категории
+
+  $('.admin-categories-tab-content-controller .add-category-modal-window .form-content').on('submit', function (e) {
+    var fields = $(e.currentTarget).serialize(),
+        $formContentField;
+    $(e.currentTarget).find('.form-content__field').removeClass('form-content__field_error');
+    $(e.currentTarget).find('.form-content__error').text('');
+    $.ajax({
+      type: 'POST',
+      url: '/admin/add-category',
+      data: fields,
+      success: function success(response) {
+        if (response) {
+          window.location.href = '/admin/tab/categories';
+        }
+      },
+      error: function error(_error) {
+        var errors;
+
+        if (_error.status === 422) {
+          errors = _error.responseJSON.errors;
+
+          if (errors !== undefined) {
+            for (var key in errors) {
+              if (errors[key][0]) {
+                $formContentField = $(e.currentTarget).find(".form-content__error[field-name=\"".concat(key, "\"]")).closest('.form-content__field');
+                $formContentField.addClass('form-content__field_error');
+                $formContentField.find('.form-content__error').text(errors[key][0]);
+              }
+            }
+          }
+        }
+      }
+    });
+    return false;
+  }); // Валидация и редактирование категории
+
+  $('.admin-categories-tab-content-controller .edit-category-modal-window .form-content').on('submit', function (e) {
+    var fields = $(e.currentTarget).serialize(),
+        $formContentField;
+    $(e.currentTarget).find('.form-content__field').removeClass('form-content__field_error');
+    $(e.currentTarget).find('.form-content__error').text('');
+    $.ajax({
+      type: 'POST',
+      url: '/admin/edit-category',
+      data: fields,
+      success: function success(response) {
+        if (response) {
+          window.location.href = '/admin/tab/categories';
+        }
+      },
+      error: function error(_error2) {
+        var errors;
+
+        if (_error2.status === 422) {
+          errors = _error2.responseJSON.errors;
+
+          if (errors !== undefined) {
+            for (var key in errors) {
+              if (errors[key][0]) {
+                $formContentField = $(e.currentTarget).find(".form-content__error[field-name=\"".concat(key, "\"]")).closest('.form-content__field');
+                $formContentField.addClass('form-content__field_error');
+                $formContentField.find('.form-content__error').text(errors[key][0]);
+              }
+            }
+          }
+        }
+      }
+    });
+    return false;
+  });
+});
 
 /***/ }),
 

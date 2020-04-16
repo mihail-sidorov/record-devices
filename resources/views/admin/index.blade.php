@@ -18,6 +18,9 @@
         <li class="nav-item">
             <a class="nav-link<?php if ($active_tabs['departments']) echo $active_tabs['departments'][0]; ?>" id="departments-tab" data-toggle="tab" href="#departments" role="tab" aria-controls="departments" aria-selected="false">Отделы</a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link<?php if ($active_tabs['categories']) echo $active_tabs['categories'][0]; ?>" id="categories-tab" data-toggle="tab" href="#categories" role="tab" aria-controls="categories" aria-selected="false">Категории</a>
+        </li>
     </ul>
     <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade<?php if ($active_tabs['devices']) echo $active_tabs['devices'][1]; ?> admin-devices-tab-content-controller" id="devices" role="tabpanel" aria-labelledby="devices-tab">
@@ -45,6 +48,11 @@
             @include('admin.departments.tab-content-wrapper')
             @include('admin.departments.add-department-modal-window.modal-window')
             @include('admin.departments.edit-department-modal-window.modal-window')
+        </div>
+        <div class="tab-pane fade<?php if ($active_tabs['categories']) echo $active_tabs['categories'][1]; ?> admin-categories-tab-content-controller" id="categories" role="tabpanel" aria-labelledby="categories-tab">
+            @include('admin.categories.tab-content-wrapper')
+            @include('admin.categories.add-category-modal-window.modal-window')
+            @include('admin.categories.edit-category-modal-window.modal-window')
         </div>
     </div>
 </div>

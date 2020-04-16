@@ -11,6 +11,7 @@ use App\Providers;
 use App\Responsibles;
 use App\Departments;
 use App\DeviceWorker;
+use App\Categories;
 
 class AdminController extends Controller
 {
@@ -38,6 +39,7 @@ class AdminController extends Controller
                 'providers'=> [],
                 'responsibles' => [],
                 'departments' => [],
+                'categories' => [],
             ];
 
             switch ($tab_name) {
@@ -61,6 +63,10 @@ class AdminController extends Controller
                     $active_tabs['departments'][] = ' active';
                     $active_tabs['departments'][] = ' show active';
                     break;
+                case 'categories':
+                    $active_tabs['categories'][] = ' active';
+                    $active_tabs['categories'][] = ' show active';
+                    break;
                 default:
                     abort(404);
             }
@@ -70,6 +76,7 @@ class AdminController extends Controller
             $providers = Providers::all();
             $responsibles = Responsibles::all();
             $departments = Departments::all();
+            $categories = Categories::all();
 
             return view('admin.index', [
                 'devices' => $devices,
@@ -77,6 +84,7 @@ class AdminController extends Controller
                 'providers' => $providers,
                 'responsibles' => $responsibles,
                 'departments' => $departments,
+                'categories' => $categories,
                 'active_tabs' => $active_tabs,
             ]);
         }
@@ -205,6 +213,25 @@ class AdminController extends Controller
             $departments->description = $request->description;
 
             $departments->save();
+        }
+
+        return 'OK';
+    }
+
+    public function addCategory(Request $request)
+    {
+        if ($request->ajax() && Auth::user()->role === 'admin') {
+            $this->validate($request, [
+                'name' => 'bail|required|max:255',
+                'description' => 'bail|required|max:255',
+            ]);
+
+            $categories = new Categories;
+
+            $categories->name = $request->name;
+            $categories->description = $request->description;
+
+            $categories->save();
         }
 
         return 'OK';
@@ -368,6 +395,25 @@ class AdminController extends Controller
         return 'OK';
     }
 
+    public function editCategory(Request $request)
+    {
+        if ($request->ajax() && Auth::user()->role === 'admin') {
+            $this->validate($request, [
+                'name' => 'bail|required|max:255',
+                'description' => 'bail|required|max:255',
+            ]);
+
+            $categories = Categories::find($request->id);
+
+            $categories->name = $request->name;
+            $categories->description = $request->description;
+
+            $categories->save();
+        }
+
+        return 'OK';
+    }
+
     public function delDevice(Request $request)
     {
         if ($request->ajax() && Auth::user()->role === 'admin') {
@@ -488,6 +534,23 @@ class AdminController extends Controller
 
             return "{
                 \"name\": \"$department->name\",
+                \"description\": \"$description\"
+            }";
+        }
+    }
+
+    public function writeEditCategoryForm(Request $request)
+    {
+        if ($request->ajax() && Auth::user()->role === 'admin') {
+            $category = Categories::find($request->id);
+
+            $description = $category->description;
+            $description = str_replace("\r\n", '***', $description);
+            $description = str_replace("\r", '**', $description);
+            $description = str_replace("\n", '*', $description);
+
+            return "{
+                \"name\": \"$category->name\",
                 \"description\": \"$description\"
             }";
         }
