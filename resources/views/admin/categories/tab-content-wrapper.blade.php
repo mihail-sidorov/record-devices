@@ -26,12 +26,14 @@
                         <thead>
                             <tr>
                                 <td>Описание</td>
+                                <td>Остаток на складе</td>
                             </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td><?php echo $description; ?></td>
-                        </tr>
+                            <tr>
+                                <td><?php echo $description; ?></td>
+                                <td><?php echo $category->get_store_count(); ?></td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>

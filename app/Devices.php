@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use DateTime;
 
 class Devices extends Model
 {
@@ -38,5 +39,24 @@ class Devices extends Model
     public function category()
     {
         return $this->hasOne('App\Categories', 'id', 'category_id');
+    }
+
+    public function write_off()
+    {
+        $current_date = new DateTime();
+        $current_date_timestamp = $current_date->getTimestamp();
+        if ($current_date_timestamp - $this->receipt_date > 864000) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public function attach_to_worker()
+    {
+        if ($this->device_worker()->orderby('id', 'desc')->first()->attach) {
+            return true;
+        }
     }
 }
