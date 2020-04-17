@@ -17,27 +17,16 @@
     <div class="tab-content-wrapper__list">
         @foreach ($devices as $device)
             <?php
-                date_default_timezone_set('Europe/Moscow');
-
-                $status = 1;
-                $current_date = new DateTime();
-                $current_date_timestamp = $current_date->getTimestamp();
-                if ($current_date_timestamp - $device->receipt_date > 864000) {
-                    $status = 0;
-                }
-
-                $ts = $device->warranty;
                 $d = new DateTime();
-                $d->setTimestamp($ts);
+
+                $d->setTimestamp($device->warranty);
                 $warranty = $d->format('d-m-Y');
-                if ($device->warranty - $current_date_timestamp <= 0) {
+                if ($device->warranty_off()) {
                     $warranty = "Истекла $warranty";
                 }
 
-                $ts = $device->receipt_date;
-                $d = new DateTime();
-                $d->setTimestamp($ts);
-                $device->receipt_date = $d->format('d-m-Y');
+                $d->setTimestamp($device->receipt_date);
+                $receipt_date = $d->format('d-m-Y');
 
                 switch ($device->type_device_id) {
                     case 1:
@@ -54,10 +43,8 @@
                         break;
                 }
 
-                $device_worker_count = $device->device_worker()->count();
-                $device_worker_last = $device->device_worker()->orderby('id', 'desc')->first();
-                $worker = null;
-                $responsible = $device->responsible;
+                $worker = $device->get_attach_worker();
+                $responsible = $device->get_responsible();
                 $provider = $device->provider;
                 $category = $device->category;
             ?>
@@ -65,27 +52,13 @@
                 <div class="tab-content-wrapper__list-item-head">
                     <div class="tab-content-wrapper__list-item-name">{{ $device->name }}</div>
                     @include('edit-btn')
-                    
-                    @if ($device_worker_count === 0)
-                        <?php if ($status) { ?>
+                    @if (!$worker)
+                        @if (!$device->write_off())
                             @include('attach-worker-btn')
-                        <?php } ?>
-                    @elseif ($device_worker_last->attach)
-                        @include('unattach-worker-btn')
-                        <?php
-                            $status = 2;
-                            $worker = App\Workers::find($device_worker_last->worker_id);
-                            $responsible = $worker->responsible;
-                            if (!$responsible) {
-                                $responsible = $device->responsible;
-                            }
-                        ?>
+                        @endif
                     @else
-                        <?php if ($status) { ?>
-                            @include('attach-worker-btn')
-                        <?php } ?>
+                        @include('unattach-worker-btn')
                     @endif
-
                     @include('del-btn')
                 </div>
                 <div class="tab-content-wrapper__list-item-body">
@@ -97,7 +70,7 @@
                                 <td>Тип</td>
                                 <td>Дата поступления</td>
                                 <td>Закупочная цена</td>
-                                <td>Срок гарантии (дата окончания)</td>
+                                <td>Дата окончания гарантии</td>
                                 <td>Выдано сотруднику</td>
                                 <td>Ответственный</td>
                                 <td>Поставщик</td>
@@ -110,7 +83,7 @@
                                 <td>{{ $device->model }}</td>
                                 <td>{{ $device->serial_number }}</td>
                                 <td>{{ $type_device }}</td>
-                                <td>{{ $device->receipt_date }}</td>
+                                <td>{{ $receipt_date }}</td>
                                 <td>{{ $device->purchase_price }}</td>
                                 <td>{{ $warranty }}</td>
                                 <td>
@@ -129,21 +102,7 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <?php
-                                        switch ($status) {
-                                            case 0:
-                                                $status = 'Списано';
-                                                break;
-                                            case 1:
-                                                $status = 'На складе';
-                                                break;
-                                            case 2:
-                                                $status = 'Выдано';
-                                                break;
-                                        }
-
-                                        echo $status;
-                                    ?>
+                                    {{ $device->get_status() }}
                                 </td>
                                 <td>
                                     @if ($category)

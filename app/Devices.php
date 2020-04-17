@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use DateTime;
+use App\Workers;
 
 class Devices extends Model
 {
@@ -43,9 +44,21 @@ class Devices extends Model
 
     public function write_off()
     {
-        $current_date = new DateTime();
-        $current_date_timestamp = $current_date->getTimestamp();
-        if ($current_date_timestamp - $this->receipt_date > 864000) {
+        $d = new DateTime();
+        $current_date_timestamp = $d->getTimestamp();
+        if ($current_date_timestamp - $this->receipt_date > config('app.write_off_time')) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public function warranty_off()
+    {
+        $d = new DateTime();
+        $current_date_timestamp = $d->getTimestamp();
+        if ($this->warranty - $current_date_timestamp <= 0) {
             return true;
         }
         else {
@@ -55,8 +68,49 @@ class Devices extends Model
 
     public function attach_to_worker()
     {
-        if ($this->device_worker()->orderby('id', 'desc')->first()->attach) {
+        $device_worker = $this->device_worker()->orderby('id', 'desc')->first();
+        if ($device_worker && $device_worker->attach) {
             return true;
         }
+
+        return false;
+    }
+
+    public function get_attach_worker()
+    {
+        $device_worker = $this->device_worker()->orderby('id', 'desc')->first();
+        if ($device_worker && $device_worker->attach) {
+            return Workers::find($device_worker->worker_id);
+        }
+
+        return null;
+    }
+
+    public function get_responsible()
+    {
+        $attach_worker = $this->get_attach_worker();
+        if ($attach_worker) {
+            $responsible = $attach_worker->responsible;
+            if ($responsible) {
+                return $responsible;
+            }
+        }
+
+        return $this->responsible;
+    }
+
+    public function get_status()
+    {
+        $status = 'На складе';
+
+        if ($this->write_off()) {
+            $status = 'Списано';
+        }
+
+        if ($this->attach_to_worker()) {
+            $status = 'Выдано';
+        }
+
+        return $status;
     }
 }

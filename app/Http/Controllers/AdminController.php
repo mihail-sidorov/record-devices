@@ -120,8 +120,6 @@ class AdminController extends Controller
 
             $devices = new Devices;
 
-            date_default_timezone_set('Europe/Moscow');
-
             $devices->name = $request->name;
             $devices->model = $request->model;
             $devices->serial_number = $request->serial_number;
@@ -246,8 +244,6 @@ class AdminController extends Controller
                 'worker_id' => 'bail|required|max:255',
             ]);
 
-            date_default_timezone_set('Europe/Moscow');
-
             $device_worker = new DeviceWorker;
 
             $device_worker->device_id = $request->device_id;
@@ -262,8 +258,6 @@ class AdminController extends Controller
     public function unattachWorker(Request $request)
     {
         if ($request->ajax() && Auth::user()->role === 'admin') {
-            date_default_timezone_set('Europe/Moscow');
-
             $device_worker = DeviceWorker::where('device_id', $request->device_id)->orderby('id', 'desc')->first();
             $device_worker->attach = 0;
             $device_worker->save();
@@ -298,8 +292,6 @@ class AdminController extends Controller
             $this->validate($request, $validate_arr);
 
             $devices = Devices::find($request->id);
-
-            date_default_timezone_set('Europe/Moscow');
 
             $devices->name = $request->name;
             $devices->model = $request->model;
