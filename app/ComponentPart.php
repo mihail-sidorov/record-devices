@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use DateTime;
 
 class ComponentPart extends Model
 {
@@ -19,4 +20,26 @@ class ComponentPart extends Model
      * @var bool
      */
     public $timestamps = false;
+
+    public function warranty_off()
+    {
+        $d = new DateTime();
+        $current_date_timestamp = $d->getTimestamp();
+        if ($this->warranty - $current_date_timestamp <= 0) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public function provider()
+    {
+        return $this->hasOne('App\Providers', 'id', 'provider_id');
+    }
+
+    public function category()
+    {
+        return $this->hasOne('App\Categories', 'id', 'category_id');
+    }
 }
