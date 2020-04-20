@@ -37069,6 +37069,8 @@ __webpack_require__(/*! ./bem/modal-window */ "./resources/js/bem/modal-window.j
 
 __webpack_require__(/*! ./bem/controllers/admin-devices-tab-content-controller */ "./resources/js/bem/controllers/admin-devices-tab-content-controller.js");
 
+__webpack_require__(/*! ./bem/controllers/admin-component_parts-tab-content-controller */ "./resources/js/bem/controllers/admin-component_parts-tab-content-controller.js");
+
 __webpack_require__(/*! ./bem/controllers/admin-workers-tab-content-controller */ "./resources/js/bem/controllers/admin-workers-tab-content-controller.js");
 
 __webpack_require__(/*! ./bem/controllers/admin-providers-tab-content-controller */ "./resources/js/bem/controllers/admin-providers-tab-content-controller.js");
@@ -37252,6 +37254,72 @@ $(document).ready(function () {
         }
       });
     }
+  });
+});
+
+/***/ }),
+
+/***/ "./resources/js/bem/controllers/admin-component_parts-tab-content-controller.js":
+/*!**************************************************************************************!*\
+  !*** ./resources/js/bem/controllers/admin-component_parts-tab-content-controller.js ***!
+  \**************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// admin-component_parts-tab-content-controller
+$(document).ready(function () {
+  // Открываем модальное окно для добавления комплектующего и обнуляем в нем сообщения об ошибках валидации
+  $('.admin-component_parts-tab-content-controller .add-btn').click(function (e) {
+    $('.admin-component_parts-tab-content-controller .add-component_part-modal-window .form-content__field').removeClass('form-content__field_error');
+    $('.admin-component_parts-tab-content-controller .add-component_part-modal-window .form-content__error').text('');
+    $(e.currentTarget).closest('.admin-component_parts-tab-content-controller').find('.add-component_part-modal-window').addClass('modal-window_show');
+  }); // Обнуляем сообщения об ошибках валидации у текстовых полей
+
+  $('.admin-component_parts-tab-content-controller .add-component_part-modal-window .form-content__text, .admin-component_parts-tab-content-controller .edit-component_part-modal-window .form-content__text').on('input', function (e) {
+    var $formContentField = $(e.currentTarget).closest('.form-content__field');
+    $formContentField.removeClass('form-content__field_error');
+    $formContentField.find('.form-content__error').text('');
+  }); // Обнуляем сообщения об ошибках валидации у дат и выпадающих списков
+
+  $('.admin-component_parts-tab-content-controller .add-component_part-modal-window .form-content__select, .admin-component_parts-tab-content-controller .add-component_part-modal-window .form-content__date, .admin-component_parts-tab-content-controller .edit-component_part-modal-window .form-content__select, .admin-component_parts-tab-content-controller .edit-component_part-modal-window .form-content__date').on('change', function (e) {
+    var $formContentField = $(e.currentTarget).closest('.form-content__field');
+    $formContentField.removeClass('form-content__field_error');
+    $formContentField.find('.form-content__error').text('');
+  }); // Валидация и добавление комплектующего
+
+  $('.admin-component_parts-tab-content-controller .add-component_part-modal-window .form-content').on('submit', function (e) {
+    var fields = $(e.currentTarget).serialize(),
+        $formContentField;
+    $(e.currentTarget).find('.form-content__field').removeClass('form-content__field_error');
+    $(e.currentTarget).find('.form-content__error').text('');
+    $.ajax({
+      type: 'POST',
+      url: '/admin/add-component-part',
+      data: fields,
+      success: function success(response) {
+        if (response) {
+          window.location.href = '/admin/tab/component_parts';
+        }
+      },
+      error: function error(_error) {
+        var errors;
+
+        if (_error.status === 422) {
+          errors = _error.responseJSON.errors;
+
+          if (errors !== undefined) {
+            for (var key in errors) {
+              if (errors[key][0]) {
+                $formContentField = $(e.currentTarget).find(".form-content__error[field-name=\"".concat(key, "\"]")).closest('.form-content__field');
+                $formContentField.addClass('form-content__field_error');
+                $formContentField.find('.form-content__error').text(errors[key][0]);
+              }
+            }
+          }
+        }
+      }
+    });
+    return false;
   });
 });
 

@@ -7,6 +7,9 @@
             <a class="nav-link<?php if ($active_tabs['devices']) echo $active_tabs['devices'][0]; ?>" id="devices-tab" data-toggle="tab" href="#devices" role="tab" aria-controls="devices" aria-selected="true">Устройства</a>
         </li>
         <li class="nav-item">
+            <a class="nav-link<?php if ($active_tabs['component_parts']) echo $active_tabs['component_parts'][0]; ?>" id="component_parts-tab" data-toggle="tab" href="#component_parts" role="tab" aria-controls="component_parts" aria-selected="true">Комплектующие</a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link<?php if ($active_tabs['workers']) echo $active_tabs['workers'][0]; ?>" id="workers-tab" data-toggle="tab" href="#workers" role="tab" aria-controls="workers" aria-selected="false">Сотрудники</a>
         </li>
         <li class="nav-item">
@@ -28,6 +31,10 @@
             @include('admin.devices.add-device-modal-window.modal-window')
             @include('admin.devices.edit-device-modal-window.modal-window')
             @include('admin.devices.attach-worker-modal-window.modal-window')
+        </div>
+        <div class="tab-pane fade<?php if ($active_tabs['component_parts']) echo $active_tabs['component_parts'][1]; ?> admin-component_parts-tab-content-controller" id="component_parts" role="tabpanel" aria-labelledby="component_parts-tab">
+            @include('admin.component_parts.tab-content-wrapper')
+            @include('admin.component_parts.add-component_part-modal-window.modal-window')
         </div>
         <div class="tab-pane fade<?php if ($active_tabs['workers']) echo $active_tabs['workers'][1]; ?> admin-workers-tab-content-controller" id="workers" role="tabpanel" aria-labelledby="workers-tab">
             @include('admin.workers.tab-content-wrapper')

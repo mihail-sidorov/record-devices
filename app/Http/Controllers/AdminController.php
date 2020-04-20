@@ -12,6 +12,7 @@ use App\Responsibles;
 use App\Departments;
 use App\DeviceWorker;
 use App\Categories;
+use App\ComponentPart;
 
 class AdminController extends Controller
 {
@@ -35,6 +36,7 @@ class AdminController extends Controller
         if (Auth::user()->role === 'admin') {
             $active_tabs = [
                 'devices' => [],
+                'component_parts' => [],
                 'workers' => [],
                 'providers'=> [],
                 'responsibles' => [],
@@ -46,6 +48,10 @@ class AdminController extends Controller
                 case 'devices':
                     $active_tabs['devices'][] = ' active';
                     $active_tabs['devices'][] = ' show active';
+                    break;
+                case 'component_parts':
+                    $active_tabs['component_parts'][] = ' active';
+                    $active_tabs['component_parts'][] = ' show active';
                     break;
                 case 'workers':
                     $active_tabs['workers'][] = ' active';
@@ -72,6 +78,7 @@ class AdminController extends Controller
             }
 
             $devices = Devices::all();
+            $component_parts = ComponentPart::all();
             $workers = Workers::all();
             $providers = Providers::all();
             $responsibles = Responsibles::all();
@@ -80,6 +87,7 @@ class AdminController extends Controller
 
             return view('admin.index', [
                 'devices' => $devices,
+                'component_parts' => $component_parts,
                 'workers' => $workers,
                 'providers' => $providers,
                 'responsibles' => $responsibles,
@@ -133,6 +141,39 @@ class AdminController extends Controller
             $devices->category_id = $request->category_id;
 
             $devices->save();
+        }
+
+        return 'OK';
+    }
+
+    public function addComponentPart(Request $request)
+    {
+        if ($request->ajax() && Auth::user()->role === 'admin') {
+            $this->validate($request, [
+                'name' => 'bail|required|max:255',
+                'model' => 'bail|required|max:255',
+                'serial_number' => 'bail|required|max:255',
+                'purchase_price' => 'bail|required|max:255',
+                'warranty' => 'date',
+                'receipt_date' => 'date',
+                'responsible_id' => 'bail|required|max:255',
+                'provider_id' => 'bail|required|max:255',
+                'category_id' => 'bail|required|max:255',
+            ]);
+
+            $component_part = new ComponentPart;
+
+            $component_part->name = $request->name;
+            $component_part->model = $request->model;
+            $component_part->serial_number = $request->serial_number;
+            $component_part->purchase_price = $request->purchase_price;
+            $component_part->warranty = strtotime($request->warranty);
+            $component_part->receipt_date = strtotime($request->receipt_date);
+            $component_part->responsible_id = $request->responsible_id;
+            $component_part->provider_id = $request->provider_id;
+            $component_part->category_id = $request->category_id;
+
+            $component_part->save();
         }
 
         return 'OK';

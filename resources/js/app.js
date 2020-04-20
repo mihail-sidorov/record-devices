@@ -11,6 +11,7 @@ require('./jquery.easing.min');
 require('./bem/tab-content-wrapper');
 require('./bem/modal-window');
 require('./bem/controllers/admin-devices-tab-content-controller');
+require('./bem/controllers/admin-component_parts-tab-content-controller');
 require('./bem/controllers/admin-workers-tab-content-controller');
 require('./bem/controllers/admin-providers-tab-content-controller');
 require('./bem/controllers/admin-responsibles-tab-content-controller');
