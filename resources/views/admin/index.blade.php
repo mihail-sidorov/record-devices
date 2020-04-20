@@ -35,6 +35,7 @@
         <div class="tab-pane fade<?php if ($active_tabs['component_parts']) echo $active_tabs['component_parts'][1]; ?> admin-component_parts-tab-content-controller" id="component_parts" role="tabpanel" aria-labelledby="component_parts-tab">
             @include('admin.component_parts.tab-content-wrapper')
             @include('admin.component_parts.add-component_part-modal-window.modal-window')
+            @include('admin.component_parts.edit-component_part-modal-window.modal-window')
         </div>
         <div class="tab-pane fade<?php if ($active_tabs['workers']) echo $active_tabs['workers'][1]; ?> admin-workers-tab-content-controller" id="workers" role="tabpanel" aria-labelledby="workers-tab">
             @include('admin.workers.tab-content-wrapper')

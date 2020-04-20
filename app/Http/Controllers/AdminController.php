@@ -352,6 +352,39 @@ class AdminController extends Controller
         return 'OK';
     }
 
+    public function editComponentPart(Request $request)
+    {
+        if ($request->ajax() && Auth::user()->role === 'admin') {
+            $this->validate($request, [
+                'name' => 'bail|required|max:255',
+                'model' => 'bail|required|max:255',
+                'serial_number' => 'bail|required|max:255',
+                'purchase_price' => 'bail|required|max:255',
+                'warranty' => 'date',
+                'receipt_date' => 'date',
+                'responsible_id' => 'bail|required|max:255',
+                'provider_id' => 'bail|required|max:255',
+                'category_id' => 'bail|required|max:255',
+            ]);
+
+            $component_part = ComponentPart::find($request->id);
+
+            $component_part->name = $request->name;
+            $component_part->model = $request->model;
+            $component_part->serial_number = $request->serial_number;
+            $component_part->purchase_price = $request->purchase_price;
+            $component_part->warranty = strtotime($request->warranty);
+            $component_part->receipt_date = strtotime($request->receipt_date);
+            $component_part->responsible_id = $request->responsible_id;
+            $component_part->provider_id = $request->provider_id;
+            $component_part->category_id = $request->category_id;
+
+            $component_part->save();
+        }
+
+        return 'OK';
+    }
+
     public function editWorker(Request $request)
     {
         if ($request->ajax() && Auth::user()->role === 'admin') {
@@ -460,6 +493,15 @@ class AdminController extends Controller
         return 'OK';
     }
 
+    public function delComponentPart(Request $request)
+    {
+        if ($request->ajax() && Auth::user()->role === 'admin') {
+            ComponentPart::destroy($request->id);
+        }
+        
+        return 'OK';
+    }
+
     public function delWorker(Request $request)
     {
         if ($request->ajax() && Auth::user()->role === 'admin') {
@@ -522,6 +564,25 @@ class AdminController extends Controller
                 \"responsible_id\": \"$device->responsible_id\",
                 \"provider_id\": \"$device->provider_id\",
                 \"category_id\": \"$device->category_id\"
+            }";
+        }
+    }
+
+    public function writeEditComponentPartForm(Request $request)
+    {
+        if ($request->ajax() && Auth::user()->role === 'admin') {
+            $component_part = ComponentPart::find($request->id);
+
+            return "{
+                \"name\": \"$component_part->name\",
+                \"model\": \"$component_part->model\",
+                \"serial_number\": \"$component_part->serial_number\",
+                \"receipt_date\": \"$component_part->receipt_date\",
+                \"purchase_price\": \"$component_part->purchase_price\",
+                \"warranty\": \"$component_part->warranty\",
+                \"responsible_id\": \"$component_part->responsible_id\",
+                \"provider_id\": \"$component_part->provider_id\",
+                \"category_id\": \"$component_part->category_id\"
             }";
         }
     }
