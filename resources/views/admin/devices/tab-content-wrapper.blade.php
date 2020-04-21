@@ -59,6 +59,7 @@
                     @else
                         @include('unattach-worker-btn')
                     @endif
+                    @include('attach-component-part-btn')
                     @include('del-btn')
                 </div>
                 <div class="tab-content-wrapper__list-item-body">

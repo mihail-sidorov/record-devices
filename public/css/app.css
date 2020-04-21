@@ -11000,7 +11000,7 @@ a.text-dark:focus {
   border-bottom: 0;
 }
 
-.action-btn {
+.app-btn {
   display: inline-block;
   width: 40px;
   height: 40px;
@@ -11012,88 +11012,40 @@ a.text-dark:focus {
   line-height: 40px;
 }
 
-.action-btn:hover {
-  background-color: #f8fafc;
+.app-btn:hover {
+  background-color: #0064b4;
+  border-color: #0064b4;
+  color: #fff;
 }
 
 .edit-btn {
-  display: inline-block;
   width: 30px;
   height: 30px;
-  border: 1px solid #dee2e6;
-  border-radius: 50%;
-  background-color: transparent;
-  color: #0064b4;
-  padding: 0;
   line-height: 30px;
-}
-
-.edit-btn:hover {
-  background-color: #f8fafc;
 }
 
 .del-btn {
-  display: inline-block;
   width: 30px;
   height: 30px;
-  border: 1px solid #dee2e6;
-  border-radius: 50%;
-  background-color: transparent;
-  color: #0064b4;
-  padding: 0;
   line-height: 30px;
-}
-
-.del-btn:hover {
-  background-color: #f8fafc;
-}
-
-.add-btn {
-  display: inline-block;
-  width: 40px;
-  height: 40px;
-  border: 1px solid #dee2e6;
-  border-radius: 50%;
-  background-color: transparent;
-  color: #0064b4;
-  padding: 0;
-  line-height: 40px;
-}
-
-.add-btn:hover {
-  background-color: #f8fafc;
 }
 
 .attach-worker-btn {
-  display: inline-block;
   width: 30px;
   height: 30px;
-  border: 1px solid #dee2e6;
-  border-radius: 50%;
-  background-color: transparent;
-  color: #0064b4;
-  padding: 0;
   line-height: 30px;
 }
 
-.attach-worker-btn:hover {
-  background-color: #f8fafc;
+.attach-component-part-btn {
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
 }
 
 .unattach-worker-btn {
-  display: inline-block;
   width: 30px;
   height: 30px;
-  border: 1px solid #dee2e6;
-  border-radius: 50%;
-  background-color: transparent;
-  color: #0064b4;
-  padding: 0;
   line-height: 30px;
-}
-
-.unattach-worker-btn:hover {
-  background-color: #f8fafc;
 }
 
 html.hide-scroll,
