@@ -1,0 +1,1 @@
+<button class="attach-component-parts-btn app-btn"><i class="fas fa-project-diagram"></i></button>

@@ -20,6 +20,39 @@ $(document).ready(() => {
         $(e.currentTarget).closest('.admin-devices-tab-content-controller').find('.attach-worker-modal-window').addClass('modal-window_show');
     });
 
+    // Открываем модальное окно для прикрепления к устройству комплектующих
+    $('.admin-devices-tab-content-controller .attach-component-parts-btn').click((e) => {
+        var token = $('meta[name="csrf-token"]').attr('content');
+
+        $.ajax({
+            type: 'POST',
+            url: '/admin/write-attach-component-parts-modal-window',
+            data: {
+                _token: token,
+            },
+            dataType: 'json',
+            success: (response) => {
+                if (response) {
+                    $('.attach-component-parts-modal-window__categories').html('');
+
+                    response.forEach((categoryObj, index) => {
+                        var category = `
+                            <div class="attach-component-parts-modal-window__category" id="${categoryObj.id}">
+                                <div class="attach-component-parts-modal-window__category-head">${categoryObj.name}</div>
+                                <div class="attach-component-parts-modal-window__category-body">
+                                    Список всех комплектующих данной категории
+                                </div>
+                            </div>
+                        `;
+                        $('.attach-component-parts-modal-window__categories').append(category);
+                    });
+
+                    $(e.currentTarget).closest('.admin-devices-tab-content-controller').find('.attach-component-parts-modal-window').addClass('modal-window_show');
+                }
+            },
+        });
+    });
+
     // Открываем модальное окно для редактирования устройства, обнуляем в нем сообщения об ошибках валидации и заполняем его данными
     $('.admin-devices-tab-content-controller .edit-btn').click((e) => {
         var deviceId = $(e.currentTarget).closest('.tab-content-wrapper__list-item').attr('id'), token = $('meta[name="csrf-token"]').attr('content');

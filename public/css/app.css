@@ -11036,7 +11036,7 @@ a.text-dark:focus {
   line-height: 30px;
 }
 
-.attach-component-part-btn {
+.attach-component-parts-btn {
   width: 30px;
   height: 30px;
   line-height: 30px;
@@ -11195,5 +11195,34 @@ body.hide-scroll {
   color: #e3342f;
   font-weight: bold;
   margin-top: 4px;
+}
+
+.attach-component-parts-modal-window .attach-component-parts-modal-window__categories .attach-component-parts-modal-window__category {
+  margin-bottom: 10px;
+}
+
+.attach-component-parts-modal-window .attach-component-parts-modal-window__categories .attach-component-parts-modal-window__category:last-child {
+  margin-bottom: 0;
+}
+
+.attach-component-parts-modal-window .attach-component-parts-modal-window__categories .attach-component-parts-modal-window__category .attach-component-parts-modal-window__category-head {
+  display: inline-block;
+  cursor: pointer;
+}
+
+.attach-component-parts-modal-window .attach-component-parts-modal-window__categories .attach-component-parts-modal-window__category .attach-component-parts-modal-window__category-head::before {
+  content: "+";
+  display: inline-block;
+  width: 15px;
+  color: #0064b4;
+}
+
+.attach-component-parts-modal-window .attach-component-parts-modal-window__categories .attach-component-parts-modal-window__category .attach-component-parts-modal-window__category-head_show::before {
+  content: "-";
+}
+
+.attach-component-parts-modal-window .attach-component-parts-modal-window__categories .attach-component-parts-modal-window__category .attach-component-parts-modal-window__category-body {
+  padding-left: 15px;
+  display: none;
 }
 

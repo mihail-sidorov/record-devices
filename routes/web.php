@@ -54,5 +54,6 @@ Route::post('/admin/edit-category', 'AdminController@editCategory');
 Route::get('/admin/tab/{tab_name}', 'AdminController@index');
 Route::post('/admin/attach-worker', 'AdminController@attachWorker');
 Route::post('/admin/unattach-worker', 'AdminController@unattachWorker');
+Route::post('/admin/write-attach-component-parts-modal-window', 'AdminController@writeAttachComponentPartsModalWindow');
 
 Route::get('/worker', 'WorkerController@index')->name('worker');

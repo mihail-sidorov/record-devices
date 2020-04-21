@@ -37079,7 +37079,9 @@ __webpack_require__(/*! ./bem/controllers/admin-responsibles-tab-content-control
 
 __webpack_require__(/*! ./bem/controllers/admin-departments-tab-content-controller */ "./resources/js/bem/controllers/admin-departments-tab-content-controller.js");
 
-__webpack_require__(/*! ./bem/controllers/admin-categories-tab-content-controller */ "./resources/js/bem/controllers/admin-categories-tab-content-controller.js"); //window.Vue = require('vue');
+__webpack_require__(/*! ./bem/controllers/admin-categories-tab-content-controller */ "./resources/js/bem/controllers/admin-categories-tab-content-controller.js");
+
+__webpack_require__(/*! ./bem/attach-component-parts-modal-window */ "./resources/js/bem/attach-component-parts-modal-window.js"); //window.Vue = require('vue');
 
 /**
  * The following block of code may be used to automatically register your
@@ -37100,6 +37102,22 @@ __webpack_require__(/*! ./bem/controllers/admin-categories-tab-content-controlle
 // const app = new Vue({
 //     el: '#app',
 // });
+
+/***/ }),
+
+/***/ "./resources/js/bem/attach-component-parts-modal-window.js":
+/*!*****************************************************************!*\
+  !*** ./resources/js/bem/attach-component-parts-modal-window.js ***!
+  \*****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+$(document).ready(function () {
+  $('.attach-component-parts-modal-window__categories').on('click', '.attach-component-parts-modal-window__category-head', function (e) {
+    $(e.currentTarget).toggleClass('attach-component-parts-modal-window__category-head_show');
+    $(e.currentTarget).closest('.attach-component-parts-modal-window__category').find('.attach-component-parts-modal-window__category-body').slideToggle();
+  });
+});
 
 /***/ }),
 
@@ -37619,6 +37637,28 @@ $(document).ready(function () {
     $('.admin-devices-tab-content-controller .attach-worker-modal-window .form-content__field').removeClass('form-content__field_error');
     $('.admin-devices-tab-content-controller .attach-worker-modal-window .form-content__error').text('');
     $(e.currentTarget).closest('.admin-devices-tab-content-controller').find('.attach-worker-modal-window').addClass('modal-window_show');
+  }); // Открываем модальное окно для прикрепления к устройству комплектующих
+
+  $('.admin-devices-tab-content-controller .attach-component-parts-btn').click(function (e) {
+    var token = $('meta[name="csrf-token"]').attr('content');
+    $.ajax({
+      type: 'POST',
+      url: '/admin/write-attach-component-parts-modal-window',
+      data: {
+        _token: token
+      },
+      dataType: 'json',
+      success: function success(response) {
+        if (response) {
+          $('.attach-component-parts-modal-window__categories').html('');
+          response.forEach(function (categoryObj, index) {
+            var category = "\n                            <div class=\"attach-component-parts-modal-window__category\" id=\"".concat(categoryObj.id, "\">\n                                <div class=\"attach-component-parts-modal-window__category-head\">").concat(categoryObj.name, "</div>\n                                <div class=\"attach-component-parts-modal-window__category-body\">\n                                    \u0421\u043F\u0438\u0441\u043E\u043A \u0432\u0441\u0435\u0445 \u043A\u043E\u043C\u043F\u043B\u0435\u043A\u0442\u0443\u044E\u0449\u0438\u0445 \u0434\u0430\u043D\u043D\u043E\u0439 \u043A\u0430\u0442\u0435\u0433\u043E\u0440\u0438\u0438\n                                </div>\n                            </div>\n                        ");
+            $('.attach-component-parts-modal-window__categories').append(category);
+          });
+          $(e.currentTarget).closest('.admin-devices-tab-content-controller').find('.attach-component-parts-modal-window').addClass('modal-window_show');
+        }
+      }
+    });
   }); // Открываем модальное окно для редактирования устройства, обнуляем в нем сообщения об ошибках валидации и заполняем его данными
 
   $('.admin-devices-tab-content-controller .edit-btn').click(function (e) {

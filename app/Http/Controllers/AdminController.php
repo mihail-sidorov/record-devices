@@ -663,4 +663,11 @@ class AdminController extends Controller
             }";
         }
     }
+
+    public function writeAttachComponentPartsModalWindow(Request $request)
+    {
+        if ($request->ajax() && Auth::user()->role === 'admin') {
+            return json_encode(ComponentPart::join('categories', 'component_parts.category_id', '=', 'categories.id')->select('categories.*')->distinct()->get());
+        }
+    }
 }

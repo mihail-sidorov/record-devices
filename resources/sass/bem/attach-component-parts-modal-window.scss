@@ -1,0 +1,43 @@
+.attach-component-parts-modal-window {
+
+    .attach-component-parts-modal-window__categories {
+
+        .attach-component-parts-modal-window__category {
+
+            margin-bottom: 10px;
+
+            &:last-child {
+
+                margin-bottom: 0;
+            }
+
+            .attach-component-parts-modal-window__category-head {
+
+                display: inline-block;
+                cursor: pointer;
+
+                &::before {
+
+                    content: '+';
+                    display: inline-block;
+                    width: 15px;
+                    color: #0064b4;
+                }
+
+                &_show {
+
+                    &::before {
+
+                        content: '-';
+                    }
+                }
+            }
+
+            .attach-component-parts-modal-window__category-body {
+
+                padding-left: 15px;
+                display: none;
+            }
+        }
+    }
+}

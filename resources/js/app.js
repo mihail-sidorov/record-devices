@@ -17,6 +17,7 @@ require('./bem/controllers/admin-providers-tab-content-controller');
 require('./bem/controllers/admin-responsibles-tab-content-controller');
 require('./bem/controllers/admin-departments-tab-content-controller');
 require('./bem/controllers/admin-categories-tab-content-controller');
+require('./bem/attach-component-parts-modal-window');
 
 //window.Vue = require('vue');
 
