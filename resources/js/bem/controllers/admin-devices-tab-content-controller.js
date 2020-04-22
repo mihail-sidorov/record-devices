@@ -33,18 +33,51 @@ $(document).ready(() => {
             dataType: 'json',
             success: (response) => {
                 if (response) {
-                    $('.attach-component-parts-modal-window__categories').html('');
+                    $('.admin-devices-tab-content-controller .attach-component-parts-modal-window__categories').html('');
 
-                    response.forEach((categoryObj, index) => {
+                    response.forEach((categoryObj) => {
                         var category = `
                             <div class="attach-component-parts-modal-window__category" id="${categoryObj.id}">
                                 <div class="attach-component-parts-modal-window__category-head">${categoryObj.name}</div>
-                                <div class="attach-component-parts-modal-window__category-body">
-                                    Список всех комплектующих данной категории
-                                </div>
+                                <div class="attach-component-parts-modal-window__category-body"></div>
                             </div>
                         `;
-                        $('.attach-component-parts-modal-window__categories').append(category);
+                        $('.admin-devices-tab-content-controller .attach-component-parts-modal-window__categories').append(category);
+                    });
+
+                    $('.admin-devices-tab-content-controller .attach-component-parts-modal-window__category-head').click((e) => {
+                        var token = $('meta[name="csrf-token"]').attr('content'), categoryId = $(e.currentTarget).closest('.attach-component-parts-modal-window__category').attr('id'), $categoryBody = $(e.currentTarget).closest('.attach-component-parts-modal-window__category').find('.attach-component-parts-modal-window__category-body');
+
+                        if (!$categoryBody.html()) {
+                            $.ajax({
+                                type: 'POST',
+                                url: '/admin/load-component-parts-by-category',
+                                data: {
+                                    _token: token,
+                                    category_id: categoryId,
+                                },
+                                dataType: 'json',
+                                success: (response) => {
+                                    if (response) {
+                                        var $componentParts = $categoryBody.append('<div class="attach-component-parts-modal-window__component-parts"></div>').find('.attach-component-parts-modal-window__component-parts');
+
+                                        response.forEach((componentPartObj) => {
+                                            var componentPart = `
+                                                <div class="attach-component-parts-modal-window__component-part">${componentPartObj.name}</div>
+                                            `;
+                                            $componentParts.append(componentPart);
+                                        });
+    
+                                        $(e.currentTarget).toggleClass('attach-component-parts-modal-window__category-head_show');
+                                        $(e.currentTarget).closest('.attach-component-parts-modal-window__category').find('.attach-component-parts-modal-window__category-body').slideToggle();
+                                    }
+                                },
+                            });
+                        }
+                        else {
+                            $(e.currentTarget).toggleClass('attach-component-parts-modal-window__category-head_show');
+                            $(e.currentTarget).closest('.attach-component-parts-modal-window__category').find('.attach-component-parts-modal-window__category-body').slideToggle();
+                        }
                     });
 
                     $(e.currentTarget).closest('.admin-devices-tab-content-controller').find('.attach-component-parts-modal-window').addClass('modal-window_show');

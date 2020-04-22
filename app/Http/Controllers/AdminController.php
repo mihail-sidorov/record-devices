@@ -670,4 +670,11 @@ class AdminController extends Controller
             return json_encode(ComponentPart::join('categories', 'component_parts.category_id', '=', 'categories.id')->select('categories.*')->distinct()->get());
         }
     }
+
+    public function loadComponentPartsByCategory(Request $request)
+    {
+        if ($request->ajax() && Auth::user()->role === 'admin') {
+            return json_encode(Categories::find($request->category_id)->component_parts);
+        }
+    }
 }

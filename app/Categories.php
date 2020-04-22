@@ -25,6 +25,11 @@ class Categories extends Model
         return $this->hasMany('App\Devices', 'category_id', 'id');
     }
 
+    public function component_parts()
+    {
+        return $this->hasMany('App\ComponentPart', 'category_id', 'id');
+    }
+
     public function get_store_count()
     {
         $devices = $this->devices;
