@@ -27,7 +27,7 @@
     </ul>
     <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade<?php if ($active_tabs['devices']) echo $active_tabs['devices'][1]; ?> admin-devices-tab-content-controller" id="devices" role="tabpanel" aria-labelledby="devices-tab">
-            @include('admin.devices.tab-content-wrapper')
+            @include('admin.devices.tab-content-wrapper.tab-content-wrapper')
             @include('admin.devices.add-device-modal-window.modal-window')
             @include('admin.devices.edit-device-modal-window.modal-window')
             @include('admin.devices.attach-worker-modal-window.modal-window')

@@ -724,4 +724,13 @@ class AdminController extends Controller
             return json_encode($device_component_part);
         }
     }
+
+    public function showComponentPartsInDevice(Request $request)
+    {
+        if ($request->ajax() && Auth::user()->role === 'admin') {
+            return view('admin.devices.tab-content-wrapper.component-parts', [
+                'device_id' => $request->device_id,
+            ]);
+        }
+    }
 }

@@ -10933,6 +10933,10 @@ a.text-dark:focus {
   border-radius: 0.25rem;
 }
 
+.tab-content-wrapper .tab-content-wrapper__list {
+  margin-top: 10px;
+}
+
 .tab-content-wrapper .tab-content-wrapper__list .tab-content-wrapper__list-item {
   margin-bottom: 10px;
 }
@@ -10970,7 +10974,6 @@ a.text-dark:focus {
   display: none;
   padding-left: 15px;
   margin-top: 10px;
-  margin-bottom: 10px;
 }
 
 .tab-content-wrapper .tab-content-wrapper__list .tab-content-wrapper__list-item .tab-content-wrapper__list-item-body .tab-content-wrapper__list-item-body-table {

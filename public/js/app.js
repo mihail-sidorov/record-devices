@@ -37622,7 +37622,8 @@ $(document).ready(function () {
   }); // Открываем модальное окно для прикрепления к устройству комплектующих и выводим список всех категорий, которые относятся только к комплектующим
 
   $('.admin-devices-tab-content-controller .attach-component-parts-btn').click(function (e) {
-    var deviceId = $(e.currentTarget).closest('.tab-content-wrapper__list-item').attr('id'),
+    var $attachComponentPartsBtn = $(e.currentTarget),
+        deviceId = $(e.currentTarget).closest('.tab-content-wrapper__list-item').attr('id'),
         token = $('meta[name="csrf-token"]').attr('content');
     $.ajax({
       type: 'POST',
@@ -37659,8 +37660,6 @@ $(document).ready(function () {
                 dataType: 'json',
                 success: function success(response) {
                   if (response) {
-                    // console.log(response);
-                    // return;
                     var $componentParts = $categoryBody.append('<div class="attach-component-parts-modal-window__component-parts"></div>').find('.attach-component-parts-modal-window__component-parts');
                     response[0].forEach(function (componentPartObj, index) {
                       if (response[1][index]) {
@@ -37691,7 +37690,22 @@ $(document).ready(function () {
                               $componentPart.addClass('attach-component-parts-modal-window__component-part_attach');
                             } else {
                               $componentPart.removeClass('attach-component-parts-modal-window__component-part_attach');
-                            }
+                            } // Подгружаем список комплектующих
+
+
+                            $.ajax({
+                              type: 'POST',
+                              url: '/admin/show-component-parts-in-device',
+                              data: {
+                                _token: token,
+                                device_id: deviceId
+                              },
+                              success: function success(response) {
+                                if (response) {
+                                  $attachComponentPartsBtn.closest('.tab-content-wrapper__list-item').find('.tab-content-wrapper__component-parts').html(response);
+                                }
+                              }
+                            });
                           }
                         }
                       });
@@ -38482,9 +38496,9 @@ $('.modal-window__close').click(function (e) {
 /***/ (function(module, exports) {
 
 $(document).ready(function () {
-  $('.tab-content-wrapper__list-item-name').click(function (e) {
+  $('.tab-content-wrapper').on('click', '.tab-content-wrapper__list-item-name', function (e) {
     $(e.currentTarget).toggleClass('tab-content-wrapper__list-item-name_show');
-    $(e.currentTarget).closest('.tab-content-wrapper__list-item').find('.tab-content-wrapper__list-item-body').slideToggle();
+    $(e.currentTarget).closest('.tab-content-wrapper__list-item').children('.tab-content-wrapper__list-item-body').slideToggle();
   });
 });
 

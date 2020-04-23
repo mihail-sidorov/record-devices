@@ -22,7 +22,7 @@ $(document).ready(() => {
 
     // Открываем модальное окно для прикрепления к устройству комплектующих и выводим список всех категорий, которые относятся только к комплектующим
     $('.admin-devices-tab-content-controller .attach-component-parts-btn').click((e) => {
-        var deviceId = $(e.currentTarget).closest('.tab-content-wrapper__list-item').attr('id'), token = $('meta[name="csrf-token"]').attr('content');
+        var $attachComponentPartsBtn = $(e.currentTarget), deviceId = $(e.currentTarget).closest('.tab-content-wrapper__list-item').attr('id'), token = $('meta[name="csrf-token"]').attr('content');
 
         $.ajax({
             type: 'POST',
@@ -64,9 +64,6 @@ $(document).ready(() => {
                                 dataType: 'json',
                                 success: (response) => {
                                     if (response) {
-                                        // console.log(response);
-                                        // return;
-
                                         var $componentParts = $categoryBody.append('<div class="attach-component-parts-modal-window__component-parts"></div>').find('.attach-component-parts-modal-window__component-parts');
 
                                         response[0].forEach((componentPartObj, index) => {
@@ -104,6 +101,21 @@ $(document).ready(() => {
                                                         else {
                                                             $componentPart.removeClass('attach-component-parts-modal-window__component-part_attach');
                                                         }
+
+                                                        // Подгружаем список комплектующих
+                                                        $.ajax({
+                                                            type: 'POST',
+                                                            url: '/admin/show-component-parts-in-device',
+                                                            data: {
+                                                                _token: token,
+                                                                device_id: deviceId,
+                                                            },
+                                                            success: (response) => {
+                                                                if (response) {
+                                                                    $attachComponentPartsBtn.closest('.tab-content-wrapper__list-item').find('.tab-content-wrapper__component-parts').html(response);
+                                                                }
+                                                            },
+                                                        });
                                                     }
                                                 },
                                             });

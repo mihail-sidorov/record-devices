@@ -113,6 +113,8 @@
                             </tr>
                         </tbody>
                     </table>
+
+                    <div class="tab-content-wrapper__component-parts"></div>
                 </div>
             </div>
         @endforeach
