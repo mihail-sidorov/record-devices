@@ -20,9 +20,9 @@ $(document).ready(() => {
         $(e.currentTarget).closest('.admin-devices-tab-content-controller').find('.attach-worker-modal-window').addClass('modal-window_show');
     });
 
-    // Открываем модальное окно для прикрепления к устройству комплектующих
+    // Открываем модальное окно для прикрепления к устройству комплектующих и выводим список всех категорий, которые относятся только к комплектующим
     $('.admin-devices-tab-content-controller .attach-component-parts-btn').click((e) => {
-        var token = $('meta[name="csrf-token"]').attr('content');
+        var deviceId = $(e.currentTarget).closest('.tab-content-wrapper__list-item').attr('id'), token = $('meta[name="csrf-token"]').attr('content');
 
         $.ajax({
             type: 'POST',
@@ -32,9 +32,12 @@ $(document).ready(() => {
             },
             dataType: 'json',
             success: (response) => {
-                if (response) {
-                    $('.admin-devices-tab-content-controller .attach-component-parts-modal-window__categories').html('');
+                var $categories;
 
+                if (response) {
+                    $categories = $('.admin-devices-tab-content-controller .attach-component-parts-modal-window__categories');
+                    
+                    $categories.html('');
                     response.forEach((categoryObj) => {
                         var category = `
                             <div class="attach-component-parts-modal-window__category" id="${categoryObj.id}">
@@ -42,11 +45,12 @@ $(document).ready(() => {
                                 <div class="attach-component-parts-modal-window__category-body"></div>
                             </div>
                         `;
-                        $('.admin-devices-tab-content-controller .attach-component-parts-modal-window__categories').append(category);
+                        $categories.append(category);
                     });
 
+                    // Подгружаем список всех комплектующих, которые относятся к категории
                     $('.admin-devices-tab-content-controller .attach-component-parts-modal-window__category-head').click((e) => {
-                        var token = $('meta[name="csrf-token"]').attr('content'), categoryId = $(e.currentTarget).closest('.attach-component-parts-modal-window__category').attr('id'), $categoryBody = $(e.currentTarget).closest('.attach-component-parts-modal-window__category').find('.attach-component-parts-modal-window__category-body');
+                        var $category = $(e.currentTarget).closest('.attach-component-parts-modal-window__category'), categoryId = $(e.currentTarget).closest('.attach-component-parts-modal-window__category').attr('id'), $categoryBody = $(e.currentTarget).closest('.attach-component-parts-modal-window__category').find('.attach-component-parts-modal-window__category-body');
 
                         if (!$categoryBody.html()) {
                             $.ajax({
@@ -55,28 +59,68 @@ $(document).ready(() => {
                                 data: {
                                     _token: token,
                                     category_id: categoryId,
+                                    device_id: deviceId,
                                 },
                                 dataType: 'json',
                                 success: (response) => {
                                     if (response) {
+                                        // console.log(response);
+                                        // return;
+
                                         var $componentParts = $categoryBody.append('<div class="attach-component-parts-modal-window__component-parts"></div>').find('.attach-component-parts-modal-window__component-parts');
 
-                                        response.forEach((componentPartObj) => {
+                                        response[0].forEach((componentPartObj, index) => {
+                                            if (response[1][index]) {
+                                                var attach = ' attach-component-parts-modal-window__component-part_attach';
+                                            }
+                                            else {
+                                                attach = '';
+                                            }
+
                                             var componentPart = `
-                                                <div class="attach-component-parts-modal-window__component-part">${componentPartObj.name}</div>
+                                                <div id="${componentPartObj.id}" class="attach-component-parts-modal-window__component-part${attach}">${componentPartObj.name}</div>
                                             `;
                                             $componentParts.append(componentPart);
                                         });
+
+                                        // Производим прикрепление\откреплении комплектующего
+                                        $category.find('.attach-component-parts-modal-window__component-part').click((e) => {
+                                            var $componentPart = $(e.currentTarget), componentPartId = $componentPart.attr('id');
+
+                                            $.ajax({
+                                                type: 'POST',
+                                                url: '/admin/attach-component-part-to-device',
+                                                data: {
+                                                    _token: token,
+                                                    device_id: deviceId,
+                                                    component_part_id: componentPartId,
+                                                },
+                                                dataType: 'json',
+                                                success: (response) => {
+                                                    if (response) {
+                                                        if (response.attach) {
+                                                            $componentPart.addClass('attach-component-parts-modal-window__component-part_attach');
+                                                        }
+                                                        else {
+                                                            $componentPart.removeClass('attach-component-parts-modal-window__component-part_attach');
+                                                        }
+                                                    }
+                                                },
+                                            });
+                                        });
     
                                         $(e.currentTarget).toggleClass('attach-component-parts-modal-window__category-head_show');
-                                        $(e.currentTarget).closest('.attach-component-parts-modal-window__category').find('.attach-component-parts-modal-window__category-body').slideToggle();
+                                        $categoryBody.slideToggle();
                                     }
+                                },
+                                error: (error) => {
+                                    console.log(error);
                                 },
                             });
                         }
                         else {
                             $(e.currentTarget).toggleClass('attach-component-parts-modal-window__category-head_show');
-                            $(e.currentTarget).closest('.attach-component-parts-modal-window__category').find('.attach-component-parts-modal-window__category-body').slideToggle();
+                            $categoryBody.slideToggle();
                         }
                     });
 

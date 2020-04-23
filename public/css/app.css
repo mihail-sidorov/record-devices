@@ -11245,3 +11245,7 @@ body.hide-scroll {
   margin-bottom: 0;
 }
 
+.attach-component-parts-modal-window .attach-component-parts-modal-window__categories .attach-component-parts-modal-window__category .attach-component-parts-modal-window__category-body .attach-component-parts-modal-window__component-parts .attach-component-parts-modal-window__component-part_attach {
+  background-color: green;
+}
+

@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use DateTime;
+use App\DeviceComponentPart;
 
 class ComponentPart extends Model
 {
@@ -41,5 +42,15 @@ class ComponentPart extends Model
     public function category()
     {
         return $this->hasOne('App\Categories', 'id', 'category_id');
+    }
+
+    public function is_attach()
+    {
+        if (DeviceComponentPart::where([['component_part_id', $this->id], ['attach', 1]])->count()) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }

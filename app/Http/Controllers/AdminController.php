@@ -13,6 +13,7 @@ use App\Departments;
 use App\DeviceWorker;
 use App\Categories;
 use App\ComponentPart;
+use App\DeviceComponentPart;
 
 class AdminController extends Controller
 {
@@ -674,7 +675,53 @@ class AdminController extends Controller
     public function loadComponentPartsByCategory(Request $request)
     {
         if ($request->ajax() && Auth::user()->role === 'admin') {
-            return json_encode(Categories::find($request->category_id)->component_parts);
+            $component_part_ids = DeviceComponentPart::where([
+                ['device_id', '<>', $request->device_id],
+                ['attach', '=', 1],
+            ])
+            ->pluck('component_part_id');
+            $component_parts = Categories::find($request->category_id)->component_parts()->whereNotIn('id', $component_part_ids)->get();
+
+            $result_array = [];
+            $attach_array = [];
+            $result_array[] = $component_parts;
+            foreach($component_parts as $component_part){
+                if ($component_part->is_attach()) {
+                    $attach_array[] = true;
+                }
+                else {
+                    $attach_array[] = false;
+                }
+            }
+            $result_array[] = $attach_array;
+
+            return json_encode($result_array);
+        }
+    }
+
+    public function attachComponentPartToDevice(Request $request)
+    {
+        if ($request->ajax() && Auth::user()->role === 'admin') {
+            $device_component_part = DeviceComponentPart::where([
+                ['device_id', '=', $request->device_id],
+                ['component_part_id', '=', $request->component_part_id],
+                ['attach', '=', 1],
+            ])
+            ->first();
+
+            if ($device_component_part) {
+                $device_component_part->attach = 0;
+            }
+            else {
+                $device_component_part = new DeviceComponentPart;
+                $device_component_part->device_id = $request->device_id;
+                $device_component_part->component_part_id = $request->component_part_id;
+                $device_component_part->attach = 1;
+            }
+
+            $device_component_part->save();
+
+            return json_encode($device_component_part);
         }
     }
 }

@@ -37619,10 +37619,11 @@ $(document).ready(function () {
     $('.admin-devices-tab-content-controller .attach-worker-modal-window .form-content__field').removeClass('form-content__field_error');
     $('.admin-devices-tab-content-controller .attach-worker-modal-window .form-content__error').text('');
     $(e.currentTarget).closest('.admin-devices-tab-content-controller').find('.attach-worker-modal-window').addClass('modal-window_show');
-  }); // Открываем модальное окно для прикрепления к устройству комплектующих
+  }); // Открываем модальное окно для прикрепления к устройству комплектующих и выводим список всех категорий, которые относятся только к комплектующим
 
   $('.admin-devices-tab-content-controller .attach-component-parts-btn').click(function (e) {
-    var token = $('meta[name="csrf-token"]').attr('content');
+    var deviceId = $(e.currentTarget).closest('.tab-content-wrapper__list-item').attr('id'),
+        token = $('meta[name="csrf-token"]').attr('content');
     $.ajax({
       type: 'POST',
       url: '/admin/write-attach-component-parts-modal-window',
@@ -37631,14 +37632,18 @@ $(document).ready(function () {
       },
       dataType: 'json',
       success: function success(response) {
+        var $categories;
+
         if (response) {
-          $('.admin-devices-tab-content-controller .attach-component-parts-modal-window__categories').html('');
+          $categories = $('.admin-devices-tab-content-controller .attach-component-parts-modal-window__categories');
+          $categories.html('');
           response.forEach(function (categoryObj) {
             var category = "\n                            <div class=\"attach-component-parts-modal-window__category\" id=\"".concat(categoryObj.id, "\">\n                                <div class=\"attach-component-parts-modal-window__category-head\">").concat(categoryObj.name, "</div>\n                                <div class=\"attach-component-parts-modal-window__category-body\"></div>\n                            </div>\n                        ");
-            $('.admin-devices-tab-content-controller .attach-component-parts-modal-window__categories').append(category);
-          });
+            $categories.append(category);
+          }); // Подгружаем список всех комплектующих, которые относятся к категории
+
           $('.admin-devices-tab-content-controller .attach-component-parts-modal-window__category-head').click(function (e) {
-            var token = $('meta[name="csrf-token"]').attr('content'),
+            var $category = $(e.currentTarget).closest('.attach-component-parts-modal-window__category'),
                 categoryId = $(e.currentTarget).closest('.attach-component-parts-modal-window__category').attr('id'),
                 $categoryBody = $(e.currentTarget).closest('.attach-component-parts-modal-window__category').find('.attach-component-parts-modal-window__category-body');
 
@@ -37648,24 +37653,60 @@ $(document).ready(function () {
                 url: '/admin/load-component-parts-by-category',
                 data: {
                   _token: token,
-                  category_id: categoryId
+                  category_id: categoryId,
+                  device_id: deviceId
                 },
                 dataType: 'json',
                 success: function success(response) {
                   if (response) {
+                    // console.log(response);
+                    // return;
                     var $componentParts = $categoryBody.append('<div class="attach-component-parts-modal-window__component-parts"></div>').find('.attach-component-parts-modal-window__component-parts');
-                    response.forEach(function (componentPartObj) {
-                      var componentPart = "\n                                                <div class=\"attach-component-parts-modal-window__component-part\">".concat(componentPartObj.name, "</div>\n                                            ");
+                    response[0].forEach(function (componentPartObj, index) {
+                      if (response[1][index]) {
+                        var attach = ' attach-component-parts-modal-window__component-part_attach';
+                      } else {
+                        attach = '';
+                      }
+
+                      var componentPart = "\n                                                <div id=\"".concat(componentPartObj.id, "\" class=\"attach-component-parts-modal-window__component-part").concat(attach, "\">").concat(componentPartObj.name, "</div>\n                                            ");
                       $componentParts.append(componentPart);
+                    }); // Производим прикрепление\откреплении комплектующего
+
+                    $category.find('.attach-component-parts-modal-window__component-part').click(function (e) {
+                      var $componentPart = $(e.currentTarget),
+                          componentPartId = $componentPart.attr('id');
+                      $.ajax({
+                        type: 'POST',
+                        url: '/admin/attach-component-part-to-device',
+                        data: {
+                          _token: token,
+                          device_id: deviceId,
+                          component_part_id: componentPartId
+                        },
+                        dataType: 'json',
+                        success: function success(response) {
+                          if (response) {
+                            if (response.attach) {
+                              $componentPart.addClass('attach-component-parts-modal-window__component-part_attach');
+                            } else {
+                              $componentPart.removeClass('attach-component-parts-modal-window__component-part_attach');
+                            }
+                          }
+                        }
+                      });
                     });
                     $(e.currentTarget).toggleClass('attach-component-parts-modal-window__category-head_show');
-                    $(e.currentTarget).closest('.attach-component-parts-modal-window__category').find('.attach-component-parts-modal-window__category-body').slideToggle();
+                    $categoryBody.slideToggle();
                   }
+                },
+                error: function error(_error) {
+                  console.log(_error);
                 }
               });
             } else {
               $(e.currentTarget).toggleClass('attach-component-parts-modal-window__category-head_show');
-              $(e.currentTarget).closest('.attach-component-parts-modal-window__category').find('.attach-component-parts-modal-window__category-body').slideToggle();
+              $categoryBody.slideToggle();
             }
           });
           $(e.currentTarget).closest('.admin-devices-tab-content-controller').find('.attach-component-parts-modal-window').addClass('modal-window_show');
@@ -37772,11 +37813,11 @@ $(document).ready(function () {
           window.location.href = '/admin/tab/devices';
         }
       },
-      error: function error(_error) {
+      error: function error(_error2) {
         var errors;
 
-        if (_error.status === 422) {
-          errors = _error.responseJSON.errors;
+        if (_error2.status === 422) {
+          errors = _error2.responseJSON.errors;
 
           if (errors !== undefined) {
             for (var key in errors) {
@@ -37807,11 +37848,11 @@ $(document).ready(function () {
           window.location.href = '/admin/tab/devices';
         }
       },
-      error: function error(_error2) {
+      error: function error(_error3) {
         var errors;
 
-        if (_error2.status === 422) {
-          errors = _error2.responseJSON.errors;
+        if (_error3.status === 422) {
+          errors = _error3.responseJSON.errors;
 
           if (errors !== undefined) {
             for (var key in errors) {
@@ -37842,11 +37883,11 @@ $(document).ready(function () {
           window.location.href = '/admin/tab/devices';
         }
       },
-      error: function error(_error3) {
+      error: function error(_error4) {
         var errors;
 
-        if (_error3.status === 422) {
-          errors = _error3.responseJSON.errors;
+        if (_error4.status === 422) {
+          errors = _error4.responseJSON.errors;
 
           if (errors !== undefined) {
             for (var key in errors) {
