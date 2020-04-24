@@ -47,7 +47,7 @@
                 $responsible = $device->get_responsible();
                 $provider = $device->provider;
                 $category = $device->category;
-                $device_component_parts = $device->get_component_parts();
+                $device_component_parts = $device->component_parts;
             ?>
             <div class="tab-content-wrapper__list-item" id="{{ $device->id }}">
                 <div class="tab-content-wrapper__list-item-head">

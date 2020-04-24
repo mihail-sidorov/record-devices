@@ -114,8 +114,8 @@ class Devices extends Model
         return $status;
     }
 
-    public function get_component_parts()
+    public function component_parts()
     {
-        return $device_component_parts = DeviceComponentPart::where([['device_id', '=', $this->id], ['attach', '=', 1]])->join('component_parts', 'device_component_part.component_part_id', '=', 'component_parts.id')->select('component_parts.*')->get();
+        return $this->belongsToMany('App\ComponentPart', 'device_component_part', 'device_id', 'component_part_id')->wherePivot('attach', 1);
     }
 }
