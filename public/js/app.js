@@ -37690,7 +37690,7 @@ $(document).ready(function () {
                               $componentPart.addClass('attach-component-parts-modal-window__component-part_attach');
                             } else {
                               $componentPart.removeClass('attach-component-parts-modal-window__component-part_attach');
-                            } // Подгружаем список комплектующих
+                            } // Подгружаем список комплектующих в интерфейс устройства
 
 
                             $.ajax({
@@ -37701,9 +37701,7 @@ $(document).ready(function () {
                                 device_id: deviceId
                               },
                               success: function success(response) {
-                                if (response) {
-                                  $attachComponentPartsBtn.closest('.tab-content-wrapper__list-item').find('.tab-content-wrapper__component-parts').html(response);
-                                }
+                                $attachComponentPartsBtn.closest('.tab-content-wrapper__list-item').find('.tab-content-wrapper__component-parts').html(response);
                               }
                             });
                           }

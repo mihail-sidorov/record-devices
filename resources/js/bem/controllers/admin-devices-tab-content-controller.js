@@ -102,7 +102,7 @@ $(document).ready(() => {
                                                             $componentPart.removeClass('attach-component-parts-modal-window__component-part_attach');
                                                         }
 
-                                                        // Подгружаем список комплектующих
+                                                        // Подгружаем список комплектующих в интерфейс устройства
                                                         $.ajax({
                                                             type: 'POST',
                                                             url: '/admin/show-component-parts-in-device',
@@ -111,9 +111,7 @@ $(document).ready(() => {
                                                                 device_id: deviceId,
                                                             },
                                                             success: (response) => {
-                                                                if (response) {
-                                                                    $attachComponentPartsBtn.closest('.tab-content-wrapper__list-item').find('.tab-content-wrapper__component-parts').html(response);
-                                                                }
+                                                                $attachComponentPartsBtn.closest('.tab-content-wrapper__list-item').find('.tab-content-wrapper__component-parts').html(response);
                                                             },
                                                         });
                                                     }

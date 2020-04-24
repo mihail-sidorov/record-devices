@@ -47,6 +47,7 @@
                 $responsible = $device->get_responsible();
                 $provider = $device->provider;
                 $category = $device->category;
+                $device_component_parts = $device->get_component_parts();
             ?>
             <div class="tab-content-wrapper__list-item" id="{{ $device->id }}">
                 <div class="tab-content-wrapper__list-item-head">
@@ -114,7 +115,11 @@
                         </tbody>
                     </table>
 
-                    <div class="tab-content-wrapper__component-parts"></div>
+                    <div class="tab-content-wrapper__component-parts">
+                        @if ($device_component_parts->count())
+                            @include('admin.devices.tab-content-wrapper.component-parts')
+                        @endif
+                    </div>
                 </div>
             </div>
         @endforeach
