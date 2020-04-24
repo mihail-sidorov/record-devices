@@ -60,7 +60,15 @@
                     @else
                         @include('unattach-worker-btn')
                     @endif
-                    @include('attach-component-parts-btn')
+
+                    @if ($device->component_parts()->count())
+                        @include('attach-component-parts-btn')
+                    @elseif (!$device->write_off())
+                        @if ($device->type_device_id === 2)
+                            @include('attach-component-parts-btn')
+                        @endif
+                    @endif
+
                     @include('del-btn')
                 </div>
                 <div class="tab-content-wrapper__list-item-body">
