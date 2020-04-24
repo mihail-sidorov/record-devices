@@ -133,15 +133,17 @@ $(document).ready(() => {
                                                         });
                                                     }
                                                 },
+                                                error: (error) => {
+                                                    if (error.status === 422) {
+                                                        alert(error.responseJSON.error);
+                                                    }
+                                                },
                                             });
                                         });
     
                                         $(e.currentTarget).toggleClass('attach-component-parts-modal-window__category-head_show');
                                         $categoryBody.slideToggle();
                                     }
-                                },
-                                error: (error) => {
-                                    console.log(error);
                                 },
                             });
                         }

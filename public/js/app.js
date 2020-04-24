@@ -37721,15 +37721,17 @@ $(document).ready(function () {
                               }
                             });
                           }
+                        },
+                        error: function error(_error) {
+                          if (_error.status === 422) {
+                            alert(_error.responseJSON.error);
+                          }
                         }
                       });
                     });
                     $(e.currentTarget).toggleClass('attach-component-parts-modal-window__category-head_show');
                     $categoryBody.slideToggle();
                   }
-                },
-                error: function error(_error) {
-                  console.log(_error);
                 }
               });
             } else {

@@ -713,6 +713,11 @@ class AdminController extends Controller
                 $device_component_part->attach = 0;
             }
             else {
+                $device = Devices::find($request->device_id);
+                if ($device->write_off() || ($device->type_device_id !== 2)) {
+                    return response()->json(['error' => 'Устройство списано или не имеет тип "Рабочее место". Поэтому к данному устррйству нельзя прикреплять комплектующие. Можно только откреплять комплектующие!'], 422);
+                }
+
                 $device_component_part = new DeviceComponentPart;
                 $device_component_part->device_id = $request->device_id;
                 $device_component_part->component_part_id = $request->component_part_id;
