@@ -112,6 +112,23 @@ $(document).ready(() => {
                                                             },
                                                             success: (response) => {
                                                                 $attachComponentPartsBtn.closest('.tab-content-wrapper__list-item').find('.tab-content-wrapper__component-parts').html(response);
+                                                                
+                                                                // Проверяем возможность наличия кнопки прикрепить\открепить комплектующие
+                                                                if (!response) {
+                                                                    $.ajax({
+                                                                        type: 'POST',
+                                                                        url: '/admin/check-attach-component-parts-btn',
+                                                                        data: {
+                                                                            _token: token,
+                                                                            device_id: deviceId,
+                                                                        },
+                                                                        success: (response) => {
+                                                                            if (!response) {
+                                                                                $attachComponentPartsBtn.remove();
+                                                                            }
+                                                                        },
+                                                                    });
+                                                                }
                                                             },
                                                         });
                                                     }

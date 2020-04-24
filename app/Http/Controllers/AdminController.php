@@ -737,4 +737,18 @@ class AdminController extends Controller
             }
         }
     }
+
+    public function checkAttachComponentPartsBtn(Request $request)
+    {
+        if ($request->ajax() && Auth::user()->role === 'admin') {
+            $device = Devices::find($request->device_id);
+
+            if ($device->component_parts()->count()) {
+                return 'OK';
+            }
+            elseif (!$device->write_off() && ($device->type_device_id === 2)) {
+                return 'OK';
+            }
+        }
+    }
 }

@@ -53,6 +53,7 @@
                 <div class="tab-content-wrapper__list-item-head">
                     <div class="tab-content-wrapper__list-item-name">{{ $device->name }}</div>
                     @include('edit-btn')
+                    
                     @if (!$worker)
                         @if (!$device->write_off())
                             @include('attach-worker-btn')
