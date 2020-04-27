@@ -44,6 +44,11 @@ class ComponentPart extends Model
         return $this->hasOne('App\Categories', 'id', 'category_id');
     }
 
+    public function responsible()
+    {
+        return $this->hasOne('App\Responsibles', 'id', 'responsible_id');
+    }
+
     public function is_attach()
     {
         if (DeviceComponentPart::where([['component_part_id', $this->id], ['attach', 1]])->count()) {
@@ -51,6 +56,28 @@ class ComponentPart extends Model
         }
         else {
             return false;
+        }
+    }
+
+    public function get_device()
+    {
+        $device_component_part = DeviceComponentPart::where([['component_part_id', $this->id], ['attach', 1]])->first();
+        if ($device_component_part) {
+            return Devices::find($device_component_part->device_id);
+        }
+        else {
+            return null;
+        }
+    }
+
+    public function get_responsible()
+    {
+        $device = $this->get_device();
+        if ($device) {
+            return $device->get_responsible();
+        }
+        else {
+            return $this->responsible;
         }
     }
 }

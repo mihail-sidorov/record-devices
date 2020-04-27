@@ -30,6 +30,7 @@
 
                 $provider = $component_part->provider;
                 $category = $component_part->category;
+                $responsible = $component_part->get_responsible();
             ?>
             <div class="tab-content-wrapper__list-item" id="{{ $component_part->id }}">
                 <div class="tab-content-wrapper__list-item-head">
@@ -59,7 +60,11 @@
                                 <td>{{ $receipt_date }}</td>
                                 <td>{{ $component_part->purchase_price }}</td>
                                 <td>{{ $warranty }}</td>
-                                <td></td>
+                                <td>
+                                    @if ($responsible)
+                                        {{ $responsible->name }}
+                                    @endif
+                                </td>
                                 <td>
                                     @if ($provider)
                                         {{ $provider->name }}
