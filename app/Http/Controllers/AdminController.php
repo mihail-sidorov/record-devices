@@ -705,14 +705,15 @@ class AdminController extends Controller
             $device_component_part = DeviceComponentPart::where([
                 ['device_id', '=', $request->device_id],
                 ['component_part_id', '=', $request->component_part_id],
-                ['attach', '=', 1],
             ])
+            ->orderby('id', 'desc')
             ->first();
 
-            if ($device_component_part) {
-                $device_component_part->attach = 0;
+            if ($device_component_part && ($request->attach != $device_component_part->attach)) {
+                return response()->json(['error' => 'К данному комплектующему были применены изменения другим пользователем. Обновите страницу!'], 422);
             }
-            else {
+
+            if (!$device_component_part || $device_component_part->attach == 0) {
                 $device = Devices::find($request->device_id);
                 if ($device->write_off() || ($device->type_device_id !== 2)) {
                     return response()->json(['error' => 'Устройство списано или не имеет тип "Рабочее место". Поэтому к данному устррйству нельзя прикреплять комплектующие. Можно только откреплять комплектующие!'], 422);
@@ -723,9 +724,11 @@ class AdminController extends Controller
                 $device_component_part->component_part_id = $request->component_part_id;
                 $device_component_part->attach = 1;
             }
+            else {
+                $device_component_part->attach = 0;
+            }
 
             $device_component_part->save();
-
             return json_encode($device_component_part);
         }
     }

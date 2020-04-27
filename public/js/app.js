@@ -37674,14 +37674,23 @@ $(document).ready(function () {
 
                     $category.find('.attach-component-parts-modal-window__component-part').click(function (e) {
                       var $componentPart = $(e.currentTarget),
-                          componentPartId = $componentPart.attr('id');
+                          componentPartId = $componentPart.attr('id'),
+                          attach;
+
+                      if ($(e.currentTarget).hasClass('attach-component-parts-modal-window__component-part_attach')) {
+                        attach = 1;
+                      } else {
+                        attach = 0;
+                      }
+
                       $.ajax({
                         type: 'POST',
                         url: '/admin/attach-component-part-to-device',
                         data: {
                           _token: token,
                           device_id: deviceId,
-                          component_part_id: componentPartId
+                          component_part_id: componentPartId,
+                          attach: attach
                         },
                         dataType: 'json',
                         success: function success(response) {

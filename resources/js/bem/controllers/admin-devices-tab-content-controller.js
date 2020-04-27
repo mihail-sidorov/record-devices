@@ -82,7 +82,14 @@ $(document).ready(() => {
 
                                         // Производим прикрепление\откреплении комплектующего
                                         $category.find('.attach-component-parts-modal-window__component-part').click((e) => {
-                                            var $componentPart = $(e.currentTarget), componentPartId = $componentPart.attr('id');
+                                            var $componentPart = $(e.currentTarget), componentPartId = $componentPart.attr('id'), attach;
+
+                                            if ($(e.currentTarget).hasClass('attach-component-parts-modal-window__component-part_attach')) {
+                                                attach = 1;
+                                            }
+                                            else {
+                                                attach = 0;
+                                            }
 
                                             $.ajax({
                                                 type: 'POST',
@@ -91,6 +98,7 @@ $(document).ready(() => {
                                                     _token: token,
                                                     device_id: deviceId,
                                                     component_part_id: componentPartId,
+                                                    attach: attach,
                                                 },
                                                 dataType: 'json',
                                                 success: (response) => {
