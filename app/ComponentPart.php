@@ -34,6 +34,18 @@ class ComponentPart extends Model
         }
     }
 
+    public function write_off()
+    {
+        $d = new DateTime();
+        $current_date_timestamp = $d->getTimestamp();
+        if ($current_date_timestamp - $this->receipt_date > config('app.write_off_time')) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
     public function provider()
     {
         return $this->hasOne('App\Providers', 'id', 'provider_id');
@@ -79,5 +91,22 @@ class ComponentPart extends Model
         else {
             return $this->responsible;
         }
+    }
+
+    public function get_status()
+    {
+        $status = 'На складе';
+
+        if ($this->write_off()) {
+            $status = 'Списано';
+        }
+
+        $device = $this->get_device();
+        
+        if ($device && $device->attach_to_worker()) {
+            $status = 'Выдано';
+        }
+
+        return $status;
     }
 }

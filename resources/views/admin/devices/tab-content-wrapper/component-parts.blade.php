@@ -52,7 +52,7 @@
                                     {{ $provider->name }}
                                 @endif
                             </td>
-                            <td></td>
+                            <td>{{ $device_component_part->get_status() }}</td>
                             <td>
                                 @if ($category)
                                     {{ $category->name }}
