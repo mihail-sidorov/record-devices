@@ -37116,41 +37116,90 @@ $(document).ready(function () {
   $('.attach-component-parts-modal-window').each(function (index, element) {
     var observer = new MutationObserver(function (res) {
       var self = res[0].target,
-          token = $('meta[name="csrf-token"]').attr('content');
-      $.ajax({
-        type: 'POST',
-        url: '/admin/write-attach-component-parts-modal-window',
-        data: {
-          _token: token,
-          device_id: $(self).attr('device-id')
-        },
-        dataType: 'json',
-        success: function success(response) {
-          $categories = $(self).find('.attach-component-parts-modal-window__categories');
-          $categories.html('');
-          response.forEach(function (item) {
-            var componentParts = '',
-                checkedArr = item.checked;
-            item.component_parts.forEach(function (item, index) {
-              var checked = '';
+          token = $('meta[name="csrf-token"]').attr('content'),
+          deviceId = $(self).attr('device-id');
 
-              if (checkedArr[index]) {
-                checked = ' checked';
+      if (deviceId) {
+        $.ajax({
+          type: 'POST',
+          url: '/admin/write-attach-component-parts-modal-window',
+          data: {
+            _token: token,
+            device_id: deviceId
+          },
+          dataType: 'json',
+          success: function success(response) {
+            $categories = $(self).find('.attach-component-parts-modal-window__categories');
+            $categories.html('');
+            response.forEach(function (item) {
+              var componentParts = '',
+                  checkedArr = item.checked,
+                  openCategory = false,
+                  openCategoryHead,
+                  openCategoryBody;
+              item.component_parts.forEach(function (item, index) {
+                var checked = '';
+
+                if (checkedArr[index]) {
+                  checked = ' checked';
+                  openCategory = true;
+                }
+
+                var componentPart = "\n                                    <label class=\"attach-component-parts-modal-window__component-part\"><input type=\"checkbox\"".concat(checked, " name=\"component_part-").concat(item.id, "\">").concat(item.name, "</label>");
+                componentParts += componentPart;
+              });
+
+              if (openCategory) {
+                openCategoryHead = ' attach-component-parts-modal-window__category-head_show';
+                openCategoryBody = ' attach-component-parts-modal-window__category-body_show';
+              } else {
+                openCategoryHead = '';
+                openCategoryBody = '';
               }
 
-              var componentPart = "\n                                <label class=\"attach-component-parts-modal-window__component-part\"><input type=\"checkbox\"".concat(checked, " name=\"component_part").concat(item.id, "\">").concat(item.name, "</label>");
-              componentParts += componentPart;
+              var category = "\n                                <div class=\"attach-component-parts-modal-window__category\" id=\"".concat(item.category.id, "\">\n                                    <div class=\"attach-component-parts-modal-window__category-head").concat(openCategoryHead, "\">").concat(item.category.name, "</div>\n                                    <div class=\"attach-component-parts-modal-window__category-body").concat(openCategoryBody, "\"><div class=\"attach-component-parts-modal-window__component-parts\">").concat(componentParts, "</div></div>\n                                </div>\n                            ");
+              $categories.append(category);
             });
-            var category = "\n                            <div class=\"attach-component-parts-modal-window__category\" id=\"".concat(item.category.id, "\">\n                                <div class=\"attach-component-parts-modal-window__category-head\">").concat(item.category.name, "</div>\n                                <div class=\"attach-component-parts-modal-window__category-body\"><div class=\"attach-component-parts-modal-window__component-parts\">").concat(componentParts, "</div></div>\n                            </div>\n                        ");
-            $categories.append(category);
-          });
-          $categories.find('.attach-component-parts-modal-window__category-head').click(function (e) {
-            $(e.currentTarget).toggleClass('attach-component-parts-modal-window__category-head_show');
-            $(e.currentTarget).closest('.attach-component-parts-modal-window__category').find('.attach-component-parts-modal-window__category-body').slideToggle();
-          });
-          $(self).addClass('modal-window_show');
-        }
-      });
+            $categories.find('.attach-component-parts-modal-window__category-head').click(function (e) {
+              $(e.currentTarget).toggleClass('attach-component-parts-modal-window__category-head_show');
+              $(e.currentTarget).closest('.attach-component-parts-modal-window__category').find('.attach-component-parts-modal-window__category-body').slideToggle();
+            }); // Производим прикрепление\открепление комплектующих
+
+            $(self).find('.action-btn').off('click.attach-component-parts-modal-window');
+            $(self).find('.action-btn').on('click.attach-component-parts-modal-window', function (e) {
+              var componentParts = [],
+                  componentPartIds = [],
+                  componentPartCheckes = [];
+              $categories.find('.attach-component-parts-modal-window__component-part').each(function (index, element) {
+                var $input = $(element).children('input');
+                componentPartIds.push($input.attr('name').split('-')[1]);
+
+                if ($input.prop('checked')) {
+                  componentPartCheckes.push(1);
+                } else {
+                  componentPartCheckes.push(0);
+                }
+              });
+              componentParts.push(componentPartIds);
+              componentParts.push(componentPartCheckes);
+              $.ajax({
+                type: 'POST',
+                url: '/admin/attach-component-parts-to-device',
+                data: {
+                  _token: token,
+                  device_id: deviceId,
+                  component_parts: componentParts
+                },
+                dataType: 'json',
+                success: function success() {
+                  window.location.href = '/admin/tab/devices';
+                }
+              });
+            });
+            $(self).addClass('modal-window_show');
+          }
+        });
+      }
     });
     observer.observe(element, {
       attributes: true,
@@ -37683,139 +37732,7 @@ $(document).ready(function () {
     var $window = $(e.currentTarget).closest('.admin-devices-tab-content-controller').find('.attach-component-parts-modal-window');
     $window.attr('device-id', $(e.currentTarget).closest('.tab-content-wrapper__list-item').attr('id'));
     $window.attr('loading', 'yes');
-  }); // Открываем модальное окно для прикрепления к устройству комплектующих и выводим список всех категорий, которые относятся только к комплектующим
-  // $('.admin-devices-tab-content-controller .attach-component-parts-btn').click((e) => {
-  //     var $attachComponentPartsBtn = $(e.currentTarget), deviceId = $(e.currentTarget).closest('.tab-content-wrapper__list-item').attr('id'), token = $('meta[name="csrf-token"]').attr('content');
-  //     $.ajax({
-  //         type: 'POST',
-  //         url: '/admin/write-attach-component-parts-modal-window',
-  //         data: {
-  //             _token: token,
-  //         },
-  //         dataType: 'json',
-  //         success: (response) => {
-  //             var $categories;
-  //             if (response) {
-  //                 $categories = $('.admin-devices-tab-content-controller .attach-component-parts-modal-window__categories');
-  //                 $categories.html('');
-  //                 response.forEach((categoryObj) => {
-  //                     var category = `
-  //                         <div class="attach-component-parts-modal-window__category" id="${categoryObj.id}">
-  //                             <div class="attach-component-parts-modal-window__category-head">${categoryObj.name}</div>
-  //                             <div class="attach-component-parts-modal-window__category-body"></div>
-  //                         </div>
-  //                     `;
-  //                     $categories.append(category);
-  //                 });
-  //                 // Подгружаем список всех комплектующих, которые относятся к категории
-  //                 $('.admin-devices-tab-content-controller .attach-component-parts-modal-window__category-head').click((e) => {
-  //                     var $category = $(e.currentTarget).closest('.attach-component-parts-modal-window__category'), categoryId = $(e.currentTarget).closest('.attach-component-parts-modal-window__category').attr('id'), $categoryBody = $(e.currentTarget).closest('.attach-component-parts-modal-window__category').find('.attach-component-parts-modal-window__category-body');
-  //                     if (!$categoryBody.html()) {
-  //                         $.ajax({
-  //                             type: 'POST',
-  //                             url: '/admin/load-component-parts-by-category',
-  //                             data: {
-  //                                 _token: token,
-  //                                 category_id: categoryId,
-  //                                 device_id: deviceId,
-  //                             },
-  //                             dataType: 'json',
-  //                             success: (response) => {
-  //                                 if (response) {
-  //                                     var $componentParts = $categoryBody.append('<div class="attach-component-parts-modal-window__component-parts"></div>').find('.attach-component-parts-modal-window__component-parts');
-  //                                     response[0].forEach((componentPartObj, index) => {
-  //                                         if (response[1][index]) {
-  //                                             var attach = ' attach-component-parts-modal-window__component-part_attach';
-  //                                         }
-  //                                         else {
-  //                                             attach = '';
-  //                                         }
-  //                                         var componentPart = `
-  //                                             <div id="${componentPartObj.id}" class="attach-component-parts-modal-window__component-part${attach}">${componentPartObj.name}</div>
-  //                                         `;
-  //                                         $componentParts.append(componentPart);
-  //                                     });
-  //                                     // Производим прикрепление\откреплении комплектующего
-  //                                     $category.find('.attach-component-parts-modal-window__component-part').click((e) => {
-  //                                         var $componentPart = $(e.currentTarget), componentPartId = $componentPart.attr('id'), attach;
-  //                                         if ($(e.currentTarget).hasClass('attach-component-parts-modal-window__component-part_attach')) {
-  //                                             attach = 1;
-  //                                         }
-  //                                         else {
-  //                                             attach = 0;
-  //                                         }
-  //                                         $.ajax({
-  //                                             type: 'POST',
-  //                                             url: '/admin/attach-component-part-to-device',
-  //                                             data: {
-  //                                                 _token: token,
-  //                                                 device_id: deviceId,
-  //                                                 component_part_id: componentPartId,
-  //                                                 attach: attach,
-  //                                             },
-  //                                             dataType: 'json',
-  //                                             success: (response) => {
-  //                                                 if (response) {
-  //                                                     if (response.attach) {
-  //                                                         $componentPart.addClass('attach-component-parts-modal-window__component-part_attach');
-  //                                                     }
-  //                                                     else {
-  //                                                         $componentPart.removeClass('attach-component-parts-modal-window__component-part_attach');
-  //                                                     }
-  //                                                     // Подгружаем список комплектующих в интерфейс устройства
-  //                                                     $.ajax({
-  //                                                         type: 'POST',
-  //                                                         url: '/admin/show-component-parts-in-device',
-  //                                                         data: {
-  //                                                             _token: token,
-  //                                                             device_id: deviceId,
-  //                                                         },
-  //                                                         success: (response) => {
-  //                                                             $attachComponentPartsBtn.closest('.tab-content-wrapper__list-item').find('.tab-content-wrapper__component-parts').html(response);
-  //                                                             // Проверяем возможность наличия кнопки прикрепить\открепить комплектующие
-  //                                                             if (!response) {
-  //                                                                 $.ajax({
-  //                                                                     type: 'POST',
-  //                                                                     url: '/admin/check-attach-component-parts-btn',
-  //                                                                     data: {
-  //                                                                         _token: token,
-  //                                                                         device_id: deviceId,
-  //                                                                     },
-  //                                                                     success: (response) => {
-  //                                                                         if (!response) {
-  //                                                                             $attachComponentPartsBtn.remove();
-  //                                                                         }
-  //                                                                     },
-  //                                                                 });
-  //                                                             }
-  //                                                         },
-  //                                                     });
-  //                                                 }
-  //                                             },
-  //                                             error: (error) => {
-  //                                                 if (error.status === 422) {
-  //                                                     alert(error.responseJSON.error);
-  //                                                 }
-  //                                             },
-  //                                         });
-  //                                     });
-  //                                     $(e.currentTarget).toggleClass('attach-component-parts-modal-window__category-head_show');
-  //                                     $categoryBody.slideToggle();
-  //                                 }
-  //                             },
-  //                         });
-  //                     }
-  //                     else {
-  //                         $(e.currentTarget).toggleClass('attach-component-parts-modal-window__category-head_show');
-  //                         $categoryBody.slideToggle();
-  //                     }
-  //                 });
-  //                 $(e.currentTarget).closest('.admin-devices-tab-content-controller').find('.attach-component-parts-modal-window').addClass('modal-window_show');
-  //             }
-  //         },
-  //     });
-  // });
-  // Открываем модальное окно для редактирования устройства, обнуляем в нем сообщения об ошибках валидации и заполняем его данными
+  }); // Открываем модальное окно для редактирования устройства, обнуляем в нем сообщения об ошибках валидации и заполняем его данными
 
   $('.admin-devices-tab-content-controller .edit-btn').click(function (e) {
     var deviceId = $(e.currentTarget).closest('.tab-content-wrapper__list-item').attr('id'),
