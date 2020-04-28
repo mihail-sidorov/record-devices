@@ -37,7 +37,7 @@
 
                 padding-left: 15px;
                 display: none;
-                margin: 10px 0;
+                margin-top: 10px;
 
                 .attach-component-parts-modal-window__component-parts {
 
@@ -47,20 +47,16 @@
 
                     .attach-component-parts-modal-window__component-part {
 
-                        border: 1px solid #dee2e6;
-                        border-radius: 0.25rem;
-                        padding: 0 12px;
                         margin-bottom: 10px;
-                        cursor: pointer;
-    
+
                         &:last-child {
-    
+
                             margin-bottom: 0;
                         }
 
-                        &_attach {
+                        input {
 
-                            background-color: green;
+                            margin-right: 5px;
                         }
                     }
                 }

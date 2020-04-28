@@ -668,7 +668,33 @@ class AdminController extends Controller
     public function writeAttachComponentPartsModalWindow(Request $request)
     {
         if ($request->ajax() && Auth::user()->role === 'admin') {
-            return json_encode(ComponentPart::join('categories', 'component_parts.category_id', '=', 'categories.id')->select('categories.*')->distinct()->get());
+            $component_part_ids = DeviceComponentPart::where([
+                ['device_id', '<>', $request->device_id],
+                ['attach', '=', 1],
+            ])
+            ->pluck('component_part_id');
+
+            $result_array = [];
+            $categories = Categories::join('component_parts', 'categories.id', '=', 'component_parts.category_id')->select('categories.*')->distinct()->get();
+            $categories_array = [];
+            foreach ($categories as $category) {
+                $component_parts = $category->component_parts()->whereNotIn('id', $component_part_ids)->get();
+                $component_parts_array = [];
+                $checked_array = [];
+                foreach ($component_parts as $component_part) {
+                    if ($component_part->is_attach()) {
+                        $component_parts_array[] = $component_part;
+                        $checked_array[] = true;
+                    }
+                    elseif (!$component_part->write_off()) {
+                        $component_parts_array[] = $component_part;
+                        $checked_array[] = false;
+                    }
+                }
+                $result_array[] = ['category' => $category, 'component_parts' => $component_parts_array, 'checked' => $checked_array];
+            }
+
+            return json_encode($result_array);
         }
     }
 

@@ -1,4 +1,4 @@
-<div class="modal-window attach-component-parts-modal-window" device-id="">
+<div class="modal-window attach-component-parts-modal-window" device-id="" loading="no">
     <div class="modal-window__cover"></div>
     <div class="modal-window__wrapper">
         <div class="modal-window__content">
