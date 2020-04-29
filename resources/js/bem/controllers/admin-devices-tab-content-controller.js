@@ -18,6 +18,9 @@ $(document).ready(() => {
         $('.admin-devices-tab-content-controller .attach-worker-modal-window .form-content__error').text('');
 
         $(e.currentTarget).closest('.admin-devices-tab-content-controller').find('.attach-worker-modal-window').addClass('modal-window_show');
+
+        window.attachWorkerModalWindowAngularControllerScope.name = 'Петя';
+        window.attachWorkerModalWindowAngularControllerScope.$apply();
     });
 
     // Открываем блок модального окна управления комплектующими

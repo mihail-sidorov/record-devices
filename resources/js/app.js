@@ -8,6 +8,10 @@ require('./bootstrap');
 require('./jquery.easing.compatibility');
 require('./jquery.easing.min');
 
+// Подключение скриптов для работы с angular
+require('./angular/init-ng-app');
+require('./angular/attach-worker-modal-window-angular-controller');
+
 require('./bem/tab-content-wrapper');
 require('./bem/modal-window');
 require('./bem/attach-component-parts-modal-window');

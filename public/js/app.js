@@ -37045,6 +37045,37 @@ module.exports = function(module) {
 
 /***/ }),
 
+/***/ "./resources/js/angular/attach-worker-modal-window-angular-controller.js":
+/*!*******************************************************************************!*\
+  !*** ./resources/js/angular/attach-worker-modal-window-angular-controller.js ***!
+  \*******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+window.devicesApp.controller('attachWorkerModalWindowAngularController', function ($scope, $http) {
+  window.attachWorkerModalWindowAngularControllerScope = $scope;
+  window.attachWorkerModalWindowAngularControllerScope.name = 'Вася1';
+});
+
+/***/ }),
+
+/***/ "./resources/js/angular/init-ng-app.js":
+/*!*********************************************!*\
+  !*** ./resources/js/angular/init-ng-app.js ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+window.devicesApp = angular.module('devicesApp', []).config(function ($interpolateProvider) {
+  // To prevent the conflict of `{{` and `}}` symbols
+  // between Blade template engine and AngularJS templating we need
+  // to use different symbols for AngularJS.
+  $interpolateProvider.startSymbol('<%=');
+  $interpolateProvider.endSymbol('%>');
+});
+
+/***/ }),
+
 /***/ "./resources/js/app.js":
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
@@ -37061,7 +37092,12 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 __webpack_require__(/*! ./jquery.easing.compatibility */ "./resources/js/jquery.easing.compatibility.js");
 
-__webpack_require__(/*! ./jquery.easing.min */ "./resources/js/jquery.easing.min.js");
+__webpack_require__(/*! ./jquery.easing.min */ "./resources/js/jquery.easing.min.js"); // Подключение скриптов для работы с angular
+
+
+__webpack_require__(/*! ./angular/init-ng-app */ "./resources/js/angular/init-ng-app.js");
+
+__webpack_require__(/*! ./angular/attach-worker-modal-window-angular-controller */ "./resources/js/angular/attach-worker-modal-window-angular-controller.js");
 
 __webpack_require__(/*! ./bem/tab-content-wrapper */ "./resources/js/bem/tab-content-wrapper.js");
 
@@ -37726,6 +37762,8 @@ $(document).ready(function () {
     $('.admin-devices-tab-content-controller .attach-worker-modal-window .form-content__field').removeClass('form-content__field_error');
     $('.admin-devices-tab-content-controller .attach-worker-modal-window .form-content__error').text('');
     $(e.currentTarget).closest('.admin-devices-tab-content-controller').find('.attach-worker-modal-window').addClass('modal-window_show');
+    window.attachWorkerModalWindowAngularControllerScope.name = 'Петя';
+    window.attachWorkerModalWindowAngularControllerScope.$apply();
   }); // Открываем блок модального окна управления комплектующими
 
   $('.admin-devices-tab-content-controller .attach-component-parts-btn').click(function (e) {
@@ -38438,57 +38476,59 @@ $(document).ready(function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-$('.modal-window').each(function (index, element) {
-  var observer = new MutationObserver(function (res) {
-    var self = res[0].target;
+$(document).ready(function () {
+  $('.modal-window').each(function (index, element) {
+    var observer = new MutationObserver(function (res) {
+      var self = res[0].target;
 
-    if ($(self).attr('class').indexOf('modal-window_show') + 1) {
-      $(self).find('.modal-window__cover').stop().animate({
-        opacity: '0.6'
-      }, {
-        duration: 300,
-        easing: 'easeInOut',
-        queue: false,
-        start: function start() {
-          $(self).css('display', 'block');
-          $(self).css('width');
-          $(self).addClass('modal-window_animate');
-          $('html, body').addClass('hide-scroll');
-        },
-        complete: function complete() {
-          $(self).addClass('modal-window_open');
-        }
-      });
-    } else {
-      $(self).find('.modal-window__cover').stop().animate({
-        opacity: 0
-      }, {
-        duration: 300,
-        easing: 'easeInOut',
-        queue: false,
-        start: function start() {
-          $(self).removeClass('modal-window_animate');
-          $(self).removeClass('modal-window_open');
-        },
-        complete: function complete() {
-          $(self).css('display', 'none');
-          $('html, body').removeClass('hide-scroll');
-        }
-      });
+      if ($(self).attr('class').indexOf('modal-window_show') + 1) {
+        $(self).find('.modal-window__cover').stop().animate({
+          opacity: '0.6'
+        }, {
+          duration: 300,
+          easing: 'easeInOut',
+          queue: false,
+          start: function start() {
+            $(self).css('display', 'block');
+            $(self).css('width');
+            $(self).addClass('modal-window_animate');
+            $('html, body').addClass('hide-scroll');
+          },
+          complete: function complete() {
+            $(self).addClass('modal-window_open');
+          }
+        });
+      } else {
+        $(self).find('.modal-window__cover').stop().animate({
+          opacity: 0
+        }, {
+          duration: 300,
+          easing: 'easeInOut',
+          queue: false,
+          start: function start() {
+            $(self).removeClass('modal-window_animate');
+            $(self).removeClass('modal-window_open');
+          },
+          complete: function complete() {
+            $(self).css('display', 'none');
+            $('html, body').removeClass('hide-scroll');
+          }
+        });
+      }
+    });
+    observer.observe(element, {
+      attributes: true,
+      attributeFilter: ['class']
+    });
+  });
+  $('.modal-window__wrapper').click(function (e) {
+    if (e.target === e.currentTarget) {
+      $(e.currentTarget).parent().removeClass('modal-window_show');
     }
   });
-  observer.observe(element, {
-    attributes: true,
-    attributeFilter: ['class']
+  $('.modal-window__close').click(function (e) {
+    $(e.currentTarget).closest('.modal-window').removeClass('modal-window_show');
   });
-});
-$('.modal-window__wrapper').click(function (e) {
-  if (e.target === e.currentTarget) {
-    $(e.currentTarget).parent().removeClass('modal-window_show');
-  }
-});
-$('.modal-window__close').click(function (e) {
-  $(e.currentTarget).closest('.modal-window').removeClass('modal-window_show');
 });
 
 /***/ }),
