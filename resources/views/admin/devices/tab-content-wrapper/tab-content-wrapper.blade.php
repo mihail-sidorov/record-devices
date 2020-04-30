@@ -48,6 +48,14 @@
                 $provider = $device->provider;
                 $category = $device->category;
                 $device_component_parts = $device->component_parts;
+                $purchase_price = $device->purchase_price;
+
+                if ($device_component_parts->count()) {
+                    $purchase_price = 0;
+                    foreach ($device_component_parts as $device_component_part) {
+                        $purchase_price += $device_component_part->purchase_price;
+                    }
+                }
             ?>
             <div class="tab-content-wrapper__list-item" id="{{ $device->id }}">
                 <div class="tab-content-wrapper__list-item-head">
@@ -95,7 +103,7 @@
                                 <td>{{ $device->serial_number }}</td>
                                 <td>{{ $type_device }}</td>
                                 <td>{{ $receipt_date }}</td>
-                                <td>{{ $device->purchase_price }}</td>
+                                <td>{{ $purchase_price }}</td>
                                 <td>{{ $warranty }}</td>
                                 <td>
                                     @if ($worker)
