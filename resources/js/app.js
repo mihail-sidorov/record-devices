@@ -9,6 +9,7 @@ require('./jquery.easing.compatibility');
 require('./jquery.easing.min');
 
 // Подключение скриптов для работы с angular
+require('./angular/angular.min.js');
 require('./angular/init-ng-app');
 require('./angular/attach-worker-modal-window-angular-controller');
 

@@ -17,10 +17,14 @@ $(document).ready(() => {
         $('.admin-devices-tab-content-controller .attach-worker-modal-window .form-content__field').removeClass('form-content__field_error');
         $('.admin-devices-tab-content-controller .attach-worker-modal-window .form-content__error').text('');
 
-        $(e.currentTarget).closest('.admin-devices-tab-content-controller').find('.attach-worker-modal-window').addClass('modal-window_show');
-
-        window.attachWorkerModalWindowAngularControllerScope.name = 'Петя';
+        window.attachWorkerModalWindowAngularControllerScope.workers = window.workers;
         window.attachWorkerModalWindowAngularControllerScope.$apply();
+        
+        $(e.currentTarget).closest('.admin-devices-tab-content-controller').find('.attach-worker-modal-window').addClass('modal-window_show');
+        
+        setTimeout(() => {
+            $('.admin-devices-tab-content-controller .attach-worker-modal-window__search-input').focus().val('');
+        }, 0);
     });
 
     // Открываем блок модального окна управления комплектующими

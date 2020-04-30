@@ -1,0 +1,26 @@
+.attach-worker-modal-window {
+
+    .attach-worker-modal-window__search {
+
+        margin-bottom: 20px;
+
+        .attach-worker-modal-window__search-title {
+
+            margin-bottom: 10px;
+        }
+
+        .attach-worker-modal-window__search-input {
+            width: 100%;
+            max-width: 400px;
+            border: 1px solid #dee2e6;
+            padding: 6px 12px;
+            border-radius: 0.25rem;
+
+            &:focus {
+
+                border-color: #a1cbef;
+                box-shadow: 0 0 0 0.2rem rgba(52, 144, 220, 0.25);
+            }
+        }
+    }
+}
