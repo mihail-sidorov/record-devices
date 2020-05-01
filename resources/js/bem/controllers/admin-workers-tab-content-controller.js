@@ -10,7 +10,7 @@ $(document).ready(() => {
     });
 
     // Открываем модальное окно для редактирования сотрудника, обнуляем в нем сообщения об ошибках валидации и заполняем его данными
-    $('.admin-workers-tab-content-controller .edit-btn').click((e) => {
+    $('.admin-workers-tab-content-controller .tab-content-wrapper__edit-device-btn').click((e) => {
         var workerId = $(e.currentTarget).closest('.tab-content-wrapper__list-item').attr('id'), token = $('meta[name="csrf-token"]').attr('content');
 
         $.ajax({
@@ -128,7 +128,7 @@ $(document).ready(() => {
     });
 
     // Удаление сотрудника
-    $('.admin-workers-tab-content-controller .tab-content-wrapper__list').on('click', '.del-btn', (e) => {
+    $('.admin-workers-tab-content-controller .tab-content-wrapper__del-device-btn').click((e) => {
         var workerId, token, workerName = $(e.currentTarget).closest('.tab-content-wrapper__list-item-head').find('.tab-content-wrapper__list-item-name').text();
 
         if (confirm(`Вы действительно хотите удалить сотрудника "${workerName}"?`)) {

@@ -39,7 +39,7 @@
             @include('admin.component_parts.edit-component_part-modal-window.modal-window')
         </div>
         <div class="tab-pane fade<?php if ($active_tabs['workers']) echo $active_tabs['workers'][1]; ?> admin-workers-tab-content-controller" id="workers" role="tabpanel" aria-labelledby="workers-tab">
-            @include('admin.workers.tab-content-wrapper')
+            @include('admin.workers.tab-content-wrapper.tab-content-wrapper')
             @include('admin.workers.add-worker-modal-window.modal-window')
             @include('admin.workers.edit-worker-modal-window.modal-window')
         </div>

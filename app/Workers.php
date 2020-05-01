@@ -29,4 +29,9 @@ class Workers extends Model
     {
         return $this->hasOne('App\Responsibles', 'department_id', 'department_id');
     }
+
+    public function devices()
+    {
+        return $this->belongsToMany('App\Devices', 'device_worker', 'worker_id', 'device_id')->wherePivot('attach', 1);
+    }
 }
