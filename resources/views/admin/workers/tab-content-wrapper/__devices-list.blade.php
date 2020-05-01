@@ -48,12 +48,8 @@
                     @include('edit-btn')
                 </div>
                 
-                @if (!$worker)
-                    @if (!$device->write_off())
-                        @include('attach-worker-btn')
-                    @endif
-                @else
-                    @include('unattach-worker-btn')
+                @if ($worker)
+                    @include('unattach-worker-btn')                    
                 @endif
 
                 @if ($worker_device->component_parts()->count())

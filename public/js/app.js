@@ -49081,6 +49081,28 @@ $(document).ready(function () {
       }
     });
     return false;
+  }); // Открепление сотрудника
+
+  $('.admin-workers-tab-content-controller .unattach-worker-btn').click(function (e) {
+    var deviceId, token;
+
+    if (confirm('Вы действительно хотите открепить сотрудника от устройства?')) {
+      deviceId = $(e.currentTarget).closest('.tab-content-wrapper__list-item').attr('id');
+      token = $('meta[name="csrf-token"]').attr('content');
+      $.ajax({
+        type: 'POST',
+        url: '/admin/unattach-worker',
+        data: {
+          _token: token,
+          device_id: deviceId
+        },
+        success: function success(response) {
+          if (response) {
+            window.location.href = '/admin/tab/workers';
+          }
+        }
+      });
+    }
   });
 });
 
