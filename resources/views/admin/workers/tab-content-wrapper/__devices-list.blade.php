@@ -44,7 +44,9 @@
         <div class="tab-content-wrapper__list-item" id="{{ $worker_device->id }}">
             <div class="tab-content-wrapper__list-item-head">
                 <div class="tab-content-wrapper__list-item-name">{{ $worker_device->name }}</div>
-                @include('edit-btn')
+                <div class="tab-content-wrapper__edit-device-btn">
+                    @include('edit-btn')
+                </div>
                 
                 @if (!$worker)
                     @if (!$device->write_off())
@@ -61,8 +63,6 @@
                         @include('attach-component-parts-btn')
                     @endif
                 @endif
-
-                @include('del-btn')
             </div>
             <div class="tab-content-wrapper__list-item-body">
                 <table class="tab-content-wrapper__list-item-body-table">

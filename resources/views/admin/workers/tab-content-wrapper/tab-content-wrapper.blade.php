@@ -21,10 +21,10 @@
             <div class="tab-content-wrapper__list-item" id="{{ $worker->id }}">
                 <div class="tab-content-wrapper__list-item-head">
                     <div class="tab-content-wrapper__list-item-name">{{ $worker->name }}</div>
-                    <div class="tab-content-wrapper__edit-device-btn">
+                    <div class="tab-content-wrapper__edit-worker-btn">
                         @include('edit-btn')
                     </div>
-                    <div class="tab-content-wrapper__del-device-btn">
+                    <div class="tab-content-wrapper__del-worker-btn">
                         @include('del-btn')
                     </div>
                 </div>
