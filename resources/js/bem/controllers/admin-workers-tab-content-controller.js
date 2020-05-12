@@ -40,17 +40,32 @@ $(document).ready(() => {
     });
 
     // Обнуляем сообщения об ошибках валидации у текстовых полей
-    $('.admin-workers-tab-content-controller .add-worker-modal-window .form-content__text, .admin-workers-tab-content-controller .edit-worker-modal-window .form-content__text, .admin-workers-tab-content-controller .edit-device-modal-window .form-content__text').on('input', (e) => {
+    $('.admin-workers-tab-content-controller .add-worker-modal-window .form-content__text, .admin-workers-tab-content-controller .edit-worker-modal-window .form-content__text, .admin-workers-tab-content-controller .edit-device-modal-window .form-content__text, .admin-workers-tab-content-controller .edit-component_part-modal-window .form-content__text').on('input', (e) => {
         var $formContentField = $(e.currentTarget).closest('.form-content__field');
         $formContentField.removeClass('form-content__field_error');
         $formContentField.find('.form-content__error').text('');
     });
 
     // Обнуляем сообщения об ошибках валидации у выпадающих списков и дат
-    $('.admin-workers-tab-content-controller .add-worker-modal-window .form-content__select, .admin-workers-tab-content-controller .edit-worker-modal-window .form-content__select, .admin-workers-tab-content-controller .edit-device-modal-window .form-content__select, .admin-workers-tab-content-controller .edit-device-modal-window .form-content__date').on('change', (e) => {
+    $('.admin-workers-tab-content-controller .add-worker-modal-window .form-content__select, .admin-workers-tab-content-controller .edit-worker-modal-window .form-content__select, .admin-workers-tab-content-controller .edit-device-modal-window .form-content__select, .admin-workers-tab-content-controller .edit-device-modal-window .form-content__date, .admin-workers-tab-content-controller .edit-component_part-modal-window .form-content__select, .admin-workers-tab-content-controller .edit-component_part-modal-window .form-content__date').on('change', (e) => {
         var $formContentField = $(e.currentTarget).closest('.form-content__field');
         $formContentField.removeClass('form-content__field_error');
         $formContentField.find('.form-content__error').text('');
+    });
+
+    // Показываем поле для введения инвентарного номера при выборе рабочего места
+    $('.admin-workers-tab-content-controller .edit-device-modal-window select[name="type_device_id"]').on('change', (e) => {
+        var $inventarNumber = $(e.currentTarget).closest('.form-content').find('[name="inventar_number"]'), $formContentField = $inventarNumber.closest('.form-content__field');
+        $formContentField.removeClass('form-content__field_error');
+        $formContentField.find('.form-content__error').text('');
+
+        if ($(e.currentTarget).val() === '2') {
+            $formContentField.show();
+            $inventarNumber.focus();
+        }
+        else {
+            $formContentField.hide();
+        }
     });
 
     // Валидация и добавление сотрудника
@@ -283,5 +298,98 @@ $(document).ready(() => {
 
         $window.attr('worker-id', $(e.currentTarget).closest('.tab-content-wrapper__list-item').attr('id'));
         $window.attr('loading', 'yes');
+    });
+
+    // Открываем модальное окно для редактирования комплектующего, обнуляем в нем сообщения об ошибках валидации и заполняем его данными
+    $('.admin-workers-tab-content-controller .tab-content-wrapper__edit-component-part-btn').click((e) => {
+        var componentPartId = $(e.currentTarget).closest('.tab-content-wrapper__list-item').attr('id'), token = $('meta[name="csrf-token"]').attr('content');
+
+        $.ajax({
+            type: 'POST',
+            url: '/admin/write-edit-component-part-form',
+            data: {
+                _token: token,
+                id: componentPartId,
+            },
+            dataType: 'json',
+            success: (response) => {
+                if (response) {
+                    $('.admin-workers-tab-content-controller .edit-component_part-modal-window .form-content__field').each((index, element) => {
+                        var $fieldNameElement = $(element).find('[name]'), fieldName = $fieldNameElement.attr('name'), date, year, month, day;
+
+                        if (fieldName === 'receipt_date' || fieldName === 'warranty') {
+                            date = new Date(response[fieldName] * 1000);
+                            year = date.getFullYear();
+                            month = +date.getMonth() + 1;
+                            day = +date.getDate();
+
+                            if (month < 10) {
+                                month = '0' + month;
+                            }
+                            if (day < 10) {
+                                day = '0' + day;
+                            }
+
+                            $fieldNameElement.val(`${year}-${month}-${day}`);
+                        }
+                        else {
+                            $fieldNameElement.val(response[fieldName]);
+                        }
+
+                        if (fieldName === 'inventar_number') {
+                            if (!$fieldNameElement.val()) {
+                                $(element).hide();
+                            }
+                            else {
+                                $(element).show();
+                            }
+                        }
+                    });
+
+                    $('.admin-workers-tab-content-controller .edit-component_part-modal-window .form-content input[name="id"]').val(componentPartId);
+                    $('.admin-workers-tab-content-controller .edit-component_part-modal-window .form-content__field').removeClass('form-content__field_error');
+                    $('.admin-workers-tab-content-controller .edit-component_part-modal-window .form-content__error').text('');
+
+                    $(e.currentTarget).closest('.admin-workers-tab-content-controller').find('.edit-component_part-modal-window').addClass('modal-window_show');
+                }
+            },
+        });
+    });
+
+    // Валидация и редактирование комплектующего
+    $('.admin-workers-tab-content-controller .edit-component_part-modal-window .form-content').on('submit', (e) => {
+        var fields = $(e.currentTarget).serialize(), $formContentField;
+
+        $(e.currentTarget).find('.form-content__field').removeClass('form-content__field_error');
+        $(e.currentTarget).find('.form-content__error').text('');
+
+        $.ajax({
+            type: 'POST',
+            url: '/admin/edit-component-part',
+            data: fields,
+            success: (response) => {
+                if (response) {
+                    window.location.href = '/admin/tab/workers';
+                }
+            },
+            error:  (error) => {
+                var errors;
+
+                if (error.status === 422) {
+                    errors = error.responseJSON.errors;
+                    if (errors !== undefined) {
+                        for (var key in errors) {
+                            if (errors[key][0]) {
+                                $formContentField = $(e.currentTarget).find(`.form-content__error[field-name="${key}"]`).closest('.form-content__field');
+                                $formContentField.addClass('form-content__field_error');
+                                $formContentField.find('.form-content__error').text(errors[key][0]);
+                            }
+                        }
+                    }
+                }
+            },
+        });
+
+        return false;
     });
 });

@@ -45,6 +45,7 @@
             @include('admin.workers.edit-device-modal-window.modal-window')
             @include('admin.workers.attach-component-parts-modal-window.modal-window')
             @include('admin.workers.attach-devices-modal-window.modal-window')
+            @include('admin.workers.edit-component_part-modal-window.modal-window')
         </div>
         <div class="tab-pane fade<?php if ($active_tabs['providers']) echo $active_tabs['providers'][1]; ?> admin-providers-tab-content-controller" id="providers" role="tabpanel" aria-labelledby="providers-tab">
             @include('admin.providers.tab-content-wrapper')
