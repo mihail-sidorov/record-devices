@@ -267,4 +267,13 @@ $(document).ready(() => {
             });
         }
     });
+
+    // Открываем блок модального окна управления комплектующими
+    $('.admin-workers-tab-content-controller .attach-component-parts-btn').click((e) => {
+        var $window = $(e.currentTarget).closest('.admin-workers-tab-content-controller').find('.attach-component-parts-modal-window');
+
+        $window.attr('device-id', $(e.currentTarget).closest('.tab-content-wrapper__list-item').attr('id'));
+        $window.attr('url-tab', 'workers');
+        $window.attr('loading', 'yes');
+    });
 });

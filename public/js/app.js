@@ -47675,7 +47675,8 @@ $(document).ready(function () {
     var observer = new MutationObserver(function (res) {
       var self = res[0].target,
           token = $('meta[name="csrf-token"]').attr('content'),
-          deviceId = $(self).attr('device-id');
+          deviceId = $(self).attr('device-id'),
+          urlTab = $(self).attr('url-tab');
 
       if (deviceId) {
         $.ajax({
@@ -47750,7 +47751,7 @@ $(document).ready(function () {
                 },
                 dataType: 'json',
                 success: function success() {
-                  window.location.href = '/admin/tab/devices';
+                  window.location.href = "/admin/tab/".concat(urlTab);
                 }
               });
             });
@@ -48294,6 +48295,7 @@ $(document).ready(function () {
   $('.admin-devices-tab-content-controller .attach-component-parts-btn').click(function (e) {
     var $window = $(e.currentTarget).closest('.admin-devices-tab-content-controller').find('.attach-component-parts-modal-window');
     $window.attr('device-id', $(e.currentTarget).closest('.tab-content-wrapper__list-item').attr('id'));
+    $window.attr('url-tab', 'devices');
     $window.attr('loading', 'yes');
   }); // Открываем модальное окно для редактирования устройства, обнуляем в нем сообщения об ошибках валидации и заполняем его данными
 
@@ -49103,6 +49105,13 @@ $(document).ready(function () {
         }
       });
     }
+  }); // Открываем блок модального окна управления комплектующими
+
+  $('.admin-workers-tab-content-controller .attach-component-parts-btn').click(function (e) {
+    var $window = $(e.currentTarget).closest('.admin-workers-tab-content-controller').find('.attach-component-parts-modal-window');
+    $window.attr('device-id', $(e.currentTarget).closest('.tab-content-wrapper__list-item').attr('id'));
+    $window.attr('url-tab', 'workers');
+    $window.attr('loading', 'yes');
   });
 });
 

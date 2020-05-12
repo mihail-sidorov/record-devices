@@ -1,7 +1,7 @@
 $(document).ready(() => {
     $('.attach-component-parts-modal-window').each((index, element) => {
         var observer = new MutationObserver((res) => {
-            var self = res[0].target, token = $('meta[name="csrf-token"]').attr('content'), deviceId = $(self).attr('device-id');
+            var self = res[0].target, token = $('meta[name="csrf-token"]').attr('content'), deviceId = $(self).attr('device-id'), urlTab = $(self).attr('url-tab');
 
             if (deviceId) {
                 $.ajax({
@@ -80,7 +80,7 @@ $(document).ready(() => {
                                 },
                                 dataType: 'json',
                                 success: () => {
-                                    window.location.href = '/admin/tab/devices';
+                                    window.location.href = `/admin/tab/${urlTab}`;
                                 },
                             });
                         });

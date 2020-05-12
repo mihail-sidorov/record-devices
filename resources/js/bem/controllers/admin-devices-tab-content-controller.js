@@ -32,6 +32,7 @@ $(document).ready(() => {
         var $window = $(e.currentTarget).closest('.admin-devices-tab-content-controller').find('.attach-component-parts-modal-window');
 
         $window.attr('device-id', $(e.currentTarget).closest('.tab-content-wrapper__list-item').attr('id'));
+        $window.attr('url-tab', 'devices');
         $window.attr('loading', 'yes');
     });
 
