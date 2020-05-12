@@ -47627,6 +47627,8 @@ __webpack_require__(/*! ./bem/modal-window */ "./resources/js/bem/modal-window.j
 
 __webpack_require__(/*! ./bem/attach-component-parts-modal-window */ "./resources/js/bem/attach-component-parts-modal-window.js");
 
+__webpack_require__(/*! ./bem/attach-devices-modal-window */ "./resources/js/bem/attach-devices-modal-window.js");
+
 __webpack_require__(/*! ./bem/controllers/admin-devices-tab-content-controller */ "./resources/js/bem/controllers/admin-devices-tab-content-controller.js");
 
 __webpack_require__(/*! ./bem/controllers/admin-component_parts-tab-content-controller */ "./resources/js/bem/controllers/admin-component_parts-tab-content-controller.js");
@@ -47752,6 +47754,112 @@ $(document).ready(function () {
                 dataType: 'json',
                 success: function success() {
                   window.location.href = "/admin/tab/".concat(urlTab);
+                }
+              });
+            });
+            $(self).addClass('modal-window_show');
+          }
+        });
+      }
+    });
+    observer.observe(element, {
+      attributes: true,
+      attributeFilter: ['loading']
+    });
+  });
+});
+
+/***/ }),
+
+/***/ "./resources/js/bem/attach-devices-modal-window.js":
+/*!*********************************************************!*\
+  !*** ./resources/js/bem/attach-devices-modal-window.js ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+$(document).ready(function () {
+  $('.attach-devices-modal-window').each(function (index, element) {
+    var observer = new MutationObserver(function (res) {
+      var self = res[0].target,
+          token = $('meta[name="csrf-token"]').attr('content'),
+          workerId = $(self).attr('worker-id');
+
+      if (workerId) {
+        $.ajax({
+          type: 'POST',
+          url: '/admin/write-attach-devices-modal-window',
+          data: {
+            _token: token,
+            worker_id: workerId
+          },
+          dataType: 'json',
+          success: function success(response) {
+            //console.log(response);
+            $categories = $(self).find('.attach-devices-modal-window__categories');
+            $categories.html('');
+            response.forEach(function (item) {
+              var devices = '',
+                  checkedArr = item.checked,
+                  openCategory = false,
+                  openCategoryHead,
+                  openCategoryBody;
+              item.devices.forEach(function (item, index) {
+                var checked = '';
+
+                if (checkedArr[index]) {
+                  checked = ' checked';
+                  openCategory = true;
+                }
+
+                var device = "\n                                    <label class=\"attach-devices-modal-window__device\"><input type=\"checkbox\"".concat(checked, " name=\"device-").concat(item.id, "\">").concat(item.name, "</label>");
+                devices += device;
+              });
+
+              if (openCategory) {
+                openCategoryHead = ' attach-devices-modal-window__category-head_show';
+                openCategoryBody = ' attach-devices-modal-window__category-body_show';
+              } else {
+                openCategoryHead = '';
+                openCategoryBody = '';
+              }
+
+              var category = "\n                                <div class=\"attach-devices-modal-window__category\" id=\"".concat(item.category.id, "\">\n                                    <div class=\"attach-devices-modal-window__category-head").concat(openCategoryHead, "\">").concat(item.category.name, "</div>\n                                    <div class=\"attach-devices-modal-window__category-body").concat(openCategoryBody, "\"><div class=\"attach-devices-modal-window__devices\">").concat(devices, "</div></div>\n                                </div>\n                            ");
+              $categories.append(category);
+            });
+            $categories.find('.attach-devices-modal-window__category-head').click(function (e) {
+              $(e.currentTarget).toggleClass('attach-devices-modal-window__category-head_show');
+              $(e.currentTarget).closest('.attach-devices-modal-window__category').find('.attach-devices-modal-window__category-body').slideToggle();
+            }); // Производим прикрепление\открепление устройств
+
+            $(self).find('.action-btn').off('click.attach-devices-modal-window');
+            $(self).find('.action-btn').on('click.attach-devices-modal-window', function (e) {
+              var devices = [],
+                  deviceIds = [],
+                  deviceCheckes = [];
+              $categories.find('.attach-devices-modal-window__device').each(function (index, element) {
+                var $input = $(element).children('input');
+                deviceIds.push($input.attr('name').split('-')[1]);
+
+                if ($input.prop('checked')) {
+                  deviceCheckes.push(1);
+                } else {
+                  deviceCheckes.push(0);
+                }
+              });
+              devices.push(deviceIds);
+              devices.push(deviceCheckes);
+              $.ajax({
+                type: 'POST',
+                url: '/admin/attach-devices-to-worker',
+                data: {
+                  _token: token,
+                  worker_id: workerId,
+                  devices: devices
+                },
+                dataType: 'json',
+                success: function success() {
+                  window.location.href = '/admin/tab/workers';
                 }
               });
             });
@@ -49111,6 +49219,12 @@ $(document).ready(function () {
     var $window = $(e.currentTarget).closest('.admin-workers-tab-content-controller').find('.attach-component-parts-modal-window');
     $window.attr('device-id', $(e.currentTarget).closest('.tab-content-wrapper__list-item').attr('id'));
     $window.attr('url-tab', 'workers');
+    $window.attr('loading', 'yes');
+  }); // Открываем блок модального окна управления устройствами
+
+  $('.admin-workers-tab-content-controller .attach-devices-btn').click(function (e) {
+    var $window = $(e.currentTarget).closest('.admin-workers-tab-content-controller').find('.attach-devices-modal-window');
+    $window.attr('worker-id', $(e.currentTarget).closest('.tab-content-wrapper__list-item').attr('id'));
     $window.attr('loading', 'yes');
   });
 });

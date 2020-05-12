@@ -1,0 +1,1 @@
+<button class="attach-devices-btn app-btn"><i class="fas fa-project-diagram"></i></button>

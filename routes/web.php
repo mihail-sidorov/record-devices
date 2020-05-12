@@ -55,6 +55,8 @@ Route::get('/admin/tab/{tab_name}', 'AdminController@index');
 Route::post('/admin/attach-worker', 'AdminController@attachWorker');
 Route::post('/admin/unattach-worker', 'AdminController@unattachWorker');
 Route::post('/admin/write-attach-component-parts-modal-window', 'AdminController@writeAttachComponentPartsModalWindow');
+Route::post('/admin/write-attach-devices-modal-window', 'AdminController@writeAttachDevicesModalWindow');
 Route::post('/admin/attach-component-parts-to-device', 'AdminController@attachComponentPartsToDevice');
+Route::post('/admin/attach-devices-to-worker', 'AdminController@attachDevicesToWorker');
 
 Route::get('/worker', 'WorkerController@index')->name('worker');

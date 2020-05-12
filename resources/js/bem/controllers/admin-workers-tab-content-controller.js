@@ -276,4 +276,12 @@ $(document).ready(() => {
         $window.attr('url-tab', 'workers');
         $window.attr('loading', 'yes');
     });
+
+    // Открываем блок модального окна управления устройствами
+    $('.admin-workers-tab-content-controller .attach-devices-btn').click((e) => {
+        var $window = $(e.currentTarget).closest('.admin-workers-tab-content-controller').find('.attach-devices-modal-window');
+
+        $window.attr('worker-id', $(e.currentTarget).closest('.tab-content-wrapper__list-item').attr('id'));
+        $window.attr('loading', 'yes');
+    });
 });

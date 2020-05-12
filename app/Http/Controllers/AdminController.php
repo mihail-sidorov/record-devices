@@ -739,4 +739,79 @@ class AdminController extends Controller
             }
         }
     }
+
+    public function writeAttachDevicesModalWindow(Request $request)
+    {
+        if ($request->ajax() && Auth::user()->role === 'admin') {
+            $device_ids = DeviceWorker::where([
+                ['worker_id', '<>', $request->worker_id],
+                ['attach', '=', 1],
+            ])
+            ->pluck('device_id');
+
+            $result_array = [];
+            $categories = Categories::join('devices', 'categories.id', '=', 'devices.category_id')->select('categories.*')->distinct()->get();
+            $categories_array = [];
+            foreach ($categories as $category) {
+                $devices = $category->devices()->whereNotIn('id', $device_ids)->get();
+                $devices_array = [];
+                $checked_array = [];
+                foreach ($devices as $device) {
+                    if ($device->attach_to_worker()) {
+                        $devices_array[] = $device;
+                        $checked_array[] = true;
+                    }
+                    elseif (!$device->write_off()) {
+                        $devices_array[] = $device;
+                        $checked_array[] = false;
+                    }
+                }
+                $result_array[] = ['category' => $category, 'devices' => $devices_array, 'checked' => $checked_array];
+            }
+
+            return json_encode($result_array);
+        }
+    }
+
+    public function attachDeviceToWorker($worker_id, $device_id, $device_check)
+    {
+        if (!$device_check) {
+            $device_worker = DeviceWorker::where([
+                ['worker_id', '=', $worker_id],
+                ['device_id', '=', $device_id],
+                ['attach', '=', 1],
+            ])
+            ->orderby('id', 'desc')
+            ->first();
+
+            if ($device_worker) {
+                $device_worker->attach = 0;
+                $device_worker->save();
+            }
+        }
+        else {
+            $worker = Workers::find($worker_id);
+            $device = Devices::find($device_id);
+            if ($worker && $device && !$device->write_off() && !$device->attach_to_worker()) {
+                $device_worker = new DeviceWorker;
+                $device_worker->worker_id = $worker_id;
+                $device_worker->device_id = $device_id;
+                $device_worker->attach = 1;
+                $device_worker->save();
+            }
+        }
+    }
+
+    public function attachDevicesToWorker(Request $request)
+    {
+        if ($request->ajax() && Auth::user()->role === 'admin') {
+            if ($request->devices) {
+                foreach ($request->devices[0] as $index => $device_id) {
+                    $this->attachDeviceToWorker($request->worker_id, $device_id, $request->devices[1][$index]);
+                }
+
+                return '{}';
+            }
+        }
+    }
 }

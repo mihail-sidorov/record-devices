@@ -16,6 +16,7 @@ require('./angular/attach-worker-modal-window-angular-controller');
 require('./bem/tab-content-wrapper');
 require('./bem/modal-window');
 require('./bem/attach-component-parts-modal-window');
+require('./bem/attach-devices-modal-window');
 require('./bem/controllers/admin-devices-tab-content-controller');
 require('./bem/controllers/admin-component_parts-tab-content-controller');
 require('./bem/controllers/admin-workers-tab-content-controller');

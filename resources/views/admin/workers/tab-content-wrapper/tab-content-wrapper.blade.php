@@ -24,6 +24,9 @@
                     <div class="tab-content-wrapper__edit-worker-btn">
                         @include('edit-btn')
                     </div>
+
+                    @include('attach-devices-btn')
+
                     <div class="tab-content-wrapper__del-worker-btn">
                         @include('del-btn')
                     </div>
