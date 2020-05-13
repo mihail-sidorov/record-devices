@@ -110,22 +110,42 @@ class AdminController extends Controller
                 'model' => 'bail|required|max:255',
                 'serial_number' => 'bail|required|max:255',
                 'type_device_id' => 'bail|required',
-                'purchase_price' => 'bail|required|max:255',
+                'purchase_price' => 'bail|required',
                 'warranty' => 'date',
                 'receipt_date' => 'date',
-                'responsible_id' => 'bail|required|max:255',
-                'provider_id' => 'bail|required|max:255',
-                'category_id' => 'bail|required|max:255',
+                'responsible_id' => 'bail|required',
+                'provider_id' => 'bail|required',
+                'category_id' => 'bail|required',
+            ];
+
+            $validate_msgs = [
+                'name.required' => 'Поле "Наименование" не должно быть пустым',
+                'name.max' => 'Количество символов в поле "Наименование" не может превышать 255',
+                'model.required' => 'Поле "Модель" не должно быть пустым',
+                'model.max' => 'Количество символов в поле "Модель" не может превышать 255',
+                'serial_number.required' => 'Поле "Серийный номер" не должно быть пустым',
+                'serial_number.max' => 'Количество символов в поле "Серийный номер" не может превышать 255',
+                'type_device_id.required' => 'Поле "Тип" не должно быть пустым',
+                'purchase_price.required' => 'Поле "Закупочная цена" не должно быть пустым',
+                'warranty.date' => 'Поле "Дата окончания гарантии" не является датой',
+                'receipt_date.date' => 'Поле "Дата поступления" не является датой',
+                'responsible_id.required' => 'Поле "Ответственный на складе" не должно быть пустым',
+                'provider_id.required' => 'Поле "Поставщик" не должно быть пустым',
+                'category_id.required' => 'Поле "Категория" не должно быть пустым',
             ];
 
             if ($request->type_device_id === '2') {
                 $validate_arr += ['inventar_number' => 'bail|required|max:255'];
+                $validate_msgs += [
+                    'inventar_number.required' => 'Поле "Инвентарный номер" не должно быть пустым',
+                    'inventar_number.max' => 'Количество символов в поле "Инвентарный номер" не может превышать 255',
+                ];
             }
             else {
                 $request->inventar_number = '';
             }
             
-            $this->validate($request, $validate_arr);
+            $this->validate($request, $validate_arr, $validate_msgs);
 
             $devices = new Devices;
 
@@ -316,22 +336,42 @@ class AdminController extends Controller
                 'model' => 'bail|required|max:255',
                 'serial_number' => 'bail|required|max:255',
                 'type_device_id' => 'bail|required',
-                'purchase_price' => 'bail|required|max:255',
+                'purchase_price' => 'bail|required',
                 'warranty' => 'date',
                 'receipt_date' => 'date',
-                'responsible_id' => 'bail|required|max:255',
-                'provider_id' => 'bail|required|max:255',
-                'category_id' => 'bail|required|max:255',
+                'responsible_id' => 'bail|required',
+                'provider_id' => 'bail|required',
+                'category_id' => 'bail|required',
+            ];
+
+            $validate_msgs = [
+                'name.required' => 'Поле "Наименование" не должно быть пустым',
+                'name.max' => 'Количество символов в поле "Наименование" не может превышать 255',
+                'model.required' => 'Поле "Модель" не должно быть пустым',
+                'model.max' => 'Количество символов в поле "Модель" не может превышать 255',
+                'serial_number.required' => 'Поле "Серийный номер" не должно быть пустым',
+                'serial_number.max' => 'Количество символов в поле "Серийный номер" не может превышать 255',
+                'type_device_id.required' => 'Поле "Тип" не должно быть пустым',
+                'purchase_price.required' => 'Поле "Закупочная цена" не должно быть пустым',
+                'warranty.date' => 'Поле "Дата окончания гарантии" не является датой',
+                'receipt_date.date' => 'Поле "Дата поступления" не является датой',
+                'responsible_id.required' => 'Поле "Ответственный на складе" не должно быть пустым',
+                'provider_id.required' => 'Поле "Поставщик" не должно быть пустым',
+                'category_id.required' => 'Поле "Категория" не должно быть пустым',
             ];
 
             if ($request->type_device_id === '2') {
                 $validate_arr += ['inventar_number' => 'bail|required|max:255'];
+                $validate_msgs += [
+                    'inventar_number.required' => 'Поле "Инвентарный номер" не должно быть пустым',
+                    'inventar_number.max' => 'Количество символов в поле "Инвентарный номер" не может превышать 255',
+                ];
             }
             else {
                 $request->inventar_number = '';
             }
             
-            $this->validate($request, $validate_arr);
+            $this->validate($request, $validate_arr, $validate_msgs);
 
             $devices = Devices::find($request->id);
 
