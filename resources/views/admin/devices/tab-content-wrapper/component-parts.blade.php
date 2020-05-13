@@ -16,9 +16,12 @@
             $category = $device_component_part->category;
             $responsible = $device_component_part->get_responsible();
         ?>
-        <div class="tab-content-wrapper__list-item">
+        <div class="tab-content-wrapper__list-item" id="{{ $device_component_part->id }}">
             <div class="tab-content-wrapper__list-item-head">
                 <div class="tab-content-wrapper__list-item-name">{{ $device_component_part->name }}</div>
+                <div class="tab-content-wrapper__edit-component-part-btn">
+                    @include('edit-btn')
+                </div>
             </div>
             <div class="tab-content-wrapper__list-item-body">
                 <table class="tab-content-wrapper__list-item-body-table">

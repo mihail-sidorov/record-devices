@@ -44,15 +44,6 @@ $(document).ready(() => {
                         else {
                             $fieldNameElement.val(response[fieldName]);
                         }
-
-                        if (fieldName === 'inventar_number') {
-                            if (!$fieldNameElement.val()) {
-                                $(element).hide();
-                            }
-                            else {
-                                $(element).show();
-                            }
-                        }
                     });
 
                     $('.admin-component_parts-tab-content-controller .edit-component_part-modal-window .form-content input[name="id"]').val(componentPartId);
