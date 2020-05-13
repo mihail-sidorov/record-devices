@@ -48397,6 +48397,7 @@ $(document).ready(function () {
     $(e.currentTarget).closest('.admin-devices-tab-content-controller').find('.attach-worker-modal-window').addClass('modal-window_show');
     setTimeout(function () {
       $('.admin-devices-tab-content-controller .attach-worker-modal-window__search-input').focus().val('');
+      $('.admin-devices-tab-content-controller .attach-worker-modal-window .form-content__select').val('');
     }, 0);
   }); // Открываем блок модального окна управления комплектующими
 
@@ -48470,7 +48471,7 @@ $(document).ready(function () {
     $formContentField.find('.form-content__error').text('');
   }); // Обнуляем сообщения об ошибках валидации у дат и выпадающих списков
 
-  $('.admin-devices-tab-content-controller .add-device-modal-window .form-content__select, .admin-devices-tab-content-controller .add-device-modal-window .form-content__date, .admin-devices-tab-content-controller .edit-device-modal-window .form-content__select, .admin-devices-tab-content-controller .edit-device-modal-window .form-content__date').on('change', function (e) {
+  $('.admin-devices-tab-content-controller .add-device-modal-window .form-content__select, .admin-devices-tab-content-controller .add-device-modal-window .form-content__date, .admin-devices-tab-content-controller .edit-device-modal-window .form-content__select, .admin-devices-tab-content-controller .edit-device-modal-window .form-content__date, .admin-devices-tab-content-controller .attach-worker-modal-window .form-content__select').on('change', function (e) {
     var $formContentField = $(e.currentTarget).closest('.form-content__field');
     $formContentField.removeClass('form-content__field_error');
     $formContentField.find('.form-content__error').text('');

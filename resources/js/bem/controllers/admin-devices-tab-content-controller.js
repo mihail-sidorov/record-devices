@@ -24,6 +24,7 @@ $(document).ready(() => {
         
         setTimeout(() => {
             $('.admin-devices-tab-content-controller .attach-worker-modal-window__search-input').focus().val('');
+            $('.admin-devices-tab-content-controller .attach-worker-modal-window .form-content__select').val('');
         }, 0);
     });
 
@@ -100,7 +101,7 @@ $(document).ready(() => {
     });
 
     // Обнуляем сообщения об ошибках валидации у дат и выпадающих списков
-    $('.admin-devices-tab-content-controller .add-device-modal-window .form-content__select, .admin-devices-tab-content-controller .add-device-modal-window .form-content__date, .admin-devices-tab-content-controller .edit-device-modal-window .form-content__select, .admin-devices-tab-content-controller .edit-device-modal-window .form-content__date').on('change', (e) => {
+    $('.admin-devices-tab-content-controller .add-device-modal-window .form-content__select, .admin-devices-tab-content-controller .add-device-modal-window .form-content__date, .admin-devices-tab-content-controller .edit-device-modal-window .form-content__select, .admin-devices-tab-content-controller .edit-device-modal-window .form-content__date, .admin-devices-tab-content-controller .attach-worker-modal-window .form-content__select').on('change', (e) => {
         var $formContentField = $(e.currentTarget).closest('.form-content__field');
         $formContentField.removeClass('form-content__field_error');
         $formContentField.find('.form-content__error').text('');
