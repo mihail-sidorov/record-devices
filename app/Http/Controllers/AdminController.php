@@ -717,7 +717,7 @@ class AdminController extends Controller
         else {
             $device = Devices::find($device_id);
             $component_part = ComponentPart::find($component_part_id);
-            if ($device && $component_part && !$device->write_off() && !$component_part->write_off() && !$component_part->is_attach()) {
+            if ($device && $component_part && !$device->write_off() && ($device->type_device_id === 2) && !$component_part->write_off() && !$component_part->is_attach()) {
                 $device_component_part = new DeviceComponentPart;
                 $device_component_part->device_id = $device_id;
                 $device_component_part->component_part_id = $component_part_id;
