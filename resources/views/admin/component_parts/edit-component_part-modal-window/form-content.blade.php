@@ -22,6 +22,22 @@
     </div>
 
     <div class="form-content__field">
+        <div class="form-content__title">Закупочная стоимость комплектующего:</div>
+        <input class="form-content__text" type="text" name="purchase_price">
+        <div class="form-content__error" field-name="purchase_price"></div>
+    </div>
+
+    <div class="form-content__field">
+        <div class="form-content__title">Категория:</div>
+        <select class="form-content__select" name="category_id">
+            @foreach ($categories as $category)
+                <option value="{{ $category->id }}">{{ $category->name }}</option>
+            @endforeach
+        </select>
+        <div class="form-content__error" field-name="category_id"></div>
+    </div>
+    
+    <div class="form-content__field">
         <div class="form-content__title">Ответственный на складе:</div>
         <select class="form-content__select" name="responsible_id">
             @foreach ($responsibles as $responsible)
@@ -42,25 +58,9 @@
     </div>
 
     <div class="form-content__field">
-        <div class="form-content__title">Категория:</div>
-        <select class="form-content__select" name="category_id">
-            @foreach ($categories as $category)
-                <option value="{{ $category->id }}">{{ $category->name }}</option>
-            @endforeach
-        </select>
-        <div class="form-content__error" field-name="category_id"></div>
-    </div>
-
-    <div class="form-content__field">
         <div class="form-content__title">Дата поступления комплектующего:</div>
         <input class="form-content__date" type="date" name="receipt_date">
         <div class="form-content__error" field-name="receipt_date"></div>
-    </div>
-
-    <div class="form-content__field">
-        <div class="form-content__title">Закупочная стоимость комплектующего:</div>
-        <input class="form-content__text" type="text" name="purchase_price">
-        <div class="form-content__error" field-name="purchase_price"></div>
     </div>
 
     <div class="form-content__field">

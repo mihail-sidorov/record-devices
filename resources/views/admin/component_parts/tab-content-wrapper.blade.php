@@ -42,38 +42,38 @@
                     <table class="tab-content-wrapper__list-item-body-table">
                         <thead>
                             <tr>
+                                <td>Категория</td>
                                 <td>Модель</td>
                                 <td>Серийный номер</td>
-                                <td>Дата поступления</td>
-                                <td>Закупочная цена</td>
-                                <td>Дата окончания гарантии</td>
                                 <td>Ответственный</td>
-                                <td>Поставщик</td>
+                                <td>Закупочная цена</td>
                                 <td>Статус</td>
-                                <td>Категория</td>
+                                <td>Дата поступления</td>
+                                <td>Дата окончания гарантии</td>
+                                <td>Поставщик</td>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
+                                <td>
+                                    @if ($category)
+                                        {{ $category->name }}
+                                    @endif
+                                </td>
                                 <td>{{ $component_part->model }}</td>
                                 <td>{{ $component_part->serial_number }}</td>
-                                <td>{{ $receipt_date }}</td>
-                                <td>{{ $component_part->purchase_price }}</td>
-                                <td>{{ $warranty }}</td>
                                 <td>
                                     @if ($responsible)
                                         {{ $responsible->name }}
                                     @endif
                                 </td>
+                                <td>{{ $component_part->purchase_price }}</td>
+                                <td>{{ $component_part->get_status() }}</td>
+                                <td>{{ $receipt_date }}</td>
+                                <td>{{ $warranty }}</td>
                                 <td>
                                     @if ($provider)
                                         {{ $provider->name }}
-                                    @endif
-                                </td>
-                                <td>{{ $component_part->get_status() }}</td>
-                                <td>
-                                    @if ($category)
-                                        {{ $category->name }}
                                     @endif
                                 </td>
                             </tr>

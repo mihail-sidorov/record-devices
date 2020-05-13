@@ -64,27 +64,29 @@
                 <table class="tab-content-wrapper__list-item-body-table">
                     <thead>
                         <tr>
+                            <td>Тип</td>
+                            <td>Категория</td>
                             <td>Модель</td>
                             <td>Серийный номер</td>
-                            <td>Тип</td>
-                            <td>Дата поступления</td>
-                            <td>Закупочная цена</td>
-                            <td>Дата окончания гарантии</td>
                             <td>Выдано сотруднику</td>
                             <td>Ответственный</td>
-                            <td>Поставщик</td>
+                            <td>Закупочная цена</td>
                             <td>Статус</td>
-                            <td>Категория</td>
+                            <td>Дата поступления</td>
+                            <td>Дата окончания гарантии</td>
+                            <td>Поставщик</td>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
+                            <td>{{ $type_device }}</td>
+                            <td>
+                                @if ($category)
+                                    {{ $category->name }}
+                                @endif
+                            </td>
                             <td>{{ $worker_device->model }}</td>
                             <td>{{ $worker_device->serial_number }}</td>
-                            <td>{{ $type_device }}</td>
-                            <td>{{ $receipt_date }}</td>
-                            <td>{{ $purchase_price }}</td>
-                            <td>{{ $warranty }}</td>
                             <td>
                                 @if ($worker)
                                     {{ $worker->name }}
@@ -95,17 +97,15 @@
                                     {{ $responsible->name }}
                                 @endif
                             </td>
-                            <td>
-                                @if ($provider)
-                                    {{ $provider->name }}
-                                @endif
-                            </td>
+                            <td>{{ $purchase_price }}</td>
                             <td>
                                 {{ $worker_device->get_status() }}
                             </td>
+                            <td>{{ $receipt_date }}</td>
+                            <td>{{ $warranty }}</td>
                             <td>
-                                @if ($category)
-                                    {{ $category->name }}
+                                @if ($provider)
+                                    {{ $provider->name }}
                                 @endif
                             </td>
                         </tr>
