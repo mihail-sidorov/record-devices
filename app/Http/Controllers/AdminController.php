@@ -248,6 +248,12 @@ class AdminController extends Controller
             $this->validate($request, [
                 'name' => 'bail|required|max:255',
                 'description' => 'bail|required|max:255',
+            ]
+            ,[
+                'name.required' => 'Поле "ФИО" обязательно для заполнения',
+                'name.max' => 'Количество символов в поле "ФИО" не может превышать 255',
+                'description.required' => 'Поле "Описание" обязательно для заполнения',
+                'description.max' => 'Количество символов в поле "Описание" не может превышать 255',
             ]);
 
             $providers = new Providers;
@@ -498,6 +504,12 @@ class AdminController extends Controller
             $this->validate($request, [
                 'name' => 'bail|required|max:255',
                 'description' => 'bail|required|max:255',
+            ]
+            ,[
+                'name.required' => 'Поле "ФИО" обязательно для заполнения',
+                'name.max' => 'Количество символов в поле "ФИО" не может превышать 255',
+                'description.required' => 'Поле "Описание" обязательно для заполнения',
+                'description.max' => 'Количество символов в поле "Описание" не может превышать 255',
             ]);
 
             $providers = Providers::find($request->id);
