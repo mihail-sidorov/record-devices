@@ -2,7 +2,7 @@
     @csrf
 
     <div class="form-content__field">
-        <div class="form-content__title">Имя отдела:</div>
+        <div class="form-content__title">Наименование:</div>
         <input class="form-content__text" type="text" name="name">
         <div class="form-content__error" field-name="name"></div>
     </div>
