@@ -273,7 +273,14 @@ class AdminController extends Controller
             $this->validate($request, [
                 'name' => 'bail|required|max:255',
                 'post' => 'bail|required|max:255',
-                'department_id' => 'bail|required|max:255',
+                'department_id' => 'required',
+            ],
+            [
+                'name.required' => 'Поле "ФИО" обязательно для заполнения',
+                'name.max' => 'Количество символов в поле "ФИО" не может превышать 255',
+                'post.required' => 'Поле "Должность" обязательно для заполнения',
+                'post.max' => 'Количество символов в поле "Должность" не может превышать 255',
+                'department_id.required' => 'Поле "Отдел" обязательно для заполнения',
             ]);
 
             $responsibles = new Responsibles;
@@ -529,7 +536,14 @@ class AdminController extends Controller
             $this->validate($request, [
                 'name' => 'bail|required|max:255',
                 'post' => 'bail|required|max:255',
-                'department_id' => 'bail|required|max:255',
+                'department_id' => 'required',
+            ],
+            [
+                'name.required' => 'Поле "ФИО" обязательно для заполнения',
+                'name.max' => 'Количество символов в поле "ФИО" не может превышать 255',
+                'post.required' => 'Поле "Должность" обязательно для заполнения',
+                'post.max' => 'Количество символов в поле "Должность" не может превышать 255',
+                'department_id.required' => 'Поле "Отдел" обязательно для заполнения',
             ]);
 
             $responsibles = Responsibles::find($request->id);
