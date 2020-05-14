@@ -109,13 +109,13 @@ class AdminController extends Controller
                 'name' => 'bail|required|max:255',
                 'model' => 'bail|required|max:255',
                 'serial_number' => 'bail|required|max:255',
-                'type_device_id' => 'bail|required',
-                'purchase_price' => 'bail|required',
+                'type_device_id' => 'required',
+                'purchase_price' => 'required',
                 'warranty' => 'date',
                 'receipt_date' => 'date',
-                'responsible_id' => 'bail|required',
-                'provider_id' => 'bail|required',
-                'category_id' => 'bail|required',
+                'responsible_id' => 'required',
+                'provider_id' => 'required',
+                'category_id' => 'required',
             ];
 
             $validate_msgs = [
@@ -174,12 +174,26 @@ class AdminController extends Controller
                 'name' => 'bail|required|max:255',
                 'model' => 'bail|required|max:255',
                 'serial_number' => 'bail|required|max:255',
-                'purchase_price' => 'bail|required|max:255',
+                'purchase_price' => 'required',
                 'warranty' => 'date',
                 'receipt_date' => 'date',
-                'responsible_id' => 'bail|required|max:255',
-                'provider_id' => 'bail|required|max:255',
-                'category_id' => 'bail|required|max:255',
+                'responsible_id' => 'required',
+                'provider_id' => 'required',
+                'category_id' => 'required',
+            ],
+            [
+                'name.required' => 'Поле "Наименование" не должно быть пустым',
+                'name.max' => 'Количество символов в поле "Наименование" не может превышать 255',
+                'model.required' => 'Поле "Модель" не должно быть пустым',
+                'model.max' => 'Количество символов в поле "Модель" не может превышать 255',
+                'serial_number.required' => 'Поле "Серийный номер" не должно быть пустым',
+                'serial_number.max' => 'Количество символов в поле "Серийный номер" не может превышать 255',
+                'purchase_price.required' => 'Поле "Закупочная цена" не должно быть пустым',
+                'warranty.date' => 'Поле "Дата окончания гарантии" не является датой',
+                'receipt_date.date' => 'Поле "Дата поступления" не является датой',
+                'responsible_id.required' => 'Поле "Ответственный на складе" не должно быть пустым',
+                'provider_id.required' => 'Поле "Поставщик" не должно быть пустым',
+                'category_id.required' => 'Поле "Категория" не должно быть пустым',
             ]);
 
             $component_part = new ComponentPart;
@@ -303,7 +317,10 @@ class AdminController extends Controller
     {
         if ($request->ajax() && Auth::user()->role === 'admin') {
             $this->validate($request, [
-                'worker_id' => 'bail|required|max:255',
+                'worker_id' => 'required',
+            ],
+            [
+                'worker_id.required' => 'Выберите сотрудника из списка',
             ]);
 
             $device_worker = new DeviceWorker;
@@ -335,13 +352,13 @@ class AdminController extends Controller
                 'name' => 'bail|required|max:255',
                 'model' => 'bail|required|max:255',
                 'serial_number' => 'bail|required|max:255',
-                'type_device_id' => 'bail|required',
-                'purchase_price' => 'bail|required',
+                'type_device_id' => 'required',
+                'purchase_price' => 'required',
                 'warranty' => 'date',
                 'receipt_date' => 'date',
-                'responsible_id' => 'bail|required',
-                'provider_id' => 'bail|required',
-                'category_id' => 'bail|required',
+                'responsible_id' => 'required',
+                'provider_id' => 'required',
+                'category_id' => 'required',
             ];
 
             $validate_msgs = [
@@ -400,12 +417,26 @@ class AdminController extends Controller
                 'name' => 'bail|required|max:255',
                 'model' => 'bail|required|max:255',
                 'serial_number' => 'bail|required|max:255',
-                'purchase_price' => 'bail|required|max:255',
+                'purchase_price' => 'required',
                 'warranty' => 'date',
                 'receipt_date' => 'date',
-                'responsible_id' => 'bail|required|max:255',
-                'provider_id' => 'bail|required|max:255',
-                'category_id' => 'bail|required|max:255',
+                'responsible_id' => 'required',
+                'provider_id' => 'required',
+                'category_id' => 'required',
+            ],
+            [
+                'name.required' => 'Поле "Наименование" не должно быть пустым',
+                'name.max' => 'Количество символов в поле "Наименование" не может превышать 255',
+                'model.required' => 'Поле "Модель" не должно быть пустым',
+                'model.max' => 'Количество символов в поле "Модель" не может превышать 255',
+                'serial_number.required' => 'Поле "Серийный номер" не должно быть пустым',
+                'serial_number.max' => 'Количество символов в поле "Серийный номер" не может превышать 255',
+                'purchase_price.required' => 'Поле "Закупочная цена" не должно быть пустым',
+                'warranty.date' => 'Поле "Дата окончания гарантии" не является датой',
+                'receipt_date.date' => 'Поле "Дата поступления" не является датой',
+                'responsible_id.required' => 'Поле "Ответственный на складе" не должно быть пустым',
+                'provider_id.required' => 'Поле "Поставщик" не должно быть пустым',
+                'category_id.required' => 'Поле "Категория" не должно быть пустым',
             ]);
 
             $component_part = ComponentPart::find($request->id);

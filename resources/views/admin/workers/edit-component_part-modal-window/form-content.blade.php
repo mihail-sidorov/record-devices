@@ -4,25 +4,25 @@
     <input type="hidden" name="id">
 
     <div class="form-content__field">
-        <div class="form-content__title">Имя комплектующего:</div>
+        <div class="form-content__title">Наименование:</div>
         <input class="form-content__text" type="text" name="name">
         <div class="form-content__error" field-name="name"></div>
     </div>
 
     <div class="form-content__field">
-        <div class="form-content__title">Модель комплектующего:</div>
+        <div class="form-content__title">Модель:</div>
         <input class="form-content__text" type="text" name="model">
         <div class="form-content__error" field-name="model"></div>
     </div>
 
     <div class="form-content__field">
-        <div class="form-content__title">Серийный номер комплектующего:</div>
+        <div class="form-content__title">Серийный номер:</div>
         <input class="form-content__text" type="text" name="serial_number">
         <div class="form-content__error" field-name="serial_number"></div>
     </div>
 
     <div class="form-content__field">
-        <div class="form-content__title">Закупочная стоимость комплектующего:</div>
+        <div class="form-content__title">Закупочная цена:</div>
         <input class="form-content__text" type="text" name="purchase_price">
         <div class="form-content__error" field-name="purchase_price"></div>
     </div>
@@ -58,13 +58,13 @@
     </div>
 
     <div class="form-content__field">
-        <div class="form-content__title">Дата поступления комплектующего:</div>
+        <div class="form-content__title">Дата поступления:</div>
         <input class="form-content__date" type="date" name="receipt_date">
         <div class="form-content__error" field-name="receipt_date"></div>
     </div>
 
     <div class="form-content__field">
-        <div class="form-content__title">Срок гарантии (дата окончания):</div>
+        <div class="form-content__title">Дата окончания гарантии:</div>
         <input class="form-content__date" type="date" name="warranty">
         <div class="form-content__error" field-name="warranty"></div>
     </div>

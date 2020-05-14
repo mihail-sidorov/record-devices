@@ -48046,6 +48046,7 @@ $(document).ready(function () {
   $('.admin-component_parts-tab-content-controller .add-btn').click(function (e) {
     $('.admin-component_parts-tab-content-controller .add-component_part-modal-window .form-content__field').removeClass('form-content__field_error');
     $('.admin-component_parts-tab-content-controller .add-component_part-modal-window .form-content__error').text('');
+    $('.admin-component_parts-tab-content-controller .add-component_part-modal-window .form-content__select').val('');
     $(e.currentTarget).closest('.admin-component_parts-tab-content-controller').find('.add-component_part-modal-window').addClass('modal-window_show');
   }); // Открываем модальное окно для редактирования комплектующего, обнуляем в нем сообщения об ошибках валидации и заполняем его данными
 
