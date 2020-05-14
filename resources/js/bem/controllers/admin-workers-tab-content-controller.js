@@ -1,7 +1,7 @@
 // admin-workers-tab-content-controller
 
 $(document).ready(() => {
-    // Открываем модальное окно для добавления устройства и обнуляем в нем сообщения об ошибках валидации
+    // Открываем модальное окно для добавления сотрудника и обнуляем в нем сообщения об ошибках валидации
     $('.admin-workers-tab-content-controller').find('.add-btn').click((e) => {
         $('.admin-workers-tab-content-controller .add-worker-modal-window .form-content__field').removeClass('form-content__field_error');
         $('.admin-workers-tab-content-controller .add-worker-modal-window .form-content__error').text('');
