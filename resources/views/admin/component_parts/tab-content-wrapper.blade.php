@@ -3,14 +3,6 @@
     <div class="tab-content-wrapper__filter">
         <input class="tab-content-wrapper__filter-field" type="text" placeholder="Модель">
         <input class="tab-content-wrapper__filter-field" type="text" placeholder="Серийный номер">
-        <select class="tab-content-wrapper__filter-field">
-            <option value="">Портативный</option>
-            <option value="">Рабочее место</option>
-            <option value="">Переферия</option>
-            <option value="">Оргтехника</option>
-        </select>
-        
-        @include('action-btn')
     </div>
 
     <div class="tab-content-wrapper__title">Список:</div>
@@ -33,6 +25,9 @@
                 $responsible = $component_part->get_responsible();
             ?>
             <div class="tab-content-wrapper__list-item" id="{{ $component_part->id }}">
+                <input type="hidden" class="tab-content-wrapper__list-item-filter-field" value="{{ $component_part->model }}">
+                <input type="hidden" class="tab-content-wrapper__list-item-filter-field" value="{{ $component_part->serial_number }}">
+
                 <div class="tab-content-wrapper__list-item-head">
                     <div class="tab-content-wrapper__list-item-name">{{ $component_part->name }}</div>
                     @include('edit-btn')

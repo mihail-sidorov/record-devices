@@ -4,13 +4,12 @@
         <input class="tab-content-wrapper__filter-field" type="text" placeholder="Модель">
         <input class="tab-content-wrapper__filter-field" type="text" placeholder="Серийный номер">
         <select class="tab-content-wrapper__filter-field">
-            <option value="">Портативный</option>
-            <option value="">Рабочее место</option>
-            <option value="">Переферия</option>
-            <option value="">Оргтехника</option>
+            <option value="">Все типы устройств</option>
+            <option value="1">Портативный</option>
+            <option value="2">Рабочее место</option>
+            <option value="3">Переферия</option>
+            <option value="4">Оргтехника</option>
         </select>
-        
-        @include('action-btn')
     </div>
 
     <div class="tab-content-wrapper__title">Список:</div>
@@ -58,6 +57,10 @@
                 }
             ?>
             <div class="tab-content-wrapper__list-item" id="{{ $device->id }}">
+                <input type="hidden" class="tab-content-wrapper__list-item-filter-field" value="{{ $device->model }}">
+                <input type="hidden" class="tab-content-wrapper__list-item-filter-field" value="{{ $device->serial_number }}">
+                <input type="hidden" class="tab-content-wrapper__list-item-filter-field" value="{{ $device->type_device_id }}">
+
                 <div class="tab-content-wrapper__list-item-head">
                     <div class="tab-content-wrapper__list-item-name">{{ $device->name }}</div>
                     <div class="tab-content-wrapper__edit-device-btn">

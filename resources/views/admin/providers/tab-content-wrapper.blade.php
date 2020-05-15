@@ -2,8 +2,6 @@
     <div class="tab-content-wrapper__title">Фильтр:</div>    
     <div class="tab-content-wrapper__filter">
         <input class="tab-content-wrapper__filter-field" type="text" placeholder="ФИО">
-        
-        @include('action-btn')
     </div>
 
     <div class="tab-content-wrapper__title">Список:</div>
@@ -16,6 +14,8 @@
                 $description = str_replace("\n", '<br/>', $description);
             ?>
             <div class="tab-content-wrapper__list-item" id="{{ $provider->id }}">
+                <input type="hidden" class="tab-content-wrapper__list-item-filter-field" value="{{ $provider->name }}">
+
                 <div class="tab-content-wrapper__list-item-head">
                     <div class="tab-content-wrapper__list-item-name">{{ $provider->name }}</div>
                     @include('edit-btn')
