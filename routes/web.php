@@ -64,3 +64,4 @@ Route::get('/worker/tab/{tab_name}', 'WorkerController@index');
 Route::post('/worker/add-service', 'WorkerController@addService');
 Route::post('/worker/write-edit-service-form', 'WorkerController@writeEditServiceForm');
 Route::post('/worker/edit-service', 'WorkerController@editService');
+Route::post('/worker/del-service', 'WorkerController@delService');

@@ -121,4 +121,13 @@ class WorkerController extends Controller
 
         return 'OK';
     }
+
+    public function delService(Request $request)
+    {
+        if ($request->ajax() && Auth::user()->role === 'worker') {
+            Service::destroy($request->id);
+        }
+        
+        return 'OK';
+    }
 }

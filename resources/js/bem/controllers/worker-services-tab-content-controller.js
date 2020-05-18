@@ -129,4 +129,28 @@ $(document).ready(() => {
 
         return false;
     });
+
+    // Удаление сервиса
+    $('.worker-services-tab-content-controller .tab-content-wrapper__list').on('click', '.del-btn', (e) => {
+        var serviceId, token, serviceName = $(e.currentTarget).closest('.tab-content-wrapper__list-item-head').find('.tab-content-wrapper__list-item-name').text();
+
+        if (confirm(`Вы действительно хотите удалить сервис "${serviceName}"?`)) {
+            serviceId = $(e.currentTarget).closest('.tab-content-wrapper__list-item').attr('id');
+            token = $('meta[name="csrf-token"]').attr('content');
+            
+            $.ajax({
+                type: 'POST',
+                url: '/worker/del-service',
+                data: {
+                    _token: token,
+                    id: serviceId,
+                },
+                success: (response) => {
+                    if (response) {
+                        window.location.href = '/worker/tab/services';
+                    }
+                },
+            });
+        }
+    });
 });
