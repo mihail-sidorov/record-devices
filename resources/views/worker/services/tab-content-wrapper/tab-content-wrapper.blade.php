@@ -8,6 +8,8 @@
     <div class="tab-content-wrapper__list">
         @foreach ($services as $service)
             <div class="tab-content-wrapper__list-item" id="{{ $service->id }}">
+                <input type="hidden" class="tab-content-wrapper__list-item-filter-field" value="{{ $service->name }}">
+
                 <div class="tab-content-wrapper__list-item-head">
                     <div class="tab-content-wrapper__list-item-name">{{ $service->name }}</div>
                     @include('edit-btn')
