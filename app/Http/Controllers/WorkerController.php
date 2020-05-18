@@ -39,7 +39,7 @@ class WorkerController extends Controller
                     abort(404);
             }
 
-            $services = Service::all();
+            $services = Service::where('user_id', Auth::user()->id)->get();
 
             return view('worker.index', [
                 'active_tabs' => $active_tabs,
@@ -73,6 +73,7 @@ class WorkerController extends Controller
             $service->name = $request->name;
             $service->login = $request->login;
             $service->password = $request->password;
+            $service->user_id = Auth::user()->id;
 
             $service->save();
         }

@@ -18,6 +18,7 @@ class CreateServicesTable extends Migration
             $table->string('name');
             $table->string('login');
             $table->string('password');
+            $table->integer('user_id');
         });
     }
 
