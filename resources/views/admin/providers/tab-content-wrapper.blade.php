@@ -1,4 +1,6 @@
 <div class="tab-content-wrapper">
+    @include('add-btn')
+
     <div class="tab-content-wrapper__title">Фильтр:</div>    
     <div class="tab-content-wrapper__filter">
         <input class="tab-content-wrapper__filter-field" type="text" placeholder="ФИО">
@@ -38,6 +40,4 @@
             </div>
         @endforeach
     </div>
-
-    @include('add-btn')
 </div>

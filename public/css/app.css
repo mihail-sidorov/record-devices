@@ -10933,6 +10933,11 @@ a.text-dark:focus {
   border-radius: 0.25rem;
 }
 
+.tab-content-wrapper .tab-content-wrapper__filter input.tab-content-wrapper__filter-field:focus {
+  border-color: #a1cbef;
+  box-shadow: 0 0 0 0.2rem rgba(52, 144, 220, 0.25);
+}
+
 .tab-content-wrapper .tab-content-wrapper__list {
   margin-top: 10px;
 }
