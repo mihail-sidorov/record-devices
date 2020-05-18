@@ -47641,7 +47641,9 @@ __webpack_require__(/*! ./bem/controllers/admin-responsibles-tab-content-control
 
 __webpack_require__(/*! ./bem/controllers/admin-departments-tab-content-controller */ "./resources/js/bem/controllers/admin-departments-tab-content-controller.js");
 
-__webpack_require__(/*! ./bem/controllers/admin-categories-tab-content-controller */ "./resources/js/bem/controllers/admin-categories-tab-content-controller.js"); //window.Vue = require('vue');
+__webpack_require__(/*! ./bem/controllers/admin-categories-tab-content-controller */ "./resources/js/bem/controllers/admin-categories-tab-content-controller.js");
+
+__webpack_require__(/*! ./bem/controllers/worker-services-tab-content-controller */ "./resources/js/bem/controllers/worker-services-tab-content-controller.js"); //window.Vue = require('vue');
 
 /**
  * The following block of code may be used to automatically register your
@@ -49388,6 +49390,137 @@ $(document).ready(function () {
 
         if (_error4.status === 422) {
           errors = _error4.responseJSON.errors;
+
+          if (errors !== undefined) {
+            for (var key in errors) {
+              if (errors[key][0]) {
+                $formContentField = $(e.currentTarget).find(".form-content__error[field-name=\"".concat(key, "\"]")).closest('.form-content__field');
+                $formContentField.addClass('form-content__field_error');
+                $formContentField.find('.form-content__error').text(errors[key][0]);
+              }
+            }
+          }
+        }
+      }
+    });
+    return false;
+  });
+});
+
+/***/ }),
+
+/***/ "./resources/js/bem/controllers/worker-services-tab-content-controller.js":
+/*!********************************************************************************!*\
+  !*** ./resources/js/bem/controllers/worker-services-tab-content-controller.js ***!
+  \********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// worker-services-tab-content-controller
+$(document).ready(function () {
+  // Открываем модальное окно для добавления сервиса и обнуляем в нем сообщения об ошибках валидации
+  $('.worker-services-tab-content-controller').find('.add-btn').click(function (e) {
+    $('.worker-services-tab-content-controller .add-service-modal-window .form-content__field').removeClass('form-content__field_error');
+    $('.worker-services-tab-content-controller .add-service-modal-window .form-content__error').text('');
+    $(e.currentTarget).closest('.worker-services-tab-content-controller').find('.add-service-modal-window').addClass('modal-window_show');
+  }); // Открываем модальное окно для редактирования сервиса, обнуляем в нем сообщения об ошибках валидации и заполняем его данными
+
+  $('.worker-services-tab-content-controller .edit-btn').click(function (e) {
+    var serviceId = $(e.currentTarget).closest('.tab-content-wrapper__list-item').attr('id'),
+        token = $('meta[name="csrf-token"]').attr('content');
+    $.ajax({
+      type: 'POST',
+      url: '/worker/write-edit-service-form',
+      data: {
+        _token: token,
+        id: serviceId
+      },
+      dataType: 'json',
+      success: function success(response) {
+        if (response) {
+          $('.worker-services-tab-content-controller .edit-service-modal-window .form-content__field').each(function (index, element) {
+            var $fieldNameElement = $(element).find('[name]'),
+                fieldName = $fieldNameElement.attr('name');
+
+            if (fieldName === 'description') {
+              description = response[fieldName];
+              description = description.replace(/\*\*\*/g, "\r\n");
+              description = description.replace(/\*\*/g, "\r");
+              description = description.replace(/\*/g, "\n");
+              $fieldNameElement.val(description);
+            } else {
+              $fieldNameElement.val(response[fieldName]);
+            }
+          });
+          $('.worker-services-tab-content-controller .edit-service-modal-window .form-content input[name="id"]').val(serviceId);
+          $('.worker-services-tab-content-controller .edit-service-modal-window .form-content__field').removeClass('form-content__field_error');
+          $('.worker-services-tab-content-controller .edit-service-modal-window .form-content__error').text('');
+          $(e.currentTarget).closest('.worker-services-tab-content-controller').find('.edit-service-modal-window').addClass('modal-window_show');
+        }
+      }
+    });
+  }); // Обнуляем сообщения об ошибках валидации у текстовых полей
+
+  $('.worker-services-tab-content-controller .add-service-modal-window .form-content__text, .worker-services-tab-content-controller .edit-service-modal-window .form-content__text').on('input', function (e) {
+    var $formContentField = $(e.currentTarget).closest('.form-content__field');
+    $formContentField.removeClass('form-content__field_error');
+    $formContentField.find('.form-content__error').text('');
+  }); // Валидация и добавление сервиса
+
+  $('.worker-services-tab-content-controller .add-service-modal-window .form-content').on('submit', function (e) {
+    var fields = $(e.currentTarget).serialize(),
+        $formContentField;
+    $(e.currentTarget).find('.form-content__field').removeClass('form-content__field_error');
+    $(e.currentTarget).find('.form-content__error').text('');
+    $.ajax({
+      type: 'POST',
+      url: '/worker/add-service',
+      data: fields,
+      success: function success(response) {
+        if (response) {
+          window.location.href = '/worker/tab/services';
+        }
+      },
+      error: function error(_error) {
+        var errors;
+
+        if (_error.status === 422) {
+          errors = _error.responseJSON.errors;
+
+          if (errors !== undefined) {
+            for (var key in errors) {
+              if (errors[key][0]) {
+                $formContentField = $(e.currentTarget).find(".form-content__error[field-name=\"".concat(key, "\"]")).closest('.form-content__field');
+                $formContentField.addClass('form-content__field_error');
+                $formContentField.find('.form-content__error').text(errors[key][0]);
+              }
+            }
+          }
+        }
+      }
+    });
+    return false;
+  }); // Валидация и редактирование сервиса
+
+  $('.worker-services-tab-content-controller .edit-service-modal-window .form-content').on('submit', function (e) {
+    var fields = $(e.currentTarget).serialize(),
+        $formContentField;
+    $(e.currentTarget).find('.form-content__field').removeClass('form-content__field_error');
+    $(e.currentTarget).find('.form-content__error').text('');
+    $.ajax({
+      type: 'POST',
+      url: '/worker/edit-service',
+      data: fields,
+      success: function success(response) {
+        if (response) {
+          window.location.href = '/worker/tab/services';
+        }
+      },
+      error: function error(_error2) {
+        var errors;
+
+        if (_error2.status === 422) {
+          errors = _error2.responseJSON.errors;
 
           if (errors !== undefined) {
             for (var key in errors) {

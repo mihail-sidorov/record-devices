@@ -24,6 +24,7 @@ require('./bem/controllers/admin-providers-tab-content-controller');
 require('./bem/controllers/admin-responsibles-tab-content-controller');
 require('./bem/controllers/admin-departments-tab-content-controller');
 require('./bem/controllers/admin-categories-tab-content-controller');
+require('./bem/controllers/worker-services-tab-content-controller');
 
 //window.Vue = require('vue');
 

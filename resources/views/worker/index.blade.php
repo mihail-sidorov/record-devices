@@ -4,12 +4,14 @@
 <div class="content">
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item">
-            <a class="nav-link active" id="devices-tab" data-toggle="tab" href="#devices" role="tab" aria-controls="devices" aria-selected="true">Устройства</a>
+            <a class="nav-link<?php if ($active_tabs['services']) echo $active_tabs['services'][0]; ?>" id="services-tab" data-toggle="tab" href="#services" role="tab" aria-controls="services" aria-selected="true">Сервисы</a>
         </li>
     </ul>
     <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade show active worker-devices-tab-content-controller" id="devices" role="tabpanel" aria-labelledby="devices-tab">
-            @include('worker.devices.tab-content-wrapper')
+        <div class="tab-pane fade<?php if ($active_tabs['services']) echo $active_tabs['services'][1]; ?> worker-services-tab-content-controller" id="services" role="tabpanel" aria-labelledby="services-tab">
+            @include('worker.services.tab-content-wrapper.tab-content-wrapper')
+            @include('worker.services.add-service-modal-window.modal-window')
+            @include('worker.services.edit-service-modal-window.modal-window')
         </div>
     </div>
 </div>

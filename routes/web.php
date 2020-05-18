@@ -60,3 +60,7 @@ Route::post('/admin/attach-component-parts-to-device', 'AdminController@attachCo
 Route::post('/admin/attach-devices-to-worker', 'AdminController@attachDevicesToWorker');
 
 Route::get('/worker', 'WorkerController@index')->name('worker');
+Route::get('/worker/tab/{tab_name}', 'WorkerController@index');
+Route::post('/worker/add-service', 'WorkerController@addService');
+Route::post('/worker/write-edit-service-form', 'WorkerController@writeEditServiceForm');
+Route::post('/worker/edit-service', 'WorkerController@editService');
