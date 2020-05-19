@@ -47631,6 +47631,8 @@ __webpack_require__(/*! ./bem/attach-devices-modal-window */ "./resources/js/bem
 
 __webpack_require__(/*! ./bem/controllers/admin-devices-tab-content-controller */ "./resources/js/bem/controllers/admin-devices-tab-content-controller.js");
 
+__webpack_require__(/*! ./bem/controllers/admin-work-places-tab-content-controller */ "./resources/js/bem/controllers/admin-work-places-tab-content-controller.js");
+
 __webpack_require__(/*! ./bem/controllers/admin-component_parts-tab-content-controller */ "./resources/js/bem/controllers/admin-component_parts-tab-content-controller.js");
 
 __webpack_require__(/*! ./bem/controllers/admin-workers-tab-content-controller */ "./resources/js/bem/controllers/admin-workers-tab-content-controller.js");
@@ -49023,6 +49025,162 @@ $(document).ready(function () {
         success: function success(response) {
           if (response) {
             window.location.href = '/admin/tab/responsibles';
+          }
+        }
+      });
+    }
+  });
+});
+
+/***/ }),
+
+/***/ "./resources/js/bem/controllers/admin-work-places-tab-content-controller.js":
+/*!**********************************************************************************!*\
+  !*** ./resources/js/bem/controllers/admin-work-places-tab-content-controller.js ***!
+  \**********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// admin-work-places-tab-content-controller
+$(document).ready(function () {
+  // Открываем модальное окно для добавления рабочего места и обнуляем в нем сообщения об ошибках валидации
+  $('.admin-work-places-tab-content-controller .add-btn').click(function (e) {
+    $('.admin-work-places-tab-content-controller .add-work-place-modal-window .form-content__field').removeClass('form-content__field_error');
+    $('.admin-work-places-tab-content-controller .add-work-place-modal-window .form-content__error').text('');
+    $(e.currentTarget).closest('.admin-work-places-tab-content-controller').find('.add-work-place-modal-window').addClass('modal-window_show');
+  }); // Открываем модальное окно для редактирования рабочего места, обнуляем в нем сообщения об ошибках валидации и заполняем его данными
+
+  $('.admin-work-places-tab-content-controller .edit-btn').click(function (e) {
+    var workPlaceId = $(e.currentTarget).closest('.tab-content-wrapper__list-item').attr('id'),
+        token = $('meta[name="csrf-token"]').attr('content');
+    $.ajax({
+      type: 'POST',
+      url: '/admin/write-edit-work-place-form',
+      data: {
+        _token: token,
+        id: workPlaceId
+      },
+      dataType: 'json',
+      success: function success(response) {
+        if (response) {
+          $('.admin-work-places-tab-content-controller .edit-work-place-modal-window .form-content__field').each(function (index, element) {
+            var $fieldNameElement = $(element).find('[name]'),
+                fieldName = $fieldNameElement.attr('name'),
+                date,
+                year,
+                month,
+                day;
+            $fieldNameElement.val(response[fieldName]);
+          });
+          $('.admin-work-places-tab-content-controller .edit-work-place-modal-window .form-content input[name="id"]').val(workPlaceId);
+          $('.admin-work-places-tab-content-controller .edit-work-place-modal-window .form-content__field').removeClass('form-content__field_error');
+          $('.admin-work-places-tab-content-controller .edit-work-place-modal-window .form-content__error').text('');
+          $(e.currentTarget).closest('.admin-work-places-tab-content-controller').find('.edit-work-place-modal-window').addClass('modal-window_show');
+        }
+      }
+    });
+  }); // Обнуляем сообщения об ошибках валидации у текстовых полей
+
+  $('.admin-work-places-tab-content-controller .add-work-place-modal-window .form-content__text, .admin-work-places-tab-content-controller .edit-work-place-modal-window .form-content__text').on('input', function (e) {
+    var $formContentField = $(e.currentTarget).closest('.form-content__field');
+    $formContentField.removeClass('form-content__field_error');
+    $formContentField.find('.form-content__error').text('');
+  }); // Обнуляем сообщения об ошибках валидации у выпадающих списков
+
+  $('.admin-work-places-tab-content-controller .add-work-place-modal-window .form-content__select, .admin-work-places-tab-content-controller .edit-work-place-modal-window .form-content__select').on('change', function (e) {
+    var $formContentField = $(e.currentTarget).closest('.form-content__field');
+    $formContentField.removeClass('form-content__field_error');
+    $formContentField.find('.form-content__error').text('');
+  }); // Валидация и добавление рабочего места
+
+  $('.admin-work-places-tab-content-controller .add-work-place-modal-window .form-content').on('submit', function (e) {
+    var fields = $(e.currentTarget).serialize(),
+        $formContentField;
+    $(e.currentTarget).find('.form-content__field').removeClass('form-content__field_error');
+    $(e.currentTarget).find('.form-content__error').text('');
+    $.ajax({
+      type: 'POST',
+      url: '/admin/add-work-place',
+      data: fields,
+      success: function success(response) {
+        if (response) {
+          window.location.href = '/admin/tab/work-places';
+        }
+      },
+      error: function error(_error) {
+        var errors;
+
+        if (_error.status === 422) {
+          errors = _error.responseJSON.errors;
+
+          if (errors !== undefined) {
+            for (var key in errors) {
+              if (errors[key][0]) {
+                $formContentField = $(e.currentTarget).find(".form-content__error[field-name=\"".concat(key, "\"]")).closest('.form-content__field');
+                $formContentField.addClass('form-content__field_error');
+                $formContentField.find('.form-content__error').text(errors[key][0]);
+              }
+            }
+          }
+        }
+      }
+    });
+    return false;
+  }); // Валидация и редактирование рабочего места
+
+  $('.admin-work-places-tab-content-controller .edit-work-place-modal-window .form-content').on('submit', function (e) {
+    var fields = $(e.currentTarget).serialize(),
+        $formContentField;
+    $(e.currentTarget).find('.form-content__field').removeClass('form-content__field_error');
+    $(e.currentTarget).find('.form-content__error').text('');
+    $.ajax({
+      type: 'POST',
+      url: '/admin/edit-work-place',
+      data: fields,
+      success: function success(response) {
+        if (response) {
+          window.location.href = '/admin/tab/work-places';
+        }
+      },
+      error: function error(_error2) {
+        var errors;
+
+        if (_error2.status === 422) {
+          errors = _error2.responseJSON.errors;
+
+          if (errors !== undefined) {
+            for (var key in errors) {
+              if (errors[key][0]) {
+                $formContentField = $(e.currentTarget).find(".form-content__error[field-name=\"".concat(key, "\"]")).closest('.form-content__field');
+                $formContentField.addClass('form-content__field_error');
+                $formContentField.find('.form-content__error').text(errors[key][0]);
+              }
+            }
+          }
+        }
+      }
+    });
+    return false;
+  }); // Удаление рабочего места
+
+  $('.admin-work-places-tab-content-controller .del-btn').click(function (e) {
+    var workPlaceId,
+        token,
+        workPlaceName = $(e.currentTarget).closest('.tab-content-wrapper__list-item-head').find('.tab-content-wrapper__list-item-name').text();
+
+    if (confirm("\u0412\u044B \u0434\u0435\u0439\u0441\u0442\u0432\u0438\u0442\u0435\u043B\u044C\u043D\u043E \u0445\u043E\u0442\u0438\u0442\u0435 \u0443\u0434\u0430\u043B\u0438\u0442\u044C \u0440\u0430\u0431\u043E\u0447\u0435\u0435 \u043C\u0435\u0441\u0442\u043E \"".concat(workPlaceName, "\"?"))) {
+      workPlaceId = $(e.currentTarget).closest('.tab-content-wrapper__list-item').attr('id');
+      token = $('meta[name="csrf-token"]').attr('content');
+      $.ajax({
+        type: 'POST',
+        url: '/admin/del-work-place',
+        data: {
+          _token: token,
+          id: workPlaceId
+        },
+        success: function success(response) {
+          if (response) {
+            window.location.href = '/admin/tab/work-places';
           }
         }
       });

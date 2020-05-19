@@ -7,6 +7,9 @@
             <a class="nav-link<?php if ($active_tabs['devices']) echo $active_tabs['devices'][0]; ?>" id="devices-tab" data-toggle="tab" href="#devices" role="tab" aria-controls="devices" aria-selected="true">Устройства</a>
         </li>
         <li class="nav-item">
+            <a class="nav-link<?php if ($active_tabs['work-places']) echo $active_tabs['work-places'][0]; ?>" id="work-places-tab" data-toggle="tab" href="#work-places" role="tab" aria-controls="work-places" aria-selected="true">Рабочие места</a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link<?php if ($active_tabs['component_parts']) echo $active_tabs['component_parts'][0]; ?>" id="component_parts-tab" data-toggle="tab" href="#component_parts" role="tab" aria-controls="component_parts" aria-selected="true">Комплектующие</a>
         </li>
         <li class="nav-item">
@@ -33,6 +36,11 @@
             @include('admin.devices.attach-worker-modal-window.modal-window')
             @include('admin.devices.attach-component-parts-modal-window.modal-window')
             @include('admin.devices.edit-component_part-modal-window.modal-window')
+        </div>
+        <div class="tab-pane fade<?php if ($active_tabs['work-places']) echo $active_tabs['work-places'][1]; ?> admin-work-places-tab-content-controller" id="work-places" role="tabpanel" aria-labelledby="work-places-tab">
+            @include('admin.work-places.tab-content-wrapper.tab-content-wrapper')
+            @include('admin.work-places.add-work-place-modal-window.modal-window')
+            @include('admin.work-places.edit-work-place-modal-window.modal-window')
         </div>
         <div class="tab-pane fade<?php if ($active_tabs['component_parts']) echo $active_tabs['component_parts'][1]; ?> admin-component_parts-tab-content-controller" id="component_parts" role="tabpanel" aria-labelledby="component_parts-tab">
             @include('admin.component_parts.tab-content-wrapper')

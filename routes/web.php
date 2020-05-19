@@ -24,6 +24,7 @@ Route::get('/password/email', function(){
 
 Route::get('/admin', 'AdminController@index')->name('admin');
 Route::post('/admin/add-device', 'AdminController@addDevice');
+Route::post('/admin/add-work-place', 'AdminController@addWorkPlace');
 Route::post('/admin/add-component-part', 'AdminController@addComponentPart');
 Route::post('/admin/add-worker', 'AdminController@addWorker');
 Route::post('/admin/add-provider', 'AdminController@addProvider');
@@ -31,6 +32,7 @@ Route::post('/admin/add-responsible', 'AdminController@addResponsible');
 Route::post('/admin/add-department', 'AdminController@addDepartment');
 Route::post('/admin/add-category', 'AdminController@addCategory');
 Route::post('/admin/del-device', 'AdminController@delDevice');
+Route::post('/admin/del-work-place', 'AdminController@delWorkPlace');
 Route::post('/admin/del-component-part', 'AdminController@delComponentPart');
 Route::post('/admin/del-worker', 'AdminController@delWorker');
 Route::post('/admin/del-provider', 'AdminController@delProvider');
@@ -38,6 +40,7 @@ Route::post('/admin/del-responsible', 'AdminController@delResponsible');
 Route::post('/admin/del-department', 'AdminController@delDepartment');
 Route::post('/admin/del-category', 'AdminController@delCategory');
 Route::post('/admin/write-edit-device-form', 'AdminController@writeEditDeviceForm');
+Route::post('/admin/write-edit-work-place-form', 'AdminController@writeEditWorkPlaceForm');
 Route::post('/admin/write-edit-component-part-form', 'AdminController@writeEditComponentPartForm');
 Route::post('/admin/write-edit-worker-form', 'AdminController@writeEditWorkerForm');
 Route::post('/admin/write-edit-provider-form', 'AdminController@writeEditProviderForm');
@@ -45,6 +48,7 @@ Route::post('/admin/write-edit-responsible-form', 'AdminController@writeEditResp
 Route::post('/admin/write-edit-department-form', 'AdminController@writeEditDepartmentForm');
 Route::post('/admin/write-edit-category-form', 'AdminController@writeEditCategoryForm');
 Route::post('/admin/edit-device', 'AdminController@editDevice');
+Route::post('/admin/edit-work-place', 'AdminController@editWorkPlace');
 Route::post('/admin/edit-component-part', 'AdminController@editComponentPart');
 Route::post('/admin/edit-worker', 'AdminController@editWorker');
 Route::post('/admin/edit-provider', 'AdminController@editProvider');

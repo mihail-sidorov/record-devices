@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use App\Devices;
+use App\WorkPlace;
 use App\Workers;
 use App\Providers;
 use App\Responsibles;
@@ -37,6 +38,7 @@ class AdminController extends Controller
         if (Auth::user()->role === 'admin') {
             $active_tabs = [
                 'devices' => [],
+                'work-places' => [],
                 'component_parts' => [],
                 'workers' => [],
                 'providers'=> [],
@@ -49,6 +51,10 @@ class AdminController extends Controller
                 case 'devices':
                     $active_tabs['devices'][] = ' active';
                     $active_tabs['devices'][] = ' show active';
+                    break;
+                case 'work-places':
+                    $active_tabs['work-places'][] = ' active';
+                    $active_tabs['work-places'][] = ' show active';
                     break;
                 case 'component_parts':
                     $active_tabs['component_parts'][] = ' active';
@@ -79,6 +85,7 @@ class AdminController extends Controller
             }
 
             $devices = Devices::all();
+            $work_places = WorkPlace::all();
             $component_parts = ComponentPart::all();
             $workers = Workers::all();
             $providers = Providers::all();
@@ -88,6 +95,7 @@ class AdminController extends Controller
 
             return view('admin.index', [
                 'devices' => $devices,
+                'work_places' => $work_places,
                 'component_parts' => $component_parts,
                 'workers' => $workers,
                 'providers' => $providers,
@@ -162,6 +170,34 @@ class AdminController extends Controller
             $devices->category_id = $request->category_id;
 
             $devices->save();
+        }
+
+        return 'OK';
+    }
+
+    public function addWorkPlace(Request $request)
+    {
+        if ($request->ajax() && Auth::user()->role === 'admin') {
+            $this->validate($request, [
+                'name' => 'bail|required|max:255',
+                'inventar_number' => 'bail|required|max:255',
+                'responsible_id' => 'required',
+            ],
+            [
+                'name.required' => 'Поле "Наименование" обязательно для заполнения',
+                'name.max' => 'Количество символов в поле "Наименование" не может превышать 255',
+                'inventar_number.required' => 'Поле "Инвентарный номер" обязательно для заполнения',
+                'inventar_number.max' => 'Количество символов в поле "Инвентарный номер" не может превышать 255',
+                'responsible_id.required' => 'Поле "Ответственный на складе" обязательно для заполнения',
+            ]);
+
+            $work_place = new WorkPlace;
+
+            $work_place->name = $request->name;
+            $work_place->inventar_number = $request->inventar_number;
+            $work_place->responsible_id = $request->responsible_id;
+
+            $work_place->save();
         }
 
         return 'OK';
@@ -442,6 +478,34 @@ class AdminController extends Controller
         return 'OK';
     }
 
+    public function editWorkPlace(Request $request)
+    {
+        if ($request->ajax() && Auth::user()->role === 'admin') {
+            $this->validate($request, [
+                'name' => 'bail|required|max:255',
+                'inventar_number' => 'bail|required|max:255',
+                'responsible_id' => 'required',
+            ],
+            [
+                'name.required' => 'Поле "Наименование" обязательно для заполнения',
+                'name.max' => 'Количество символов в поле "Наименование" не может превышать 255',
+                'inventar_number.required' => 'Поле "Инвентарный номер" обязательно для заполнения',
+                'inventar_number.max' => 'Количество символов в поле "Инвентарный номер" не может превышать 255',
+                'responsible_id.required' => 'Поле "Ответственный на складе" обязательно для заполнения',
+            ]);
+
+            $work_place = WorkPlace::find($request->id);
+
+            $work_place->name = $request->name;
+            $work_place->inventar_number = $request->inventar_number;
+            $work_place->responsible_id = $request->responsible_id;
+
+            $work_place->save();
+        }
+
+        return 'OK';
+    }
+
     public function editComponentPart(Request $request)
     {
         if ($request->ajax() && Auth::user()->role === 'admin') {
@@ -629,6 +693,15 @@ class AdminController extends Controller
         return 'OK';
     }
 
+    public function delWorkPlace(Request $request)
+    {
+        if ($request->ajax() && Auth::user()->role === 'admin') {
+            WorkPlace::destroy($request->id);
+        }
+        
+        return 'OK';
+    }
+
     public function delComponentPart(Request $request)
     {
         if ($request->ajax() && Auth::user()->role === 'admin') {
@@ -700,6 +773,19 @@ class AdminController extends Controller
                 \"responsible_id\": \"$device->responsible_id\",
                 \"provider_id\": \"$device->provider_id\",
                 \"category_id\": \"$device->category_id\"
+            }";
+        }
+    }
+
+    public function writeEditWorkPlaceForm(Request $request)
+    {
+        if ($request->ajax() && Auth::user()->role === 'admin') {
+            $work_place = WorkPlace::find($request->id);
+
+            return "{
+                \"name\": \"$work_place->name\",
+                \"inventar_number\": \"$work_place->inventar_number\",
+                \"responsible_id\": \"$work_place->responsible_id\"
             }";
         }
     }
