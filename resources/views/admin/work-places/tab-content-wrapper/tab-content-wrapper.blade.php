@@ -12,15 +12,16 @@
                 else {
                     $worker_id = '';
                 }
-                // $responsible = $work_place->get_responsible();
-                // $work_place_component_parts = $work_place->component_parts;
-                // $purchase_price = 0;
 
-                // if ($work_place_component_parts->count()) {
-                //     foreach ($work_place_component_parts as $work_place_component_part) {
-                //         $purchase_price += $work_place_component_part->purchase_price;
-                //     }
-                // }
+                $responsible = $work_place->get_responsible();
+                
+                $work_place_component_parts = $work_place->component_parts;
+                $purchase_price = 0;
+                if (count($work_place_component_parts)) {
+                    foreach ($work_place_component_parts as $work_place_component_part) {
+                        $purchase_price += $work_place_component_part->purchase_price;
+                    }
+                }
             ?>
             <div class="tab-content-wrapper__list-item" id="{{ $work_place->id }}" worker_id="{{ $worker_id }}">
                 <div class="tab-content-wrapper__list-item-head">
@@ -51,10 +52,20 @@
                         <tbody>
                             <tr>
                                 <td>{{ $work_place->inventar_number }}</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td>
+                                    @if ($worker)
+                                        {{ $worker->name }}
+                                    @endif
+                                </td>
+                                <td>
+                                    @if ($responsible)
+                                        {{ $responsible->name }}
+                                    @endif
+                                </td>
+                                <td>{{ $purchase_price }}</td>
+                                <td>
+                                    {{ $work_place->get_status() }}
+                                </td>
                             </tr>
                         </tbody>
                     </table>

@@ -21,6 +21,11 @@ class WorkPlace extends Model
      */
     public $timestamps = false;
 
+    public function responsible()
+    {
+        return $this->hasOne('App\Responsibles', 'id', 'responsible_id');
+    }
+
     public function get_attach_worker()
     {
         $work_place_worker = WorkPlaceWorker::where([
@@ -44,5 +49,34 @@ class WorkPlace extends Model
         else {
             return false;
         }
+    }
+
+    public function get_responsible()
+    {
+        $attach_worker = $this->get_attach_worker();
+        if ($attach_worker) {
+            $responsible = $attach_worker->responsible;
+            if ($responsible) {
+                return $responsible;
+            }
+        }
+
+        return $this->responsible;
+    }
+
+    public function component_parts()
+    {
+        return $this->belongsToMany('App\ComponentPart', 'work_place_component_part', 'work_place_id', 'component_part_id')->wherePivot('attach', 1);
+    }
+
+    public function get_status()
+    {
+        $status = 'На складе';
+
+        if ($this->is_attach_to_worker()) {
+            $status = 'Выдано';
+        }
+
+        return $status;
     }
 }
