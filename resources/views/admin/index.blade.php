@@ -41,6 +41,7 @@
             @include('admin.work-places.tab-content-wrapper.tab-content-wrapper')
             @include('admin.work-places.add-work-place-modal-window.modal-window')
             @include('admin.work-places.edit-work-place-modal-window.modal-window')
+            @include('admin.work-places.attach-component-parts-modal-window.modal-window')
         </div>
         <div class="tab-pane fade<?php if ($active_tabs['component_parts']) echo $active_tabs['component_parts'][1]; ?> admin-component_parts-tab-content-controller" id="component_parts" role="tabpanel" aria-labelledby="component_parts-tab">
             @include('admin.component_parts.tab-content-wrapper')

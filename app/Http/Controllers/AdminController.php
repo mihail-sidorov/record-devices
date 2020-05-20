@@ -15,6 +15,7 @@ use App\DeviceWorker;
 use App\Categories;
 use App\ComponentPart;
 use App\DeviceComponentPart;
+use App\WorkPlaceComponentPart;
 
 class AdminController extends Controller
 {
@@ -889,8 +890,8 @@ class AdminController extends Controller
     public function writeAttachComponentPartsModalWindow(Request $request)
     {
         if ($request->ajax() && Auth::user()->role === 'admin') {
-            $component_part_ids = DeviceComponentPart::where([
-                ['device_id', '<>', $request->device_id],
+            $component_part_ids = WorkPlaceComponentPart::where([
+                ['work_place_id', '<>', $request->work_place_id],
                 ['attach', '=', 1],
             ])
             ->pluck('component_part_id');
@@ -919,41 +920,41 @@ class AdminController extends Controller
         }
     }
 
-    public function attachComponentPartToDevice($device_id, $component_part_id, $component_part_check)
+    public function attachComponentPartToWorkPlace($work_place_id, $component_part_id, $component_part_check)
     {
         if (!$component_part_check) {
-            $device_component_part = DeviceComponentPart::where([
-                ['device_id', '=', $device_id],
+            $work_place_component_part = WorkPlaceComponentPart::where([
+                ['work_place_id', '=', $work_place_id],
                 ['component_part_id', '=', $component_part_id],
                 ['attach', '=', 1],
             ])
             ->orderby('id', 'desc')
             ->first();
 
-            if ($device_component_part) {
-                $device_component_part->attach = 0;
-                $device_component_part->save();
+            if ($work_place_component_part) {
+                $work_place_component_part->attach = 0;
+                $work_place_component_part->save();
             }
         }
         else {
-            $device = Devices::find($device_id);
+            $work_place = WorkPlace::find($work_place_id);
             $component_part = ComponentPart::find($component_part_id);
-            if ($device && $component_part && !$device->write_off() && ($device->type_device_id === 2) && !$component_part->write_off() && !$component_part->is_attach()) {
-                $device_component_part = new DeviceComponentPart;
-                $device_component_part->device_id = $device_id;
-                $device_component_part->component_part_id = $component_part_id;
-                $device_component_part->attach = 1;
-                $device_component_part->save();
+            if ($work_place && $component_part && !$component_part->write_off() && !$component_part->is_attach()) {
+                $work_place_component_part = new WorkPlaceComponentPart;
+                $work_place_component_part->work_place_id = $work_place_id;
+                $work_place_component_part->component_part_id = $component_part_id;
+                $work_place_component_part->attach = 1;
+                $work_place_component_part->save();
             }
         }
     }
 
-    public function attachComponentPartsToDevice(Request $request)
+    public function attachComponentPartsToWorkPlace(Request $request)
     {
         if ($request->ajax() && Auth::user()->role === 'admin') {
             if ($request->component_parts) {
                 foreach ($request->component_parts[0] as $index => $component_part_id) {
-                    $this->attachComponentPartToDevice($request->device_id, $component_part_id, $request->component_parts[1][$index]);
+                    $this->attachComponentPartToWorkPlace($request->work_place_id, $component_part_id, $request->component_parts[1][$index]);
                 }
 
                 return '{}';

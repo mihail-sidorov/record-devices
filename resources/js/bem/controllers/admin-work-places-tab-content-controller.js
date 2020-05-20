@@ -150,4 +150,13 @@ $(document).ready(() => {
             });
         }
     });
+
+    // Открываем блок модального окна управления комплектующими
+    $('.admin-work-places-tab-content-controller .attach-component-parts-btn').click((e) => {
+        var $window = $(e.currentTarget).closest('.admin-work-places-tab-content-controller').find('.attach-component-parts-modal-window');
+
+        $window.attr('work-place-id', $(e.currentTarget).closest('.tab-content-wrapper__list-item').attr('id'));
+        $window.attr('url-tab', 'work-places');
+        $window.attr('loading', 'yes');
+    });
 });

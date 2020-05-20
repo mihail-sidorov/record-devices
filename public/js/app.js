@@ -47681,16 +47681,16 @@ $(document).ready(function () {
     var observer = new MutationObserver(function (res) {
       var self = res[0].target,
           token = $('meta[name="csrf-token"]').attr('content'),
-          deviceId = $(self).attr('device-id'),
+          workPlaceId = $(self).attr('work-place-id'),
           urlTab = $(self).attr('url-tab');
 
-      if (deviceId) {
+      if (workPlaceId) {
         $.ajax({
           type: 'POST',
           url: '/admin/write-attach-component-parts-modal-window',
           data: {
             _token: token,
-            device_id: deviceId
+            work_place_id: workPlaceId
           },
           dataType: 'json',
           success: function success(response) {
@@ -47749,10 +47749,10 @@ $(document).ready(function () {
               componentParts.push(componentPartCheckes);
               $.ajax({
                 type: 'POST',
-                url: '/admin/attach-component-parts-to-device',
+                url: '/admin/attach-component-parts-to-work-place',
                 data: {
                   _token: token,
-                  device_id: deviceId,
+                  work_place_id: workPlaceId,
                   component_parts: componentParts
                 },
                 dataType: 'json',
@@ -49185,6 +49185,13 @@ $(document).ready(function () {
         }
       });
     }
+  }); // Открываем блок модального окна управления комплектующими
+
+  $('.admin-work-places-tab-content-controller .attach-component-parts-btn').click(function (e) {
+    var $window = $(e.currentTarget).closest('.admin-work-places-tab-content-controller').find('.attach-component-parts-modal-window');
+    $window.attr('work-place-id', $(e.currentTarget).closest('.tab-content-wrapper__list-item').attr('id'));
+    $window.attr('url-tab', 'work-places');
+    $window.attr('loading', 'yes');
   });
 });
 

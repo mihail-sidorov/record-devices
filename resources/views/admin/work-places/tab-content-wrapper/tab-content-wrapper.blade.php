@@ -20,6 +20,8 @@
                 <div class="tab-content-wrapper__list-item-head">
                     <div class="tab-content-wrapper__list-item-name">{{ $work_place->name }}</div>
 
+                    @include('attach-component-parts-btn')
+                    
                     @include('edit-btn')
 
                     @include('del-btn')

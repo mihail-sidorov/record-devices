@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use DateTime;
-use App\DeviceComponentPart;
+use App\WorkPlaceComponentPart;
 
 class ComponentPart extends Model
 {
@@ -63,7 +63,7 @@ class ComponentPart extends Model
 
     public function is_attach()
     {
-        if (DeviceComponentPart::where([['component_part_id', $this->id], ['attach', 1]])->count()) {
+        if (WorkPlaceComponentPart::where([['component_part_id', $this->id], ['attach', 1]])->count()) {
             return true;
         }
         else {

@@ -1,15 +1,15 @@
 $(document).ready(() => {
     $('.attach-component-parts-modal-window').each((index, element) => {
         var observer = new MutationObserver((res) => {
-            var self = res[0].target, token = $('meta[name="csrf-token"]').attr('content'), deviceId = $(self).attr('device-id'), urlTab = $(self).attr('url-tab');
+            var self = res[0].target, token = $('meta[name="csrf-token"]').attr('content'), workPlaceId = $(self).attr('work-place-id'), urlTab = $(self).attr('url-tab');
 
-            if (deviceId) {
+            if (workPlaceId) {
                 $.ajax({
                     type: 'POST',
                     url: '/admin/write-attach-component-parts-modal-window',
                     data: {
                         _token: token,
-                        device_id: deviceId,
+                        work_place_id: workPlaceId,
                     },
                     dataType: 'json',
                     success: (response) => {
@@ -72,10 +72,10 @@ $(document).ready(() => {
 
                             $.ajax({
                                 type: 'POST',
-                                url: '/admin/attach-component-parts-to-device',
+                                url: '/admin/attach-component-parts-to-work-place',
                                 data: {
                                     _token: token,
-                                    device_id: deviceId,
+                                    work_place_id: workPlaceId,
                                     component_parts: componentParts,
                                 },
                                 dataType: 'json',
