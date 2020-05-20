@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDeviceComponentPartTable extends Migration
+class CreateWorkPlaceWorkerTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateDeviceComponentPartTable extends Migration
      */
     public function up()
     {
-        Schema::create('device_component_part', function (Blueprint $table) {
+        Schema::create('work_place_worker', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('device_id');
-            $table->integer('component_part_id');
+            $table->integer('work_place_id');
+            $table->integer('worker_id');
             $table->timestamps();
             $table->boolean('attach')->default(true);
         });
@@ -29,6 +29,6 @@ class CreateDeviceComponentPartTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('device_component_part');
+        Schema::dropIfExists('work_place_worker');
     }
 }

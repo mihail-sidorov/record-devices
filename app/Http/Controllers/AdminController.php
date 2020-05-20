@@ -16,6 +16,7 @@ use App\Categories;
 use App\ComponentPart;
 use App\DeviceComponentPart;
 use App\WorkPlaceComponentPart;
+use App\WorkPlaceWorker;
 
 class AdminController extends Controller
 {
@@ -403,12 +404,50 @@ class AdminController extends Controller
         return 'OK';
     }
 
+    public function attachWorkerToWorkPlace(Request $request)
+    {
+        if ($request->ajax() && Auth::user()->role === 'admin') {
+            $this->validate($request, [
+                'worker_id' => 'required',
+            ],
+            [
+                'worker_id.required' => 'Выберите сотрудника из списка',
+            ]);
+
+            $work_place_worker = WorkPlaceWorker::where([['work_place_id', $request->work_place_id], ['worker_id', $request->worker_id], ['attach', 1]])->first();
+
+            if (!$work_place_worker) {
+                $work_place_worker = new WorkPlaceWorker;
+
+                $work_place_worker->work_place_id = $request->work_place_id;
+                $work_place_worker->worker_id = $request->worker_id;
+
+                $work_place_worker->save();
+            }
+        }
+
+        return 'OK';
+    }
+
     public function unattachWorker(Request $request)
     {
         if ($request->ajax() && Auth::user()->role === 'admin') {
             $device_worker = DeviceWorker::where('device_id', $request->device_id)->orderby('id', 'desc')->first();
             $device_worker->attach = 0;
             $device_worker->save();
+        }
+
+        return 'OK';
+    }
+
+    public function unattachWorkerFromWorkPlace(Request $request)
+    {
+        if ($request->ajax() && Auth::user()->role === 'admin') {
+            $work_place_worker = WorkPlaceWorker::where([['work_place_id', $request->work_place_id], ['worker_id', $request->worker_id], ['attach', 1]])->first();
+            if ($work_place_worker) {
+                $work_place_worker->attach = 0;
+                $work_place_worker->save();
+            }
         }
 
         return 'OK';
@@ -922,24 +961,21 @@ class AdminController extends Controller
 
     public function attachComponentPartToWorkPlace($work_place_id, $component_part_id, $component_part_check)
     {
-        if (!$component_part_check) {
-            $work_place_component_part = WorkPlaceComponentPart::where([
-                ['work_place_id', '=', $work_place_id],
-                ['component_part_id', '=', $component_part_id],
-                ['attach', '=', 1],
-            ])
-            ->orderby('id', 'desc')
-            ->first();
+        $work_place_component_part = WorkPlaceComponentPart::where([
+            ['work_place_id', '=', $work_place_id],
+            ['component_part_id', '=', $component_part_id],
+            ['attach', '=', 1],
+        ])
+        ->first();
 
+        if (!$component_part_check) {
             if ($work_place_component_part) {
                 $work_place_component_part->attach = 0;
                 $work_place_component_part->save();
             }
         }
         else {
-            $work_place = WorkPlace::find($work_place_id);
-            $component_part = ComponentPart::find($component_part_id);
-            if ($work_place && $component_part && !$component_part->write_off() && !$component_part->is_attach()) {
+            if (!$work_place_component_part) {
                 $work_place_component_part = new WorkPlaceComponentPart;
                 $work_place_component_part->work_place_id = $work_place_id;
                 $work_place_component_part->component_part_id = $component_part_id;
@@ -1034,6 +1070,20 @@ class AdminController extends Controller
 
                 return '{}';
             }
+        }
+    }
+
+    public function getFreeWorkers(Request $request)
+    {
+        if ($request->ajax() && Auth::user()->role === 'admin') {
+            $worker_ids = WorkPlaceWorker::where([
+                ['attach', '=', 1],
+            ])
+            ->pluck('worker_id');
+
+            $workers = Workers::whereNotIn('id', $worker_ids)->get();
+
+            return json_encode($workers);
         }
     }
 }

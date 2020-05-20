@@ -5,7 +5,13 @@
     <div class="tab-content-wrapper__list">
         @foreach ($work_places as $work_place)
             <?php
-                // $worker = $work_place->get_attach_worker();
+                $worker = $work_place->get_attach_worker();
+                if ($worker) {
+                    $worker_id = $worker->id;
+                }
+                else {
+                    $worker_id = '';
+                }
                 // $responsible = $work_place->get_responsible();
                 // $work_place_component_parts = $work_place->component_parts;
                 // $purchase_price = 0;
@@ -16,14 +22,19 @@
                 //     }
                 // }
             ?>
-            <div class="tab-content-wrapper__list-item" id="{{ $work_place->id }}">
+            <div class="tab-content-wrapper__list-item" id="{{ $work_place->id }}" worker_id="{{ $worker_id }}">
                 <div class="tab-content-wrapper__list-item-head">
                     <div class="tab-content-wrapper__list-item-name">{{ $work_place->name }}</div>
 
                     @include('attach-component-parts-btn')
-                    
-                    @include('edit-btn')
 
+                    @if (!$worker)
+                        @include('attach-worker-btn')
+                    @else
+                        @include('unattach-worker-btn')
+                    @endif
+
+                    @include('edit-btn')
                     @include('del-btn')
                 </div>
                 <div class="tab-content-wrapper__list-item-body">

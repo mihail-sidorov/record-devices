@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\WorkPlaceWorker;
 
 class Workers extends Model
 {
@@ -33,5 +34,15 @@ class Workers extends Model
     public function devices()
     {
         return $this->belongsToMany('App\Devices', 'device_worker', 'worker_id', 'device_id')->wherePivot('attach', 1);
+    }
+
+    public function is_attach_to_work_place()
+    {
+        if (WorkPlaceWorker::where([['worker_id', $this->id], ['attach', 1]])->count()) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }

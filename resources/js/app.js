@@ -12,6 +12,7 @@ require('./jquery.easing.min');
 require('./angular/angular.min.js');
 require('./angular/init-ng-app');
 require('./angular/attach-worker-modal-window-angular-controller');
+require('./angular/attach-worker-to-work-place-angular-controller');
 
 require('./bem/tab-content-wrapper');
 require('./bem/modal-window');
