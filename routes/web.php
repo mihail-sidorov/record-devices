@@ -58,13 +58,14 @@ Route::post('/admin/edit-category', 'AdminController@editCategory');
 Route::get('/admin/tab/{tab_name}', 'AdminController@index');
 Route::post('/admin/attach-worker', 'AdminController@attachWorker');
 Route::post('/admin/attach-worker-to-work-place', 'AdminController@attachWorkerToWorkPlace');
-Route::post('/admin/unattach-worker', 'AdminController@unattachWorker');
+Route::post('/admin/unattach-worker-from-device', 'AdminController@unattachWorkerFromDevice');
 Route::post('/admin/unattach-worker-from-work-place', 'AdminController@unattachWorkerFromWorkPlace');
 Route::post('/admin/write-attach-component-parts-modal-window', 'AdminController@writeAttachComponentPartsModalWindow');
 Route::post('/admin/write-attach-devices-modal-window', 'AdminController@writeAttachDevicesModalWindow');
 Route::post('/admin/attach-component-parts-to-work-place', 'AdminController@attachComponentPartsToWorkPlace');
 Route::post('/admin/attach-devices-to-worker', 'AdminController@attachDevicesToWorker');
-Route::post('/admin/get-free-workers', 'AdminController@getFreeWorkers');
+Route::post('/admin/get-free-workers-to-work-place', 'AdminController@getFreeWorkersToWorkPlace');
+Route::post('/admin/get-free-workers-to-device', 'AdminController@getFreeWorkersToDevice');
 
 Route::get('/worker', 'WorkerController@index')->name('worker');
 Route::get('/worker/tab/{tab_name}', 'WorkerController@index');

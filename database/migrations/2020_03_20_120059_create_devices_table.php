@@ -18,7 +18,6 @@ class CreateDevicesTable extends Migration
             $table->string('name');
             $table->string('model');
             $table->string('serial_number');
-            $table->string('inventar_number');
             $table->integer('type_device_id');
             $table->integer('receipt_date');
             $table->string('purchase_price');

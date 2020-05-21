@@ -47547,34 +47547,16 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
 /***/ }),
 
-/***/ "./resources/js/angular/attach-worker-modal-window-angular-controller.js":
-/*!*******************************************************************************!*\
-  !*** ./resources/js/angular/attach-worker-modal-window-angular-controller.js ***!
-  \*******************************************************************************/
+/***/ "./resources/js/angular/attach-worker-to-device-angular-controller.js":
+/*!****************************************************************************!*\
+  !*** ./resources/js/angular/attach-worker-to-device-angular-controller.js ***!
+  \****************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-window.devicesApp.controller('attachWorkerModalWindowAngularController', function ($scope, $http) {
-  window.attachWorkerModalWindowAngularControllerScope = $scope;
-  window.attachWorkerModalWindowAngularControllerScope.workers = [];
-  $('.attach-worker-modal-window__search-input').on('input', function (e) {
-    var inputText = $(e.currentTarget).val().toLowerCase().replace('ё', 'е');
-
-    if (inputText !== '') {
-      window.attachWorkerModalWindowAngularControllerScope.workers = [];
-      window.workers.forEach(function (worker) {
-        var name = worker.name.toLowerCase().replace('ё', 'е');
-
-        if (name.match(inputText)) {
-          window.attachWorkerModalWindowAngularControllerScope.workers.push(worker);
-        }
-      });
-    } else {
-      window.attachWorkerModalWindowAngularControllerScope.workers = window.workers;
-    }
-
-    window.attachWorkerModalWindowAngularControllerScope.$apply();
-  });
+window.devicesApp.controller('attachWorkerToDeviceAngularController', function ($scope, $http) {
+  window.attachWorkerToDeviceAngularController = $scope;
+  window.attachWorkerToDeviceAngularController.workers = [];
 });
 
 /***/ }),
@@ -47633,7 +47615,7 @@ __webpack_require__(/*! ./angular/angular.min.js */ "./resources/js/angular/angu
 
 __webpack_require__(/*! ./angular/init-ng-app */ "./resources/js/angular/init-ng-app.js");
 
-__webpack_require__(/*! ./angular/attach-worker-modal-window-angular-controller */ "./resources/js/angular/attach-worker-modal-window-angular-controller.js");
+__webpack_require__(/*! ./angular/attach-worker-to-device-angular-controller */ "./resources/js/angular/attach-worker-to-device-angular-controller.js");
 
 __webpack_require__(/*! ./angular/attach-worker-to-work-place-angular-controller */ "./resources/js/angular/attach-worker-to-work-place-angular-controller.js");
 
@@ -48398,20 +48380,52 @@ $(document).ready(function () {
     $('.admin-devices-tab-content-controller .add-device-modal-window .form-content__field').removeClass('form-content__field_error');
     $('.admin-devices-tab-content-controller .add-device-modal-window .form-content__error').text('');
     $(e.currentTarget).closest('.admin-devices-tab-content-controller').find('.add-device-modal-window').addClass('modal-window_show');
-  }); // Открываем модальное окно для прикрепления к устройству сотрудника и обнуляем в нем сообщения об ошибках валидации
+  }); // Открываем модальное окно для прикрепления к рабочему месту сотрудника и обнуляем в нем сообщения об ошибках валидации
 
   $('.admin-devices-tab-content-controller .attach-worker-btn').click(function (e) {
-    var deviceId = $(e.currentTarget).closest('.tab-content-wrapper__list-item').attr('id');
+    var deviceId = $(e.currentTarget).closest('.tab-content-wrapper__list-item').attr('id'),
+        token = $('meta[name="csrf-token"]').attr('content');
     $('.admin-devices-tab-content-controller .attach-worker-modal-window .form-content input[name="device_id"]').val(deviceId);
     $('.admin-devices-tab-content-controller .attach-worker-modal-window .form-content__field').removeClass('form-content__field_error');
     $('.admin-devices-tab-content-controller .attach-worker-modal-window .form-content__error').text('');
-    window.attachWorkerModalWindowAngularControllerScope.workers = window.workers;
-    window.attachWorkerModalWindowAngularControllerScope.$apply();
-    $(e.currentTarget).closest('.admin-devices-tab-content-controller').find('.attach-worker-modal-window').addClass('modal-window_show');
-    setTimeout(function () {
-      $('.admin-devices-tab-content-controller .attach-worker-modal-window__search-input').focus().val('');
-      $('.admin-devices-tab-content-controller .attach-worker-modal-window .form-content__select').val('');
-    }, 0);
+    $.ajax({
+      type: 'POST',
+      url: '/admin/get-free-workers-to-device',
+      data: {
+        _token: token
+      },
+      dataType: 'json',
+      success: function success(response) {
+        if (response) {
+          window.attachWorkerToDeviceAngularController.workers = response;
+          window.attachWorkerToDeviceAngularController.$apply();
+          $('.admin-devices-tab-content-controller .attach-worker-modal-window__search-input').off('input');
+          $('.admin-devices-tab-content-controller .attach-worker-modal-window__search-input').on('input', function (e) {
+            var inputText = $(e.currentTarget).val().toLowerCase().replace('ё', 'е');
+
+            if (inputText !== '') {
+              window.attachWorkerToDeviceAngularController.workers = [];
+              response.forEach(function (worker) {
+                var name = worker.name.toLowerCase().replace('ё', 'е');
+
+                if (name.match(inputText)) {
+                  window.attachWorkerToDeviceAngularController.workers.push(worker);
+                }
+              });
+            } else {
+              window.attachWorkerToDeviceAngularController.workers = response;
+            }
+
+            window.attachWorkerToDeviceAngularController.$apply();
+          });
+          $(e.currentTarget).closest('.admin-devices-tab-content-controller').find('.attach-worker-modal-window').addClass('modal-window_show');
+          setTimeout(function () {
+            $('.admin-devices-tab-content-controller .attach-worker-modal-window__search-input').focus().val('');
+            $('.admin-devices-tab-content-controller .attach-worker-modal-window .form-content__select').val('');
+          }, 0);
+        }
+      }
+    });
   }); // Открываем блок модального окна управления комплектующими
 
   $('.admin-devices-tab-content-controller .attach-component-parts-btn').click(function (e) {
@@ -48488,21 +48502,6 @@ $(document).ready(function () {
     var $formContentField = $(e.currentTarget).closest('.form-content__field');
     $formContentField.removeClass('form-content__field_error');
     $formContentField.find('.form-content__error').text('');
-  }); // Показываем поле для введения инвентарного номера при выборе рабочего места
-
-  $('.admin-devices-tab-content-controller .add-device-modal-window input[name="inventar_number"]').closest('.form-content__field').hide();
-  $('.admin-devices-tab-content-controller .add-device-modal-window select[name="type_device_id"], .admin-devices-tab-content-controller .edit-device-modal-window select[name="type_device_id"]').on('change', function (e) {
-    var $inventarNumber = $(e.currentTarget).closest('.form-content').find('[name="inventar_number"]'),
-        $formContentField = $inventarNumber.closest('.form-content__field');
-    $formContentField.removeClass('form-content__field_error');
-    $formContentField.find('.form-content__error').text('');
-
-    if ($(e.currentTarget).val() === '2') {
-      $formContentField.show();
-      $inventarNumber.focus();
-    } else {
-      $formContentField.hide();
-    }
   }); // Валидация и добавление устройства
 
   $('.admin-devices-tab-content-controller .add-device-modal-window .form-content').on('submit', function (e) {
@@ -48632,20 +48631,22 @@ $(document).ready(function () {
         }
       });
     }
-  }); // Открепление сотрудника
+  }); // Открепление сотрудника от устройства
 
-  $('.admin-devices-tab-content-controller .tab-content-wrapper__list').on('click', '.unattach-worker-btn', function (e) {
-    var deviceId, token;
+  $('.admin-devices-tab-content-controller .unattach-worker-btn').click(function (e) {
+    var deviceId, workerId, token;
 
     if (confirm('Вы действительно хотите открепить сотрудника от устройства?')) {
       deviceId = $(e.currentTarget).closest('.tab-content-wrapper__list-item').attr('id');
+      workerId = $(e.currentTarget).closest('.tab-content-wrapper__list-item').attr('worker_id');
       token = $('meta[name="csrf-token"]').attr('content');
       $.ajax({
         type: 'POST',
-        url: '/admin/unattach-worker',
+        url: '/admin/unattach-worker-from-device',
         data: {
           _token: token,
-          device_id: deviceId
+          device_id: deviceId,
+          worker_id: workerId
         },
         success: function success(response) {
           if (response) {
@@ -49218,7 +49219,7 @@ $(document).ready(function () {
     $('.admin-work-places-tab-content-controller .attach-worker-modal-window .form-content__error').text('');
     $.ajax({
       type: 'POST',
-      url: '/admin/get-free-workers',
+      url: '/admin/get-free-workers-to-work-place',
       data: {
         _token: token
       },
@@ -49227,6 +49228,7 @@ $(document).ready(function () {
         if (response) {
           window.attachWorkerToWorkPlaceAngularController.workers = response;
           window.attachWorkerToWorkPlaceAngularController.$apply();
+          $('.admin-work-places-tab-content-controller .attach-worker-modal-window__search-input').off('input');
           $('.admin-work-places-tab-content-controller .attach-worker-modal-window__search-input').on('input', function (e) {
             var inputText = $(e.currentTarget).val().toLowerCase().replace('ё', 'е');
 

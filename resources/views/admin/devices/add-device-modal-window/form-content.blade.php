@@ -20,12 +20,6 @@
     </div>
 
     <div class="form-content__field">
-        <div class="form-content__title">Инвентарный номер:</div>
-        <input class="form-content__text" type="text" name="inventar_number">
-        <div class="form-content__error" field-name="inventar_number"></div>
-    </div>
-
-    <div class="form-content__field">
         <div class="form-content__title">Закупочная цена:</div>
         <input class="form-content__text" type="text" name="purchase_price">
         <div class="form-content__error" field-name="purchase_price"></div>
@@ -35,9 +29,8 @@
         <div class="form-content__title">Тип:</div>
         <select class="form-content__select" name="type_device_id">
             <option value="1">Портативный</option>
-            <option value="2">Рабочее место</option>
-            <option value="3">Переферия</option>
-            <option value="4">Оргтехника</option>
+            <option value="2">Переферия</option>
+            <option value="3">Оргтехника</option>
         </select>
         <div class="form-content__error" field-name="type_device_id"></div>
     </div>

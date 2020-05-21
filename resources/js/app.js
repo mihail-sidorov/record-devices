@@ -11,7 +11,7 @@ require('./jquery.easing.min');
 // Подключение скриптов для работы с angular
 require('./angular/angular.min.js');
 require('./angular/init-ng-app');
-require('./angular/attach-worker-modal-window-angular-controller');
+require('./angular/attach-worker-to-device-angular-controller');
 require('./angular/attach-worker-to-work-place-angular-controller');
 
 require('./bem/tab-content-wrapper');

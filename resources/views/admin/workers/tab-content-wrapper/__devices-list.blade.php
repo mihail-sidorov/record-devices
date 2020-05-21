@@ -31,15 +31,7 @@
             $responsible = $worker_device->get_responsible();
             $provider = $worker_device->provider;
             $category = $worker_device->category;
-            $device_component_parts = $worker_device->component_parts;
             $purchase_price = $worker_device->purchase_price;
-
-            if ($device_component_parts->count()) {
-                $purchase_price = 0;
-                foreach ($device_component_parts as $device_component_part) {
-                    $purchase_price += $device_component_part->purchase_price;
-                }
-            }
         ?>
         <div class="tab-content-wrapper__list-item" id="{{ $worker_device->id }}">
             <div class="tab-content-wrapper__list-item-head">
@@ -50,14 +42,6 @@
                 
                 @if ($worker)
                     @include('unattach-worker-btn')                    
-                @endif
-
-                @if ($worker_device->component_parts()->count())
-                    @include('attach-component-parts-btn')
-                @elseif (!$worker_device->write_off())
-                    @if ($worker_device->type_device_id === 2)
-                        @include('attach-component-parts-btn')
-                    @endif
                 @endif
             </div>
             <div class="tab-content-wrapper__list-item-body">
@@ -111,12 +95,6 @@
                         </tr>
                     </tbody>
                 </table>
-
-                <div class="tab-content-wrapper__component-parts">
-                    @if ($device_component_parts->count())
-                        @include('admin.workers.tab-content-wrapper.__component-parts-list')
-                    @endif
-                </div>
             </div>
         </div>
     @endforeach

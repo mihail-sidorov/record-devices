@@ -143,17 +143,6 @@ class AdminController extends Controller
                 'provider_id.required' => 'Поле "Поставщик" не должно быть пустым',
                 'category_id.required' => 'Поле "Категория" не должно быть пустым',
             ];
-
-            if ($request->type_device_id === '2') {
-                $validate_arr += ['inventar_number' => 'bail|required|max:255'];
-                $validate_msgs += [
-                    'inventar_number.required' => 'Поле "Инвентарный номер" не должно быть пустым',
-                    'inventar_number.max' => 'Количество символов в поле "Инвентарный номер" не может превышать 255',
-                ];
-            }
-            else {
-                $request->inventar_number = '';
-            }
             
             $this->validate($request, $validate_arr, $validate_msgs);
 
@@ -162,7 +151,6 @@ class AdminController extends Controller
             $devices->name = $request->name;
             $devices->model = $request->model;
             $devices->serial_number = $request->serial_number;
-            $devices->inventar_number = $request->inventar_number;
             $devices->type_device_id = $request->type_device_id;
             $devices->purchase_price = $request->purchase_price;
             $devices->warranty = strtotime($request->warranty);
@@ -393,12 +381,16 @@ class AdminController extends Controller
                 'worker_id.required' => 'Выберите сотрудника из списка',
             ]);
 
-            $device_worker = new DeviceWorker;
+            $device_worker = DeviceWorker::where([['device_id', $request->device_id], ['worker_id', $request->worker_id], ['attach', 1]])->first();
 
-            $device_worker->device_id = $request->device_id;
-            $device_worker->worker_id = $request->worker_id;
+            if (!$device_worker) {
+                $device_worker = new DeviceWorker;
 
-            $device_worker->save();
+                $device_worker->device_id = $request->device_id;
+                $device_worker->worker_id = $request->worker_id;
+
+                $device_worker->save();
+            }
         }
 
         return 'OK';
@@ -429,12 +421,14 @@ class AdminController extends Controller
         return 'OK';
     }
 
-    public function unattachWorker(Request $request)
+    public function unattachWorkerFromDevice(Request $request)
     {
         if ($request->ajax() && Auth::user()->role === 'admin') {
-            $device_worker = DeviceWorker::where('device_id', $request->device_id)->orderby('id', 'desc')->first();
-            $device_worker->attach = 0;
-            $device_worker->save();
+            $device_worker = DeviceWorker::where([['device_id', $request->device_id], ['worker_id', $request->worker_id], ['attach', 1]])->first();
+            if ($device_worker) {
+                $device_worker->attach = 0;
+                $device_worker->save();
+            }
         }
 
         return 'OK';
@@ -484,17 +478,6 @@ class AdminController extends Controller
                 'provider_id.required' => 'Поле "Поставщик" не должно быть пустым',
                 'category_id.required' => 'Поле "Категория" не должно быть пустым',
             ];
-
-            if ($request->type_device_id === '2') {
-                $validate_arr += ['inventar_number' => 'bail|required|max:255'];
-                $validate_msgs += [
-                    'inventar_number.required' => 'Поле "Инвентарный номер" не должно быть пустым',
-                    'inventar_number.max' => 'Количество символов в поле "Инвентарный номер" не может превышать 255',
-                ];
-            }
-            else {
-                $request->inventar_number = '';
-            }
             
             $this->validate($request, $validate_arr, $validate_msgs);
 
@@ -503,7 +486,6 @@ class AdminController extends Controller
             $devices->name = $request->name;
             $devices->model = $request->model;
             $devices->serial_number = $request->serial_number;
-            $devices->inventar_number = $request->inventar_number;
             $devices->type_device_id = $request->type_device_id;
             $devices->purchase_price = $request->purchase_price;
             $devices->warranty = strtotime($request->warranty);
@@ -1073,10 +1055,24 @@ class AdminController extends Controller
         }
     }
 
-    public function getFreeWorkers(Request $request)
+    public function getFreeWorkersToWorkPlace(Request $request)
     {
         if ($request->ajax() && Auth::user()->role === 'admin') {
             $worker_ids = WorkPlaceWorker::where([
+                ['attach', '=', 1],
+            ])
+            ->pluck('worker_id');
+
+            $workers = Workers::whereNotIn('id', $worker_ids)->get();
+
+            return json_encode($workers);
+        }
+    }
+
+    public function getFreeWorkersToDevice(Request $request)
+    {
+        if ($request->ajax() && Auth::user()->role === 'admin') {
+            $worker_ids = DeviceWorker::where([
                 ['attach', '=', 1],
             ])
             ->pluck('worker_id');

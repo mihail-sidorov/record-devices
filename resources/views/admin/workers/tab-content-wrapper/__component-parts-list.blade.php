@@ -1,4 +1,4 @@
-<div class="tab-content-wrapper__list tab-content-wrapper__component_parts-list">
+<div class="tab-content-wrapper__list tab-content-wrapper__component-parts-list">
     @foreach ($device_component_parts as $device_component_part)
         <?php
             $d = new DateTime();

@@ -113,9 +113,4 @@ class Devices extends Model
 
         return $status;
     }
-
-    public function component_parts()
-    {
-        return $this->belongsToMany('App\ComponentPart', 'device_component_part', 'device_id', 'component_part_id')->wherePivot('attach', 1);
-    }
 }

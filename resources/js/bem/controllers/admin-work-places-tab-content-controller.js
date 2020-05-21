@@ -170,7 +170,7 @@ $(document).ready(() => {
 
         $.ajax({
             type: 'POST',
-            url: '/admin/get-free-workers',
+            url: '/admin/get-free-workers-to-work-place',
             data: {
                 _token: token,
             },
@@ -180,6 +180,7 @@ $(document).ready(() => {
                     window.attachWorkerToWorkPlaceAngularController.workers = response;
                     window.attachWorkerToWorkPlaceAngularController.$apply();
 
+                    $('.admin-work-places-tab-content-controller .attach-worker-modal-window__search-input').off('input');
                     $('.admin-work-places-tab-content-controller .attach-worker-modal-window__search-input').on('input', (e) => {
                         var inputText = $(e.currentTarget).val().toLowerCase().replace('ё', 'е');
                         

@@ -8,9 +8,8 @@
         <select class="tab-content-wrapper__filter-field">
             <option value="">Все типы устройств</option>
             <option value="1">Портативный</option>
-            <option value="2">Рабочее место</option>
-            <option value="3">Переферия</option>
-            <option value="4">Оргтехника</option>
+            <option value="2">Переферия</option>
+            <option value="3">Оргтехника</option>
         </select>
     </div>
 
@@ -34,31 +33,26 @@
                         $type_device = 'Портативный';
                         break;
                     case 2:
-                        $type_device = 'Рабочее место';
-                        break;
-                    case 3:
                         $type_device = 'Переферия';
                         break;
-                    case 4:
+                    case 3:
                         $type_device = 'Оргтехника';
                         break;
                 }
 
                 $worker = $device->get_attach_worker();
+                if ($worker) {
+                    $worker_id = $worker->id;
+                }
+                else {
+                    $worker_id = '';
+                }
                 $responsible = $device->get_responsible();
                 $provider = $device->provider;
                 $category = $device->category;
-                $device_component_parts = $device->component_parts;
                 $purchase_price = $device->purchase_price;
-
-                if ($device_component_parts->count()) {
-                    $purchase_price = 0;
-                    foreach ($device_component_parts as $device_component_part) {
-                        $purchase_price += $device_component_part->purchase_price;
-                    }
-                }
             ?>
-            <div class="tab-content-wrapper__list-item" id="{{ $device->id }}">
+            <div class="tab-content-wrapper__list-item" id="{{ $device->id }}" worker_id="{{ $worker_id }}">
                 <input type="hidden" class="tab-content-wrapper__list-item-filter-field" value="{{ $device->model }}">
                 <input type="hidden" class="tab-content-wrapper__list-item-filter-field" value="{{ $device->serial_number }}">
                 <input type="hidden" class="tab-content-wrapper__list-item-filter-field" value="{{ $device->type_device_id }}">
@@ -75,14 +69,6 @@
                         @endif
                     @else
                         @include('unattach-worker-btn')
-                    @endif
-
-                    @if ($device->component_parts()->count())
-                        @include('attach-component-parts-btn')
-                    @elseif (!$device->write_off())
-                        @if ($device->type_device_id === 2)
-                            @include('attach-component-parts-btn')
-                        @endif
                     @endif
 
                     @include('del-btn')
@@ -138,12 +124,6 @@
                             </tr>
                         </tbody>
                     </table>
-
-                    <div class="tab-content-wrapper__component-parts">
-                        @if ($device_component_parts->count())
-                            @include('admin.devices.tab-content-wrapper.component-parts')
-                        @endif
-                    </div>
                 </div>
             </div>
         @endforeach

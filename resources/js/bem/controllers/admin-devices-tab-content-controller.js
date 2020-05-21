@@ -9,23 +9,56 @@ $(document).ready(() => {
         $(e.currentTarget).closest('.admin-devices-tab-content-controller').find('.add-device-modal-window').addClass('modal-window_show');
     });
 
-    // Открываем модальное окно для прикрепления к устройству сотрудника и обнуляем в нем сообщения об ошибках валидации
+    // Открываем модальное окно для прикрепления к рабочему месту сотрудника и обнуляем в нем сообщения об ошибках валидации
     $('.admin-devices-tab-content-controller .attach-worker-btn').click((e) => {
-        var deviceId = $(e.currentTarget).closest('.tab-content-wrapper__list-item').attr('id');
+        var deviceId = $(e.currentTarget).closest('.tab-content-wrapper__list-item').attr('id'), token = $('meta[name="csrf-token"]').attr('content');
 
         $('.admin-devices-tab-content-controller .attach-worker-modal-window .form-content input[name="device_id"]').val(deviceId);
         $('.admin-devices-tab-content-controller .attach-worker-modal-window .form-content__field').removeClass('form-content__field_error');
         $('.admin-devices-tab-content-controller .attach-worker-modal-window .form-content__error').text('');
 
-        window.attachWorkerModalWindowAngularControllerScope.workers = window.workers;
-        window.attachWorkerModalWindowAngularControllerScope.$apply();
-        
-        $(e.currentTarget).closest('.admin-devices-tab-content-controller').find('.attach-worker-modal-window').addClass('modal-window_show');
-        
-        setTimeout(() => {
-            $('.admin-devices-tab-content-controller .attach-worker-modal-window__search-input').focus().val('');
-            $('.admin-devices-tab-content-controller .attach-worker-modal-window .form-content__select').val('');
-        }, 0);
+        $.ajax({
+            type: 'POST',
+            url: '/admin/get-free-workers-to-device',
+            data: {
+                _token: token,
+            },
+            dataType: 'json',
+            success: (response) => {
+                if (response) {
+                    window.attachWorkerToDeviceAngularController.workers = response;
+                    window.attachWorkerToDeviceAngularController.$apply();
+
+                    $('.admin-devices-tab-content-controller .attach-worker-modal-window__search-input').off('input');
+                    $('.admin-devices-tab-content-controller .attach-worker-modal-window__search-input').on('input', (e) => {
+                        var inputText = $(e.currentTarget).val().toLowerCase().replace('ё', 'е');
+                        
+                        if (inputText !== '') {
+                            window.attachWorkerToDeviceAngularController.workers = [];
+                            response.forEach(function(worker){
+                                var name = worker.name.toLowerCase().replace('ё', 'е');
+                
+                                if (name.match(inputText)) {
+                                    window.attachWorkerToDeviceAngularController.workers.push(worker);
+                                }
+                            });
+                        }
+                        else {
+                            window.attachWorkerToDeviceAngularController.workers = response;
+                        }
+                
+                        window.attachWorkerToDeviceAngularController.$apply();
+                    });
+                    
+                    $(e.currentTarget).closest('.admin-devices-tab-content-controller').find('.attach-worker-modal-window').addClass('modal-window_show');
+                    
+                    setTimeout(() => {
+                        $('.admin-devices-tab-content-controller .attach-worker-modal-window__search-input').focus().val('');
+                        $('.admin-devices-tab-content-controller .attach-worker-modal-window .form-content__select').val('');
+                    }, 0);
+                }
+            },
+        });
     });
 
     // Открываем блок модального окна управления комплектующими
@@ -105,22 +138,6 @@ $(document).ready(() => {
         var $formContentField = $(e.currentTarget).closest('.form-content__field');
         $formContentField.removeClass('form-content__field_error');
         $formContentField.find('.form-content__error').text('');
-    });
-
-    // Показываем поле для введения инвентарного номера при выборе рабочего места
-    $('.admin-devices-tab-content-controller .add-device-modal-window input[name="inventar_number"]').closest('.form-content__field').hide();
-    $('.admin-devices-tab-content-controller .add-device-modal-window select[name="type_device_id"], .admin-devices-tab-content-controller .edit-device-modal-window select[name="type_device_id"]').on('change', (e) => {
-        var $inventarNumber = $(e.currentTarget).closest('.form-content').find('[name="inventar_number"]'), $formContentField = $inventarNumber.closest('.form-content__field');
-        $formContentField.removeClass('form-content__field_error');
-        $formContentField.find('.form-content__error').text('');
-
-        if ($(e.currentTarget).val() === '2') {
-            $formContentField.show();
-            $inventarNumber.focus();
-        }
-        else {
-            $formContentField.hide();
-        }
     });
 
     // Валидация и добавление устройства
@@ -258,20 +275,22 @@ $(document).ready(() => {
         }
     });
 
-    // Открепление сотрудника
-    $('.admin-devices-tab-content-controller .tab-content-wrapper__list').on('click', '.unattach-worker-btn', (e) => {
-        var deviceId, token;
+    // Открепление сотрудника от устройства
+    $('.admin-devices-tab-content-controller .unattach-worker-btn').click((e) => {
+        var deviceId, workerId, token;
 
         if (confirm('Вы действительно хотите открепить сотрудника от устройства?')) {
             deviceId = $(e.currentTarget).closest('.tab-content-wrapper__list-item').attr('id');
+            workerId = $(e.currentTarget).closest('.tab-content-wrapper__list-item').attr('worker_id');
             token = $('meta[name="csrf-token"]').attr('content');
             
             $.ajax({
                 type: 'POST',
-                url: '/admin/unattach-worker',
+                url: '/admin/unattach-worker-from-device',
                 data: {
                     _token: token,
                     device_id: deviceId,
+                    worker_id: workerId,
                 },
                 success: (response) => {
                     if (response) {
