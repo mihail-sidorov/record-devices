@@ -71,11 +71,11 @@ class ComponentPart extends Model
         }
     }
 
-    public function get_device()
+    public function get_work_place()
     {
-        $device_component_part = DeviceComponentPart::where([['component_part_id', $this->id], ['attach', 1]])->first();
-        if ($device_component_part) {
-            return Devices::find($device_component_part->device_id);
+        $work_place_component_part = WorkPlaceComponentPart::where([['component_part_id', $this->id], ['attach', 1]])->first();
+        if ($work_place_component_part) {
+            return WorkPlace::find($work_place_component_part->work_place_id);
         }
         else {
             return null;
@@ -84,9 +84,9 @@ class ComponentPart extends Model
 
     public function get_responsible()
     {
-        $device = $this->get_device();
-        if ($device) {
-            return $device->get_responsible();
+        $work_place = $this->get_work_place();
+        if ($work_place) {
+            return $work_place->get_responsible();
         }
         else {
             return $this->responsible;
@@ -101,9 +101,9 @@ class ComponentPart extends Model
             $status = 'Списано';
         }
 
-        $device = $this->get_device();
+        $work_place = $this->get_work_place();
         
-        if ($device && $device->attach_to_worker()) {
+        if ($work_place && $work_place->is_attach_to_worker()) {
             $status = 'Выдано';
         }
 

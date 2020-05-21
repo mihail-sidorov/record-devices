@@ -49066,7 +49066,7 @@ $(document).ready(function () {
     $(e.currentTarget).closest('.admin-work-places-tab-content-controller').find('.add-work-place-modal-window').addClass('modal-window_show');
   }); // Открываем модальное окно для редактирования рабочего места, обнуляем в нем сообщения об ошибках валидации и заполняем его данными
 
-  $('.admin-work-places-tab-content-controller .edit-btn').click(function (e) {
+  $('.admin-work-places-tab-content-controller .tab-content-wrapper__edit-work-place-btn').click(function (e) {
     var workPlaceId = $(e.currentTarget).closest('.tab-content-wrapper__list-item').attr('id'),
         token = $('meta[name="csrf-token"]').attr('content');
     $.ajax({
@@ -49097,13 +49097,13 @@ $(document).ready(function () {
     });
   }); // Обнуляем сообщения об ошибках валидации у текстовых полей
 
-  $('.admin-work-places-tab-content-controller .add-work-place-modal-window .form-content__text, .admin-work-places-tab-content-controller .edit-work-place-modal-window .form-content__text').on('input', function (e) {
+  $('.admin-work-places-tab-content-controller .edit-component_part-modal-window .form-content__text, .admin-work-places-tab-content-controller .add-work-place-modal-window .form-content__text, .admin-work-places-tab-content-controller .edit-work-place-modal-window .form-content__text').on('input', function (e) {
     var $formContentField = $(e.currentTarget).closest('.form-content__field');
     $formContentField.removeClass('form-content__field_error');
     $formContentField.find('.form-content__error').text('');
-  }); // Обнуляем сообщения об ошибках валидации у выпадающих списков
+  }); // Обнуляем сообщения об ошибках валидации у выпадающих списков и дат
 
-  $('.admin-work-places-tab-content-controller .add-work-place-modal-window .form-content__select, .admin-work-places-tab-content-controller .edit-work-place-modal-window .form-content__select, .admin-work-places-tab-content-controller .attach-worker-modal-window .form-content__select').on('change', function (e) {
+  $('.admin-work-places-tab-content-controller .edit-component_part-modal-window .form-content__select, .admin-work-places-tab-content-controller .edit-component_part-modal-window .form-content__date, .admin-work-places-tab-content-controller .add-work-place-modal-window .form-content__select, .admin-work-places-tab-content-controller .edit-work-place-modal-window .form-content__select, .admin-work-places-tab-content-controller .attach-worker-modal-window .form-content__select').on('change', function (e) {
     var $formContentField = $(e.currentTarget).closest('.form-content__field');
     $formContentField.removeClass('form-content__field_error');
     $formContentField.find('.form-content__error').text('');
@@ -49312,6 +49312,90 @@ $(document).ready(function () {
         }
       });
     }
+  }); // Открываем модальное окно для редактирования комплектующего, обнуляем в нем сообщения об ошибках валидации и заполняем его данными
+
+  $('.admin-work-places-tab-content-controller .tab-content-wrapper__edit-component-part-btn').click(function (e) {
+    var componentPartId = $(e.currentTarget).closest('.tab-content-wrapper__list-item').attr('id'),
+        token = $('meta[name="csrf-token"]').attr('content');
+    $.ajax({
+      type: 'POST',
+      url: '/admin/write-edit-component-part-form',
+      data: {
+        _token: token,
+        id: componentPartId
+      },
+      dataType: 'json',
+      success: function success(response) {
+        if (response) {
+          $('.admin-work-places-tab-content-controller .edit-component_part-modal-window .form-content__field').each(function (index, element) {
+            var $fieldNameElement = $(element).find('[name]'),
+                fieldName = $fieldNameElement.attr('name'),
+                date,
+                year,
+                month,
+                day;
+
+            if (fieldName === 'receipt_date' || fieldName === 'warranty') {
+              date = new Date(response[fieldName] * 1000);
+              year = date.getFullYear();
+              month = +date.getMonth() + 1;
+              day = +date.getDate();
+
+              if (month < 10) {
+                month = '0' + month;
+              }
+
+              if (day < 10) {
+                day = '0' + day;
+              }
+
+              $fieldNameElement.val("".concat(year, "-").concat(month, "-").concat(day));
+            } else {
+              $fieldNameElement.val(response[fieldName]);
+            }
+          });
+          $('.admin-work-places-tab-content-controller .edit-component_part-modal-window .form-content input[name="id"]').val(componentPartId);
+          $('.admin-work-places-tab-content-controller .edit-component_part-modal-window .form-content__field').removeClass('form-content__field_error');
+          $('.admin-work-places-tab-content-controller .edit-component_part-modal-window .form-content__error').text('');
+          $(e.currentTarget).closest('.admin-work-places-tab-content-controller').find('.edit-component_part-modal-window').addClass('modal-window_show');
+        }
+      }
+    });
+  }); // Валидация и редактирование комплектующего
+
+  $('.admin-work-places-tab-content-controller .edit-component_part-modal-window .form-content').on('submit', function (e) {
+    var fields = $(e.currentTarget).serialize(),
+        $formContentField;
+    $(e.currentTarget).find('.form-content__field').removeClass('form-content__field_error');
+    $(e.currentTarget).find('.form-content__error').text('');
+    $.ajax({
+      type: 'POST',
+      url: '/admin/edit-component-part',
+      data: fields,
+      success: function success(response) {
+        if (response) {
+          window.location.href = '/admin/tab/work-places';
+        }
+      },
+      error: function error(_error4) {
+        var errors;
+
+        if (_error4.status === 422) {
+          errors = _error4.responseJSON.errors;
+
+          if (errors !== undefined) {
+            for (var key in errors) {
+              if (errors[key][0]) {
+                $formContentField = $(e.currentTarget).find(".form-content__error[field-name=\"".concat(key, "\"]")).closest('.form-content__field');
+                $formContentField.addClass('form-content__field_error');
+                $formContentField.find('.form-content__error').text(errors[key][0]);
+              }
+            }
+          }
+        }
+      }
+    });
+    return false;
   });
 });
 

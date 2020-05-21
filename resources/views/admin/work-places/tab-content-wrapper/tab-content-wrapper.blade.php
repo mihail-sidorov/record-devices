@@ -35,7 +35,8 @@
                         @include('unattach-worker-btn')
                     @endif
 
-                    @include('edit-btn')
+                    <div class="tab-content-wrapper__edit-work-place-btn">@include('edit-btn')</div>
+                    
                     @include('del-btn')
                 </div>
                 <div class="tab-content-wrapper__list-item-body">
@@ -71,7 +72,13 @@
                     </table>
 
                     <div class="tab-content-wrapper__component-parts">
-                        
+                        <?php
+                            if (count($work_place_component_parts)) {
+                                ?>
+                                @include('admin.work-places.tab-content-wrapper.__component-parts')
+                                <?php
+                            }
+                        ?>
                     </div>
                 </div>
             </div>
