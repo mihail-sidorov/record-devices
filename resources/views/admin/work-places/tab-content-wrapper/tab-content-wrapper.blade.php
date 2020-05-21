@@ -1,6 +1,11 @@
 <div class="tab-content-wrapper">
     @include('add-btn')
 
+    <div class="tab-content-wrapper__title">Фильтр:</div>    
+    <div class="tab-content-wrapper__filter">
+        <input class="tab-content-wrapper__filter-field" type="text" placeholder="Инвентарный номер">
+    </div>
+
     <div class="tab-content-wrapper__title">Список:</div>
     <div class="tab-content-wrapper__list">
         @foreach ($work_places as $work_place)
@@ -24,6 +29,8 @@
                 }
             ?>
             <div class="tab-content-wrapper__list-item" id="{{ $work_place->id }}" worker_id="{{ $worker_id }}">
+                <input type="hidden" class="tab-content-wrapper__list-item-filter-field" value="{{ $work_place->inventar_number }}">
+
                 <div class="tab-content-wrapper__list-item-head">
                     <div class="tab-content-wrapper__list-item-name">{{ $work_place->name }}</div>
 
