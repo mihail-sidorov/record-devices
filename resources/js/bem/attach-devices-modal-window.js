@@ -13,8 +13,6 @@ $(document).ready(() => {
                     },
                     dataType: 'json',
                     success: (response) => {
-                        //console.log(response);
-
                         $categories = $(self).find('.attach-devices-modal-window__categories');
                         $categories.html('');
                         response.forEach((item) => {

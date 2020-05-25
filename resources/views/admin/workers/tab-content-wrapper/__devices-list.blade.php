@@ -17,23 +17,26 @@
                     $type_device = 'Портативный';
                     break;
                 case 2:
-                    $type_device = 'Рабочее место';
-                    break;
-                case 3:
                     $type_device = 'Переферия';
                     break;
-                case 4:
+                case 3:
                     $type_device = 'Оргтехника';
                     break;
             }
 
             $worker = $worker_device->get_attach_worker();
+            if ($worker) {
+                $worker_id = $worker->id;
+            }
+            else {
+                $worker_id = '';
+            }
             $responsible = $worker_device->get_responsible();
             $provider = $worker_device->provider;
             $category = $worker_device->category;
             $purchase_price = $worker_device->purchase_price;
         ?>
-        <div class="tab-content-wrapper__list-item" id="{{ $worker_device->id }}">
+        <div class="tab-content-wrapper__list-item" id="{{ $worker_device->id }}" worker-id="{{ $worker_id }}">
             <div class="tab-content-wrapper__list-item-head">
                 <div class="tab-content-wrapper__list-item-name">{{ $worker_device->name }}</div>
                 <div class="tab-content-wrapper__edit-device-btn">
@@ -41,7 +44,9 @@
                 </div>
                 
                 @if ($worker)
-                    @include('unattach-worker-btn')                    
+                    <div class="tab-content-wrapper__unattach-worker-from-device-btn">
+                        @include('unattach-worker-btn')
+                    </div>                  
                 @endif
             </div>
             <div class="tab-content-wrapper__list-item-body">

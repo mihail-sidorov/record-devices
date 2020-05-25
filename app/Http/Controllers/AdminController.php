@@ -371,7 +371,7 @@ class AdminController extends Controller
         return 'OK';
     }
 
-    public function attachWorker(Request $request)
+    public function attachWorkerToDevice(Request $request)
     {
         if ($request->ajax() && Auth::user()->role === 'admin') {
             $this->validate($request, [
@@ -384,12 +384,17 @@ class AdminController extends Controller
             $device_worker = DeviceWorker::where([['device_id', $request->device_id], ['worker_id', $request->worker_id], ['attach', 1]])->first();
 
             if (!$device_worker) {
-                $device_worker = new DeviceWorker;
+                $device = Devices::find($request->device_id);
+                $worker = Workers::find($request->worker_id);
 
-                $device_worker->device_id = $request->device_id;
-                $device_worker->worker_id = $request->worker_id;
+                if ($device && $worker && !$device->write_off()) {
+                    $device_worker = new DeviceWorker;
 
-                $device_worker->save();
+                    $device_worker->device_id = $request->device_id;
+                    $device_worker->worker_id = $request->worker_id;
+
+                    $device_worker->save();
+                }
             }
         }
 
@@ -409,12 +414,17 @@ class AdminController extends Controller
             $work_place_worker = WorkPlaceWorker::where([['work_place_id', $request->work_place_id], ['worker_id', $request->worker_id], ['attach', 1]])->first();
 
             if (!$work_place_worker) {
-                $work_place_worker = new WorkPlaceWorker;
+                $work_place = WorkPlace::find($request->work_place_id);
+                $worker = Workers::find($request->worker_id);
 
-                $work_place_worker->work_place_id = $request->work_place_id;
-                $work_place_worker->worker_id = $request->worker_id;
+                if ($work_place && $worker) {
+                    $work_place_worker = new WorkPlaceWorker;
 
-                $work_place_worker->save();
+                    $work_place_worker->work_place_id = $request->work_place_id;
+                    $work_place_worker->worker_id = $request->worker_id;
+
+                    $work_place_worker->save();
+                }
             }
         }
 
@@ -958,11 +968,16 @@ class AdminController extends Controller
         }
         else {
             if (!$work_place_component_part) {
-                $work_place_component_part = new WorkPlaceComponentPart;
-                $work_place_component_part->work_place_id = $work_place_id;
-                $work_place_component_part->component_part_id = $component_part_id;
-                $work_place_component_part->attach = 1;
-                $work_place_component_part->save();
+                $work_place = WorkPlace::find($work_place_id);
+                $component_part = ComponentPart::find($component_part_id);
+
+                if ($work_place && $component_part && !$component_part->write_off()) {
+                    $work_place_component_part = new WorkPlaceComponentPart;
+                    $work_place_component_part->work_place_id = $work_place_id;
+                    $work_place_component_part->component_part_id = $component_part_id;
+                    $work_place_component_part->attach = 1;
+                    $work_place_component_part->save();
+                }
             }
         }
     }
@@ -1015,29 +1030,30 @@ class AdminController extends Controller
 
     public function attachDeviceToWorker($worker_id, $device_id, $device_check)
     {
+        $device_worker = DeviceWorker::where([
+            ['worker_id', '=', $worker_id],
+            ['device_id', '=', $device_id],
+            ['attach', '=', 1],
+        ])
+        ->first();
+        
         if (!$device_check) {
-            $device_worker = DeviceWorker::where([
-                ['worker_id', '=', $worker_id],
-                ['device_id', '=', $device_id],
-                ['attach', '=', 1],
-            ])
-            ->orderby('id', 'desc')
-            ->first();
-
             if ($device_worker) {
                 $device_worker->attach = 0;
                 $device_worker->save();
             }
         }
         else {
-            $worker = Workers::find($worker_id);
-            $device = Devices::find($device_id);
-            if ($worker && $device && !$device->write_off() && !$device->attach_to_worker()) {
-                $device_worker = new DeviceWorker;
-                $device_worker->worker_id = $worker_id;
-                $device_worker->device_id = $device_id;
-                $device_worker->attach = 1;
-                $device_worker->save();
+            if (!$device_worker) {
+                $worker = Workers::find($worker_id);
+                $device = Devices::find($device_id);
+                if ($worker && $device && !$device->write_off()) {
+                    $device_worker = new DeviceWorker;
+                    $device_worker->worker_id = $worker_id;
+                    $device_worker->device_id = $device_id;
+                    $device_worker->attach = 1;
+                    $device_worker->save();
+                }
             }
         }
     }

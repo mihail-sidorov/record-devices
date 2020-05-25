@@ -1,24 +1,24 @@
 <div class="tab-content-wrapper__list tab-content-wrapper__component-parts-list">
-    @foreach ($device_component_parts as $device_component_part)
+    @foreach ($work_place_component_parts as $work_place_component_part)
         <?php
             $d = new DateTime();
 
-            $d->setTimestamp($device_component_part->receipt_date);
+            $d->setTimestamp($work_place_component_part->receipt_date);
             $receipt_date = $d->format('d-m-Y');
 
-            $d->setTimestamp($device_component_part->warranty);
+            $d->setTimestamp($work_place_component_part->warranty);
             $warranty = $d->format('d-m-Y');
-            if ($device_component_part->warranty_off()) {
+            if ($work_place_component_part->warranty_off()) {
                 $warranty = "Истекла $warranty";
             }
 
-            $provider = $device_component_part->provider;
-            $category = $device_component_part->category;
-            $responsible = $device_component_part->get_responsible();
+            $provider = $work_place_component_part->provider;
+            $category = $work_place_component_part->category;
+            $responsible = $work_place_component_part->get_responsible();
         ?>
-        <div class="tab-content-wrapper__list-item" id="{{ $device_component_part->id }}">
+        <div class="tab-content-wrapper__list-item" id="{{ $work_place_component_part->id }}">
             <div class="tab-content-wrapper__list-item-head">
-                <div class="tab-content-wrapper__list-item-name">{{ $device_component_part->name }}</div>
+                <div class="tab-content-wrapper__list-item-name">{{ $work_place_component_part->name }}</div>
                 <div class="tab-content-wrapper__edit-component-part-btn">
                     @include('edit-btn')
                 </div>
@@ -45,15 +45,15 @@
                                     {{ $category->name }}
                                 @endif
                             </td>
-                            <td>{{ $device_component_part->model }}</td>
-                            <td>{{ $device_component_part->serial_number }}</td>
+                            <td>{{ $work_place_component_part->model }}</td>
+                            <td>{{ $work_place_component_part->serial_number }}</td>
                             <td>
                                 @if ($responsible)
                                     {{ $responsible->name }}
                                 @endif
                             </td>
-                            <td>{{ $device_component_part->purchase_price }}</td>
-                            <td>{{ $device_component_part->get_status() }}</td>
+                            <td>{{ $work_place_component_part->purchase_price }}</td>
+                            <td>{{ $work_place_component_part->get_status() }}</td>
                             <td>{{ $receipt_date }}</td>
                             <td>{{ $warranty }}</td>
                             <td>

@@ -18,6 +18,7 @@
         @foreach ($workers as $worker)
             <?php
                 $worker_devices = $worker->devices;
+                $worker_work_places = $worker->work_places;
             ?>
             <div class="tab-content-wrapper__list-item" id="{{ $worker->id }}">
                 <input type="hidden" class="tab-content-wrapper__list-item-filter-field" value="{{ $worker->name }}">
@@ -58,6 +59,10 @@
 
                     @if ($worker_devices->count())
                         @include('admin.workers.tab-content-wrapper.__devices-list')
+                    @endif
+
+                    @if ($worker_work_places->count())
+                        @include('admin.workers.tab-content-wrapper.__work-places-list')
                     @endif
                 </div>
             </div>

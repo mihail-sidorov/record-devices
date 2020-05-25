@@ -9,7 +9,7 @@ $(document).ready(() => {
         $(e.currentTarget).closest('.admin-devices-tab-content-controller').find('.add-device-modal-window').addClass('modal-window_show');
     });
 
-    // Открываем модальное окно для прикрепления к рабочему месту сотрудника и обнуляем в нем сообщения об ошибках валидации
+    // Открываем модальное окно для прикрепления к устройству сотрудника и обнуляем в нем сообщения об ошибках валидации
     $('.admin-devices-tab-content-controller .attach-worker-btn').click((e) => {
         var deviceId = $(e.currentTarget).closest('.tab-content-wrapper__list-item').attr('id'), token = $('meta[name="csrf-token"]').attr('content');
 
@@ -186,7 +186,7 @@ $(document).ready(() => {
 
         $.ajax({
             type: 'POST',
-            url: '/admin/attach-worker',
+            url: '/admin/attach-worker-to-device',
             data: fields,
             success: (response) => {
                 if (response) {

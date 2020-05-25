@@ -56,7 +56,7 @@ Route::post('/admin/edit-responsible', 'AdminController@editResponsible');
 Route::post('/admin/edit-department', 'AdminController@editDepartment');
 Route::post('/admin/edit-category', 'AdminController@editCategory');
 Route::get('/admin/tab/{tab_name}', 'AdminController@index');
-Route::post('/admin/attach-worker', 'AdminController@attachWorker');
+Route::post('/admin/attach-worker-to-device', 'AdminController@attachWorkerToDevice');
 Route::post('/admin/attach-worker-to-work-place', 'AdminController@attachWorkerToWorkPlace');
 Route::post('/admin/unattach-worker-from-device', 'AdminController@unattachWorkerFromDevice');
 Route::post('/admin/unattach-worker-from-work-place', 'AdminController@unattachWorkerFromWorkPlace');

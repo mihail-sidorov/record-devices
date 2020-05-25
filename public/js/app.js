@@ -47797,7 +47797,6 @@ $(document).ready(function () {
           },
           dataType: 'json',
           success: function success(response) {
-            //console.log(response);
             $categories = $(self).find('.attach-devices-modal-window__categories');
             $categories.html('');
             response.forEach(function (item) {
@@ -48380,7 +48379,7 @@ $(document).ready(function () {
     $('.admin-devices-tab-content-controller .add-device-modal-window .form-content__field').removeClass('form-content__field_error');
     $('.admin-devices-tab-content-controller .add-device-modal-window .form-content__error').text('');
     $(e.currentTarget).closest('.admin-devices-tab-content-controller').find('.add-device-modal-window').addClass('modal-window_show');
-  }); // Открываем модальное окно для прикрепления к рабочему месту сотрудника и обнуляем в нем сообщения об ошибках валидации
+  }); // Открываем модальное окно для прикрепления к устройству сотрудника и обнуляем в нем сообщения об ошибках валидации
 
   $('.admin-devices-tab-content-controller .attach-worker-btn').click(function (e) {
     var deviceId = $(e.currentTarget).closest('.tab-content-wrapper__list-item').attr('id'),
@@ -48546,7 +48545,7 @@ $(document).ready(function () {
     $(e.currentTarget).find('.form-content__error').text('');
     $.ajax({
       type: 'POST',
-      url: '/admin/attach-worker',
+      url: '/admin/attach-worker-to-device',
       data: fields,
       success: function success(response) {
         if (response) {
@@ -49446,13 +49445,13 @@ $(document).ready(function () {
     });
   }); // Обнуляем сообщения об ошибках валидации у текстовых полей
 
-  $('.admin-workers-tab-content-controller .add-worker-modal-window .form-content__text, .admin-workers-tab-content-controller .edit-worker-modal-window .form-content__text, .admin-workers-tab-content-controller .edit-device-modal-window .form-content__text, .admin-workers-tab-content-controller .edit-component_part-modal-window .form-content__text').on('input', function (e) {
+  $('.admin-workers-tab-content-controller .edit-work-place-modal-window .form-content__text, .admin-workers-tab-content-controller .add-worker-modal-window .form-content__text, .admin-workers-tab-content-controller .edit-worker-modal-window .form-content__text, .admin-workers-tab-content-controller .edit-device-modal-window .form-content__text, .admin-workers-tab-content-controller .edit-component_part-modal-window .form-content__text').on('input', function (e) {
     var $formContentField = $(e.currentTarget).closest('.form-content__field');
     $formContentField.removeClass('form-content__field_error');
     $formContentField.find('.form-content__error').text('');
   }); // Обнуляем сообщения об ошибках валидации у выпадающих списков и дат
 
-  $('.admin-workers-tab-content-controller .add-worker-modal-window .form-content__select, .admin-workers-tab-content-controller .edit-worker-modal-window .form-content__select, .admin-workers-tab-content-controller .edit-device-modal-window .form-content__select, .admin-workers-tab-content-controller .edit-device-modal-window .form-content__date, .admin-workers-tab-content-controller .edit-component_part-modal-window .form-content__select, .admin-workers-tab-content-controller .edit-component_part-modal-window .form-content__date').on('change', function (e) {
+  $('.admin-workers-tab-content-controller .edit-work-place-modal-window .form-content__select, .admin-workers-tab-content-controller .add-worker-modal-window .form-content__select, .admin-workers-tab-content-controller .edit-worker-modal-window .form-content__select, .admin-workers-tab-content-controller .edit-device-modal-window .form-content__select, .admin-workers-tab-content-controller .edit-device-modal-window .form-content__date, .admin-workers-tab-content-controller .edit-component_part-modal-window .form-content__select, .admin-workers-tab-content-controller .edit-component_part-modal-window .form-content__date').on('change', function (e) {
     var $formContentField = $(e.currentTarget).closest('.form-content__field');
     $formContentField.removeClass('form-content__field_error');
     $formContentField.find('.form-content__error').text('');
@@ -49605,14 +49604,6 @@ $(document).ready(function () {
             } else {
               $fieldNameElement.val(response[fieldName]);
             }
-
-            if (fieldName === 'inventar_number') {
-              if (!$fieldNameElement.val()) {
-                $(element).hide();
-              } else {
-                $(element).show();
-              }
-            }
           });
           $('.admin-workers-tab-content-controller .edit-device-modal-window .form-content input[name="id"]').val(deviceId);
           $('.admin-workers-tab-content-controller .edit-device-modal-window .form-content__field').removeClass('form-content__field_error');
@@ -49656,20 +49647,22 @@ $(document).ready(function () {
       }
     });
     return false;
-  }); // Открепление сотрудника
+  }); // Открепление сотрудника от устройства
 
-  $('.admin-workers-tab-content-controller .unattach-worker-btn').click(function (e) {
-    var deviceId, token;
+  $('.admin-workers-tab-content-controller .tab-content-wrapper__unattach-worker-from-device-btn .unattach-worker-btn').click(function (e) {
+    var deviceId, workerId, token;
 
     if (confirm('Вы действительно хотите открепить сотрудника от устройства?')) {
       deviceId = $(e.currentTarget).closest('.tab-content-wrapper__list-item').attr('id');
+      workerId = $(e.currentTarget).closest('.tab-content-wrapper__list-item').attr('worker-id');
       token = $('meta[name="csrf-token"]').attr('content');
       $.ajax({
         type: 'POST',
-        url: '/admin/unattach-worker',
+        url: '/admin/unattach-worker-from-device',
         data: {
           _token: token,
-          device_id: deviceId
+          device_id: deviceId,
+          worker_id: workerId
         },
         success: function success(response) {
           if (response) {
@@ -49678,13 +49671,6 @@ $(document).ready(function () {
         }
       });
     }
-  }); // Открываем блок модального окна управления комплектующими
-
-  $('.admin-workers-tab-content-controller .attach-component-parts-btn').click(function (e) {
-    var $window = $(e.currentTarget).closest('.admin-workers-tab-content-controller').find('.attach-component-parts-modal-window');
-    $window.attr('device-id', $(e.currentTarget).closest('.tab-content-wrapper__list-item').attr('id'));
-    $window.attr('url-tab', 'workers');
-    $window.attr('loading', 'yes');
   }); // Открываем блок модального окна управления устройствами
 
   $('.admin-workers-tab-content-controller .attach-devices-btn').click(function (e) {
@@ -49693,7 +49679,7 @@ $(document).ready(function () {
     $window.attr('loading', 'yes');
   }); // Открываем модальное окно для редактирования комплектующего, обнуляем в нем сообщения об ошибках валидации и заполняем его данными
 
-  $('.admin-workers-tab-content-controller .tab-content-wrapper__edit-component-part-btn').click(function (e) {
+  $('.admin-workers-tab-content-controller .tab-content-wrapper__edit-component-part-btn .edit-btn').click(function (e) {
     var componentPartId = $(e.currentTarget).closest('.tab-content-wrapper__list-item').attr('id'),
         token = $('meta[name="csrf-token"]').attr('content');
     $.ajax({
@@ -49761,6 +49747,103 @@ $(document).ready(function () {
 
         if (_error4.status === 422) {
           errors = _error4.responseJSON.errors;
+
+          if (errors !== undefined) {
+            for (var key in errors) {
+              if (errors[key][0]) {
+                $formContentField = $(e.currentTarget).find(".form-content__error[field-name=\"".concat(key, "\"]")).closest('.form-content__field');
+                $formContentField.addClass('form-content__field_error');
+                $formContentField.find('.form-content__error').text(errors[key][0]);
+              }
+            }
+          }
+        }
+      }
+    });
+    return false;
+  }); // Открываем блок модального окна управления комплектующими
+
+  $('.admin-workers-tab-content-controller .attach-component-parts-btn').click(function (e) {
+    var $window = $(e.currentTarget).closest('.admin-workers-tab-content-controller').find('.attach-component-parts-modal-window');
+    $window.attr('work-place-id', $(e.currentTarget).closest('.tab-content-wrapper__list-item').attr('id'));
+    $window.attr('url-tab', 'workers');
+    $window.attr('loading', 'yes');
+  }); // Открепление сотрудника от рабочего места
+
+  $('.admin-workers-tab-content-controller .tab-content-wrapper__unattach-worker-from-work-place-btn .unattach-worker-btn').click(function (e) {
+    var workPlaceId, workerId, token;
+
+    if (confirm('Вы действительно хотите открепить сотрудника от рабочего места?')) {
+      workPlaceId = $(e.currentTarget).closest('.tab-content-wrapper__list-item').attr('id');
+      workerId = $(e.currentTarget).closest('.tab-content-wrapper__list-item').attr('worker_id');
+      token = $('meta[name="csrf-token"]').attr('content');
+      $.ajax({
+        type: 'POST',
+        url: '/admin/unattach-worker-from-work-place',
+        data: {
+          _token: token,
+          work_place_id: workPlaceId,
+          worker_id: workerId
+        },
+        success: function success(response) {
+          if (response) {
+            window.location.href = '/admin/tab/workers';
+          }
+        }
+      });
+    }
+  }); // Открываем модальное окно для редактирования рабочего места, обнуляем в нем сообщения об ошибках валидации и заполняем его данными
+
+  $('.admin-workers-tab-content-controller .tab-content-wrapper__edit-work-place-btn .edit-btn').click(function (e) {
+    var workPlaceId = $(e.currentTarget).closest('.tab-content-wrapper__list-item').attr('id'),
+        token = $('meta[name="csrf-token"]').attr('content');
+    $.ajax({
+      type: 'POST',
+      url: '/admin/write-edit-work-place-form',
+      data: {
+        _token: token,
+        id: workPlaceId
+      },
+      dataType: 'json',
+      success: function success(response) {
+        if (response) {
+          $('.admin-workers-tab-content-controller .edit-work-place-modal-window .form-content__field').each(function (index, element) {
+            var $fieldNameElement = $(element).find('[name]'),
+                fieldName = $fieldNameElement.attr('name'),
+                date,
+                year,
+                month,
+                day;
+            $fieldNameElement.val(response[fieldName]);
+          });
+          $('.admin-workers-tab-content-controller .edit-work-place-modal-window .form-content input[name="id"]').val(workPlaceId);
+          $('.admin-workers-tab-content-controller .edit-work-place-modal-window .form-content__field').removeClass('form-content__field_error');
+          $('.admin-workers-tab-content-controller .edit-work-place-modal-window .form-content__error').text('');
+          $(e.currentTarget).closest('.admin-workers-tab-content-controller').find('.edit-work-place-modal-window').addClass('modal-window_show');
+        }
+      }
+    });
+  }); // Валидация и редактирование рабочего места
+
+  $('.admin-workers-tab-content-controller .edit-work-place-modal-window .form-content').on('submit', function (e) {
+    var fields = $(e.currentTarget).serialize(),
+        $formContentField;
+    $(e.currentTarget).find('.form-content__field').removeClass('form-content__field_error');
+    $(e.currentTarget).find('.form-content__error').text('');
+    $.ajax({
+      type: 'POST',
+      url: '/admin/edit-work-place',
+      data: fields,
+      success: function success(response) {
+        if (response) {
+          window.location.href = '/admin/tab/workers';
+        }
+      },
+      error: function error(_error5) {
+        var errors;
+
+        if (_error5.status === 422) {
+          errors = _error5.responseJSON.errors;
 
           if (errors !== undefined) {
             for (var key in errors) {

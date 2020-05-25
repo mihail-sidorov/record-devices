@@ -36,6 +36,11 @@ class Workers extends Model
         return $this->belongsToMany('App\Devices', 'device_worker', 'worker_id', 'device_id')->wherePivot('attach', 1);
     }
 
+    public function work_places()
+    {
+        return $this->belongsToMany('App\WorkPlace', 'work_place_worker', 'worker_id', 'work_place_id')->wherePivot('attach', 1);
+    }
+
     public function is_attach_to_work_place()
     {
         if (WorkPlaceWorker::where([['worker_id', $this->id], ['attach', 1]])->count()) {
