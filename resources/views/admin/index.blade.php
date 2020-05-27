@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="content">
+<div class="content admin">
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item">
             <a class="nav-link<?php if ($active_tabs['devices']) echo $active_tabs['devices'][0]; ?>" id="devices-tab" data-toggle="tab" href="#devices" role="tab" aria-controls="devices" aria-selected="true">Устройства</a>
@@ -29,8 +29,8 @@
         </li>
     </ul>
     <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade<?php if ($active_tabs['devices']) echo $active_tabs['devices'][1]; ?> admin-devices-tab-content-controller" id="devices" role="tabpanel" aria-labelledby="devices-tab">
-
+        <div class="tab-pane fade<?php if ($active_tabs['devices']) echo $active_tabs['devices'][1]; ?> devices admin-devices-tab-content-controller" id="devices" role="tabpanel" aria-labelledby="devices-tab">
+            @include('admin.devices.tab-content-wrapper.tab-content-wrapper')
         </div>
         <div class="tab-pane fade<?php if ($active_tabs['work-places']) echo $active_tabs['work-places'][1]; ?> admin-work-places-tab-content-controller" id="work-places" role="tabpanel" aria-labelledby="work-places-tab">
 

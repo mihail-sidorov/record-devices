@@ -10,6 +10,7 @@ require('./bootstrap');
 require('./angular/init-ng-app');
 
 // Подключение БЭМ компонетов
+require('./bem/tab-content-wrapper');
 
 //window.Vue = require('vue');
 
