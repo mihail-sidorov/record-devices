@@ -9,9 +9,7 @@
     </ul>
     <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade<?php if ($active_tabs['services']) echo $active_tabs['services'][1]; ?> worker-services-tab-content-controller" id="services" role="tabpanel" aria-labelledby="services-tab">
-            @include('worker.services.tab-content-wrapper.tab-content-wrapper')
-            @include('worker.services.add-service-modal-window.modal-window')
-            @include('worker.services.edit-service-modal-window.modal-window')
+
         </div>
     </div>
 </div>
