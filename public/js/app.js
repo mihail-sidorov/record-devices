@@ -37045,39 +37045,6 @@ module.exports = function(module) {
 
 /***/ }),
 
-/***/ "./resources/js/angular/angular.min.js":
-/*!*********************************************!*\
-  !*** ./resources/js/angular/angular.min.js ***!
-  \*********************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nError: ENOENT: no such file or directory, open 'C:\\xampp\\htdocs\\record-devices\\resources\\js\\angular\\angular.min.js'");
-
-/***/ }),
-
-/***/ "./resources/js/angular/attach-worker-to-device-angular-controller.js":
-/*!****************************************************************************!*\
-  !*** ./resources/js/angular/attach-worker-to-device-angular-controller.js ***!
-  \****************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nError: ENOENT: no such file or directory, open 'C:\\xampp\\htdocs\\record-devices\\resources\\js\\angular\\attach-worker-to-device-angular-controller.js'");
-
-/***/ }),
-
-/***/ "./resources/js/angular/attach-worker-to-work-place-angular-controller.js":
-/*!********************************************************************************!*\
-  !*** ./resources/js/angular/attach-worker-to-work-place-angular-controller.js ***!
-  \********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nError: ENOENT: no such file or directory, open 'C:\\xampp\\htdocs\\record-devices\\resources\\js\\angular\\attach-worker-to-work-place-angular-controller.js'");
-
-/***/ }),
-
 /***/ "./resources/js/angular/init-ng-app.js":
 /*!*********************************************!*\
   !*** ./resources/js/angular/init-ng-app.js ***!
@@ -37085,7 +37052,13 @@ throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nError: ENOENT: no such file or directory, open 'C:\\xampp\\htdocs\\record-devices\\resources\\js\\angular\\init-ng-app.js'");
+window.devicesApp = angular.module('devicesApp', []).config(function ($interpolateProvider) {
+  // To prevent the conflict of `{{` and `}}` symbols
+  // between Blade template engine and AngularJS templating we need
+  // to use different symbols for AngularJS.
+  $interpolateProvider.startSymbol('<%=');
+  $interpolateProvider.endSymbol('%>');
+});
 
 /***/ }),
 
@@ -37104,39 +37077,8 @@ throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js"); // Подключение скриптов для работы с angular
 
 
-__webpack_require__(/*! ./angular/angular.min.js */ "./resources/js/angular/angular.min.js");
-
-__webpack_require__(/*! ./angular/init-ng-app */ "./resources/js/angular/init-ng-app.js");
-
-__webpack_require__(/*! ./angular/attach-worker-to-device-angular-controller */ "./resources/js/angular/attach-worker-to-device-angular-controller.js");
-
-__webpack_require__(/*! ./angular/attach-worker-to-work-place-angular-controller */ "./resources/js/angular/attach-worker-to-work-place-angular-controller.js");
-
-__webpack_require__(/*! ./bem/tab-content-wrapper */ "./resources/js/bem/tab-content-wrapper.js");
-
-__webpack_require__(/*! ./bem/modal-window */ "./resources/js/bem/modal-window.js");
-
-__webpack_require__(/*! ./bem/attach-component-parts-modal-window */ "./resources/js/bem/attach-component-parts-modal-window.js");
-
-__webpack_require__(/*! ./bem/attach-devices-modal-window */ "./resources/js/bem/attach-devices-modal-window.js");
-
-__webpack_require__(/*! ./bem/controllers/admin-devices-tab-content-controller */ "./resources/js/bem/controllers/admin-devices-tab-content-controller.js");
-
-__webpack_require__(/*! ./bem/controllers/admin-work-places-tab-content-controller */ "./resources/js/bem/controllers/admin-work-places-tab-content-controller.js");
-
-__webpack_require__(/*! ./bem/controllers/admin-component_parts-tab-content-controller */ "./resources/js/bem/controllers/admin-component_parts-tab-content-controller.js");
-
-__webpack_require__(/*! ./bem/controllers/admin-workers-tab-content-controller */ "./resources/js/bem/controllers/admin-workers-tab-content-controller.js");
-
-__webpack_require__(/*! ./bem/controllers/admin-providers-tab-content-controller */ "./resources/js/bem/controllers/admin-providers-tab-content-controller.js");
-
-__webpack_require__(/*! ./bem/controllers/admin-responsibles-tab-content-controller */ "./resources/js/bem/controllers/admin-responsibles-tab-content-controller.js");
-
-__webpack_require__(/*! ./bem/controllers/admin-departments-tab-content-controller */ "./resources/js/bem/controllers/admin-departments-tab-content-controller.js");
-
-__webpack_require__(/*! ./bem/controllers/admin-categories-tab-content-controller */ "./resources/js/bem/controllers/admin-categories-tab-content-controller.js");
-
-__webpack_require__(/*! ./bem/controllers/worker-services-tab-content-controller */ "./resources/js/bem/controllers/worker-services-tab-content-controller.js"); //window.Vue = require('vue');
+__webpack_require__(/*! ./angular/init-ng-app */ "./resources/js/angular/init-ng-app.js"); // Подключение БЭМ компонетов
+//window.Vue = require('vue');
 
 /**
  * The following block of code may be used to automatically register your
@@ -37157,149 +37099,6 @@ __webpack_require__(/*! ./bem/controllers/worker-services-tab-content-controller
 // const app = new Vue({
 //     el: '#app',
 // });
-
-/***/ }),
-
-/***/ "./resources/js/bem/attach-component-parts-modal-window.js":
-/*!*****************************************************************!*\
-  !*** ./resources/js/bem/attach-component-parts-modal-window.js ***!
-  \*****************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nError: ENOENT: no such file or directory, open 'C:\\xampp\\htdocs\\record-devices\\resources\\js\\bem\\attach-component-parts-modal-window.js'");
-
-/***/ }),
-
-/***/ "./resources/js/bem/attach-devices-modal-window.js":
-/*!*********************************************************!*\
-  !*** ./resources/js/bem/attach-devices-modal-window.js ***!
-  \*********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nError: ENOENT: no such file or directory, open 'C:\\xampp\\htdocs\\record-devices\\resources\\js\\bem\\attach-devices-modal-window.js'");
-
-/***/ }),
-
-/***/ "./resources/js/bem/controllers/admin-categories-tab-content-controller.js":
-/*!*********************************************************************************!*\
-  !*** ./resources/js/bem/controllers/admin-categories-tab-content-controller.js ***!
-  \*********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nError: ENOENT: no such file or directory, open 'C:\\xampp\\htdocs\\record-devices\\resources\\js\\bem\\controllers\\admin-categories-tab-content-controller.js'");
-
-/***/ }),
-
-/***/ "./resources/js/bem/controllers/admin-component_parts-tab-content-controller.js":
-/*!**************************************************************************************!*\
-  !*** ./resources/js/bem/controllers/admin-component_parts-tab-content-controller.js ***!
-  \**************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nError: ENOENT: no such file or directory, open 'C:\\xampp\\htdocs\\record-devices\\resources\\js\\bem\\controllers\\admin-component_parts-tab-content-controller.js'");
-
-/***/ }),
-
-/***/ "./resources/js/bem/controllers/admin-departments-tab-content-controller.js":
-/*!**********************************************************************************!*\
-  !*** ./resources/js/bem/controllers/admin-departments-tab-content-controller.js ***!
-  \**********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nError: ENOENT: no such file or directory, open 'C:\\xampp\\htdocs\\record-devices\\resources\\js\\bem\\controllers\\admin-departments-tab-content-controller.js'");
-
-/***/ }),
-
-/***/ "./resources/js/bem/controllers/admin-devices-tab-content-controller.js":
-/*!******************************************************************************!*\
-  !*** ./resources/js/bem/controllers/admin-devices-tab-content-controller.js ***!
-  \******************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nError: ENOENT: no such file or directory, open 'C:\\xampp\\htdocs\\record-devices\\resources\\js\\bem\\controllers\\admin-devices-tab-content-controller.js'");
-
-/***/ }),
-
-/***/ "./resources/js/bem/controllers/admin-providers-tab-content-controller.js":
-/*!********************************************************************************!*\
-  !*** ./resources/js/bem/controllers/admin-providers-tab-content-controller.js ***!
-  \********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nError: ENOENT: no such file or directory, open 'C:\\xampp\\htdocs\\record-devices\\resources\\js\\bem\\controllers\\admin-providers-tab-content-controller.js'");
-
-/***/ }),
-
-/***/ "./resources/js/bem/controllers/admin-responsibles-tab-content-controller.js":
-/*!***********************************************************************************!*\
-  !*** ./resources/js/bem/controllers/admin-responsibles-tab-content-controller.js ***!
-  \***********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nError: ENOENT: no such file or directory, open 'C:\\xampp\\htdocs\\record-devices\\resources\\js\\bem\\controllers\\admin-responsibles-tab-content-controller.js'");
-
-/***/ }),
-
-/***/ "./resources/js/bem/controllers/admin-work-places-tab-content-controller.js":
-/*!**********************************************************************************!*\
-  !*** ./resources/js/bem/controllers/admin-work-places-tab-content-controller.js ***!
-  \**********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nError: ENOENT: no such file or directory, open 'C:\\xampp\\htdocs\\record-devices\\resources\\js\\bem\\controllers\\admin-work-places-tab-content-controller.js'");
-
-/***/ }),
-
-/***/ "./resources/js/bem/controllers/admin-workers-tab-content-controller.js":
-/*!******************************************************************************!*\
-  !*** ./resources/js/bem/controllers/admin-workers-tab-content-controller.js ***!
-  \******************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nError: ENOENT: no such file or directory, open 'C:\\xampp\\htdocs\\record-devices\\resources\\js\\bem\\controllers\\admin-workers-tab-content-controller.js'");
-
-/***/ }),
-
-/***/ "./resources/js/bem/controllers/worker-services-tab-content-controller.js":
-/*!********************************************************************************!*\
-  !*** ./resources/js/bem/controllers/worker-services-tab-content-controller.js ***!
-  \********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nError: ENOENT: no such file or directory, open 'C:\\xampp\\htdocs\\record-devices\\resources\\js\\bem\\controllers\\worker-services-tab-content-controller.js'");
-
-/***/ }),
-
-/***/ "./resources/js/bem/modal-window.js":
-/*!******************************************!*\
-  !*** ./resources/js/bem/modal-window.js ***!
-  \******************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nError: ENOENT: no such file or directory, open 'C:\\xampp\\htdocs\\record-devices\\resources\\js\\bem\\modal-window.js'");
-
-/***/ }),
-
-/***/ "./resources/js/bem/tab-content-wrapper.js":
-/*!*************************************************!*\
-  !*** ./resources/js/bem/tab-content-wrapper.js ***!
-  \*************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nError: ENOENT: no such file or directory, open 'C:\\xampp\\htdocs\\record-devices\\resources\\js\\bem\\tab-content-wrapper.js'");
 
 /***/ }),
 

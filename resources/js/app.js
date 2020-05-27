@@ -7,24 +7,9 @@
 require('./bootstrap');
 
 // Подключение скриптов для работы с angular
-require('./angular/angular.min.js');
 require('./angular/init-ng-app');
-require('./angular/attach-worker-to-device-angular-controller');
-require('./angular/attach-worker-to-work-place-angular-controller');
 
-require('./bem/tab-content-wrapper');
-require('./bem/modal-window');
-require('./bem/attach-component-parts-modal-window');
-require('./bem/attach-devices-modal-window');
-require('./bem/controllers/admin-devices-tab-content-controller');
-require('./bem/controllers/admin-work-places-tab-content-controller');
-require('./bem/controllers/admin-component_parts-tab-content-controller');
-require('./bem/controllers/admin-workers-tab-content-controller');
-require('./bem/controllers/admin-providers-tab-content-controller');
-require('./bem/controllers/admin-responsibles-tab-content-controller');
-require('./bem/controllers/admin-departments-tab-content-controller');
-require('./bem/controllers/admin-categories-tab-content-controller');
-require('./bem/controllers/worker-services-tab-content-controller');
+// Подключение БЭМ компонетов
 
 //window.Vue = require('vue');
 
