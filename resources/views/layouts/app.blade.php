@@ -77,5 +77,7 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('js/libraries/jquery.easing.min.js') }}" defer></script>
+    <script src="{{ asset('js/libraries/jquery.easing.compatibility.js') }}" defer></script>
 </body>
 </html>

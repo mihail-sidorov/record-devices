@@ -5,8 +5,6 @@
  */
 
 require('./bootstrap');
-require('./jquery.easing.compatibility');
-require('./jquery.easing.min');
 
 // Подключение скриптов для работы с angular
 require('./angular/angular.min.js');
