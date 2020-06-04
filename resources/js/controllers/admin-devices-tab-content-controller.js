@@ -37,7 +37,7 @@ $(document).ready(() => {
 
             // Открываем модальное окно для прикрепления к устройству сотрудника и обнуляем в нем сообщения об ошибках валидации
             this.controllerElement.find('.attach-worker-btn').click((e) => {
-                this.showAttachWorkerModalWndow(this.controllerElement, $(e.currentTarget), '/admin/get-free-workers-to-device', window.attachWorkerToDeviceAngularControllerScope);
+                this.showAttachWorkerModalWindow(this.controllerElement, $(e.currentTarget), '/admin/get-free-workers-to-device', window.attachWorkerToDeviceAngularControllerScope);
             });
 
             // Валидация и прикрепление сотрудника к устройству
@@ -183,7 +183,7 @@ $(document).ready(() => {
             });
         }
 
-        showAttachWorkerModalWndow($controllerElement, $eventElement, route, scope) {
+        showAttachWorkerModalWindow($controllerElement, $eventElement, route, scope) {
             var id = $eventElement.closest('.tab-content-wrapper__list-item').attr('id'), token = $('meta[name="csrf-token"]').attr('content');
 
             $controllerElement.find('.attach-worker-modal-window .form-content input[name="id"]').val(id);

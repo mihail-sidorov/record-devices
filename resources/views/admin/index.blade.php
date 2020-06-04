@@ -35,8 +35,8 @@
             @include('admin.devices.edit-device-modal-window.modal-window')
             @include('admin.devices.attach-worker-modal-window.modal-window')
         </div>
-        <div class="tab-pane fade<?php if ($active_tabs['work-places']) echo $active_tabs['work-places'][1]; ?> admin-work-places-tab-content-controller" id="work-places" role="tabpanel" aria-labelledby="work-places-tab">
-
+        <div class="tab-pane fade<?php if ($active_tabs['work-places']) echo $active_tabs['work-places'][1]; ?> work-places admin-work-places-tab-content-controller" id="work-places" role="tabpanel" aria-labelledby="work-places-tab">
+            @include('admin.work-places.tab-content-wrapper.tab-content-wrapper')
         </div>
         <div class="tab-pane fade<?php if ($active_tabs['component_parts']) echo $active_tabs['component_parts'][1]; ?> admin-component_parts-tab-content-controller" id="component_parts" role="tabpanel" aria-labelledby="component_parts-tab">
 

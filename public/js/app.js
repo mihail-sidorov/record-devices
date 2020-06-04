@@ -37349,7 +37349,7 @@ $(document).ready(function () {
       }); // Открываем модальное окно для прикрепления к устройству сотрудника и обнуляем в нем сообщения об ошибках валидации
 
       this.controllerElement.find('.attach-worker-btn').click(function (e) {
-        _this.showAttachWorkerModalWndow(_this.controllerElement, $(e.currentTarget), '/admin/get-free-workers-to-device', window.attachWorkerToDeviceAngularControllerScope);
+        _this.showAttachWorkerModalWindow(_this.controllerElement, $(e.currentTarget), '/admin/get-free-workers-to-device', window.attachWorkerToDeviceAngularControllerScope);
       }); // Валидация и прикрепление сотрудника к устройству
 
       this.controllerElement.find('.attach-worker-modal-window .form-content').on('submit', function (e) {
@@ -37502,8 +37502,8 @@ $(document).ready(function () {
         });
       }
     }, {
-      key: "showAttachWorkerModalWndow",
-      value: function showAttachWorkerModalWndow($controllerElement, $eventElement, route, scope) {
+      key: "showAttachWorkerModalWindow",
+      value: function showAttachWorkerModalWindow($controllerElement, $eventElement, route, scope) {
         var id = $eventElement.closest('.tab-content-wrapper__list-item').attr('id'),
             token = $('meta[name="csrf-token"]').attr('content');
         $controllerElement.find('.attach-worker-modal-window .form-content input[name="id"]').val(id);
