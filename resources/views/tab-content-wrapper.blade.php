@@ -2,7 +2,9 @@
 
     @include('btns.add-btn')
 
-    @yield('filter')
+    <div class="tab-content-wrapper__title">Фильтр:</div>
+    {{ $filter }}
 
-    @yield('list')
+    <div class="tab-content-wrapper__title">Список:</div>
+    {{ $list }}
 </div>

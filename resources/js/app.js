@@ -8,9 +8,14 @@ require('./bootstrap');
 
 // Подключение скриптов для работы с angular
 require('./angular/init-ng-app');
+require('./angular/attach-worker-to-device-angular-controller');
 
 // Подключение БЭМ компонетов
 require('./bem/tab-content-wrapper');
+require('./bem/modal-window');
+
+// Подключение контроллеров
+require('./controllers/admin-devices-tab-content-controller');
 
 //window.Vue = require('vue');
 

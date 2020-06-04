@@ -1,9 +1,9 @@
-@extends('tab-content-wrapper')
+@component('tab-content-wrapper')
+    @slot('filter')
+        @include('admin.devices.tab-content-wrapper.__filter')
+    @endslot
 
-@section('filter')
-    @include('admin.devices.tab-content-wrapper.__filter')
-@endsection
-
-@section('list')
-    @include('admin.devices.tab-content-wrapper.__list')
-@endsection
+    @slot('list')
+        @include('admin.devices.tab-content-wrapper.__list')
+    @endslot
+@endcomponent

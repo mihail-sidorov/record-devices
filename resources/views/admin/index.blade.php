@@ -31,6 +31,9 @@
     <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade<?php if ($active_tabs['devices']) echo $active_tabs['devices'][1]; ?> devices admin-devices-tab-content-controller" id="devices" role="tabpanel" aria-labelledby="devices-tab">
             @include('admin.devices.tab-content-wrapper.tab-content-wrapper')
+            @include('admin.devices.add-device-modal-window.modal-window')
+            @include('admin.devices.edit-device-modal-window.modal-window')
+            @include('admin.devices.attach-worker-modal-window.modal-window')
         </div>
         <div class="tab-pane fade<?php if ($active_tabs['work-places']) echo $active_tabs['work-places'][1]; ?> admin-work-places-tab-content-controller" id="work-places" role="tabpanel" aria-labelledby="work-places-tab">
 

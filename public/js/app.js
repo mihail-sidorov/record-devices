@@ -37045,6 +37045,20 @@ module.exports = function(module) {
 
 /***/ }),
 
+/***/ "./resources/js/angular/attach-worker-to-device-angular-controller.js":
+/*!****************************************************************************!*\
+  !*** ./resources/js/angular/attach-worker-to-device-angular-controller.js ***!
+  \****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+window.devicesApp.controller('attachWorkerToDeviceAngularController', function ($scope, $http) {
+  window.attachWorkerToDeviceAngularControllerScope = $scope;
+  window.attachWorkerToDeviceAngularControllerScope.workers = [];
+});
+
+/***/ }),
+
 /***/ "./resources/js/angular/init-ng-app.js":
 /*!*********************************************!*\
   !*** ./resources/js/angular/init-ng-app.js ***!
@@ -37077,10 +37091,17 @@ window.devicesApp = angular.module('devicesApp', []).config(function ($interpola
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js"); // Подключение скриптов для работы с angular
 
 
-__webpack_require__(/*! ./angular/init-ng-app */ "./resources/js/angular/init-ng-app.js"); // Подключение БЭМ компонетов
+__webpack_require__(/*! ./angular/init-ng-app */ "./resources/js/angular/init-ng-app.js");
+
+__webpack_require__(/*! ./angular/attach-worker-to-device-angular-controller */ "./resources/js/angular/attach-worker-to-device-angular-controller.js"); // Подключение БЭМ компонетов
 
 
-__webpack_require__(/*! ./bem/tab-content-wrapper */ "./resources/js/bem/tab-content-wrapper.js"); //window.Vue = require('vue');
+__webpack_require__(/*! ./bem/tab-content-wrapper */ "./resources/js/bem/tab-content-wrapper.js");
+
+__webpack_require__(/*! ./bem/modal-window */ "./resources/js/bem/modal-window.js"); // Подключение контроллеров
+
+
+__webpack_require__(/*! ./controllers/admin-devices-tab-content-controller */ "./resources/js/controllers/admin-devices-tab-content-controller.js"); //window.Vue = require('vue');
 
 /**
  * The following block of code may be used to automatically register your
@@ -37101,6 +37122,70 @@ __webpack_require__(/*! ./bem/tab-content-wrapper */ "./resources/js/bem/tab-con
 // const app = new Vue({
 //     el: '#app',
 // });
+
+/***/ }),
+
+/***/ "./resources/js/bem/modal-window.js":
+/*!******************************************!*\
+  !*** ./resources/js/bem/modal-window.js ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+$(document).ready(function () {
+  $('.modal-window').each(function (index, element) {
+    var observer = new MutationObserver(function (res) {
+      var self = res[0].target;
+
+      if ($(self).attr('class').indexOf('modal-window_show') + 1) {
+        $(self).find('.modal-window__cover').stop().animate({
+          opacity: '0.6'
+        }, {
+          duration: 300,
+          easing: 'easeInOut',
+          queue: false,
+          start: function start() {
+            $(self).css('display', 'block');
+            $(self).css('width');
+            $(self).addClass('modal-window_animate');
+            $('html, body').addClass('hide-scroll');
+          },
+          complete: function complete() {
+            $(self).addClass('modal-window_open');
+          }
+        });
+      } else {
+        $(self).find('.modal-window__cover').stop().animate({
+          opacity: 0
+        }, {
+          duration: 300,
+          easing: 'easeInOut',
+          queue: false,
+          start: function start() {
+            $(self).removeClass('modal-window_animate');
+            $(self).removeClass('modal-window_open');
+          },
+          complete: function complete() {
+            $(self).css('display', 'none');
+            $('html, body').removeClass('hide-scroll');
+          }
+        });
+      }
+    });
+    observer.observe(element, {
+      attributes: true,
+      attributeFilter: ['class']
+    });
+  });
+  $('.modal-window__wrapper').click(function (e) {
+    if (e.target === e.currentTarget) {
+      $(e.currentTarget).parent().removeClass('modal-window_show');
+    }
+  });
+  $('.modal-window__close').click(function (e) {
+    $(e.currentTarget).closest('.modal-window').removeClass('modal-window_show');
+  });
+});
 
 /***/ }),
 
@@ -37210,6 +37295,351 @@ if (token) {
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     encrypted: true
 // });
+
+/***/ }),
+
+/***/ "./resources/js/controllers/admin-devices-tab-content-controller.js":
+/*!**************************************************************************!*\
+  !*** ./resources/js/controllers/admin-devices-tab-content-controller.js ***!
+  \**************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+$(document).ready(function () {
+  var adminDevicesTabContentController = /*#__PURE__*/function () {
+    function adminDevicesTabContentController($controllerElement) {
+      var _this = this;
+
+      _classCallCheck(this, adminDevicesTabContentController);
+
+      this.controllerElement = $controllerElement; // Открываем модальное окно добавления устройства
+
+      this.controllerElement.find('.add-btn').click(function (e) {
+        _this.showAddDeviceModalWindow(_this.controllerElement);
+      }); // Валидация и добавление устройства
+
+      this.controllerElement.find('.add-device-modal-window .form-content').on('submit', function (e) {
+        _this.addDevice($(e.currentTarget));
+
+        return false;
+      }); // Обнуляем сообщения об ошибках валидации у текстовых полей
+
+      this.controllerElement.find('.form-content__text').on('input', function (e) {
+        _this.clearValidateErrors($(e.currentTarget));
+      }); // Обнуляем сообщения об ошибках валидации у дат и выпадающих списков
+
+      this.controllerElement.find('.form-content__select, .form-content__date').on('input', function (e) {
+        _this.clearValidateErrors($(e.currentTarget));
+      }); // Открываем модальное окно для редактирования устройства, обнуляем в нем сообщения об ошибках валидации и заполняем его данными
+
+      this.controllerElement.find('.edit-btn').click(function (e) {
+        _this.showEditDeviceModalWindow(_this.controllerElement, $(e.currentTarget));
+      }); // Валидация и редактирование устройства
+
+      this.controllerElement.find('.edit-device-modal-window .form-content').on('submit', function (e) {
+        _this.editDevice($(e.currentTarget));
+
+        return false;
+      }); // Открываем модальное окно для прикрепления к устройству сотрудника и обнуляем в нем сообщения об ошибках валидации
+
+      this.controllerElement.find('.attach-worker-btn').click(function (e) {
+        _this.showAttachWorkerModalWndow(_this.controllerElement, $(e.currentTarget), '/admin/get-free-workers-to-device', window.attachWorkerToDeviceAngularControllerScope);
+      }); // Валидация и прикрепление сотрудника к устройству
+
+      this.controllerElement.find('.attach-worker-modal-window .form-content').on('submit', function (e) {
+        _this.attachWorker($(e.currentTarget), '/admin/attach-worker-to-device', '/admin/tab/devices');
+
+        return false;
+      }); // Открепление сотрудника от устройства
+
+      this.controllerElement.find('.unattach-worker-btn').click(function (e) {
+        _this.unattachWorker($(e.currentTarget), '/admin/unattach-worker-from-device', '/admin/tab/devices');
+      }); // Удаление устройства
+
+      this.controllerElement.find('.del-btn').click(function (e) {
+        _this.delDevice($(e.currentTarget), '/admin/del-device', '/admin/tab/devices', 'устройство');
+      });
+    }
+
+    _createClass(adminDevicesTabContentController, [{
+      key: "showAddDeviceModalWindow",
+      value: function showAddDeviceModalWindow($controllerElement) {
+        $controllerElement.find('.add-device-modal-window .form-content__field').removeClass('form-content__field_error');
+        $controllerElement.find('.add-device-modal-window .form-content__error').text('');
+        $controllerElement.find('.add-device-modal-window').addClass('modal-window_show');
+      }
+    }, {
+      key: "addDevice",
+      value: function addDevice($eventElement) {
+        var fields = $eventElement.serialize(),
+            $formContentField;
+        $eventElement.find('.form-content__field').removeClass('form-content__field_error');
+        $eventElement.find('.form-content__error').text('');
+        $.ajax({
+          type: 'POST',
+          url: '/admin/add-device',
+          data: fields,
+          success: function success(response) {
+            if (response) {
+              window.location.href = '/admin/tab/devices';
+            }
+          },
+          error: function error(_error) {
+            var errors;
+
+            if (_error.status === 422) {
+              errors = _error.responseJSON.errors;
+
+              if (errors !== undefined) {
+                for (var key in errors) {
+                  if (errors[key][0]) {
+                    $formContentField = $eventElement.find(".form-content__error[field-name=\"".concat(key, "\"]")).closest('.form-content__field');
+                    $formContentField.addClass('form-content__field_error');
+                    $formContentField.find('.form-content__error').text(errors[key][0]);
+                  }
+                }
+              }
+            }
+          }
+        });
+      }
+    }, {
+      key: "clearValidateErrors",
+      value: function clearValidateErrors($eventElement) {
+        var $formContentField = $eventElement.closest('.form-content__field');
+        $formContentField.removeClass('form-content__field_error');
+        $formContentField.find('.form-content__error').text('');
+      }
+    }, {
+      key: "showEditDeviceModalWindow",
+      value: function showEditDeviceModalWindow($controllerElement, $eventElement) {
+        var deviceId = $eventElement.closest('.tab-content-wrapper__list-item').attr('id'),
+            token = $('meta[name="csrf-token"]').attr('content');
+        $.ajax({
+          type: 'POST',
+          url: '/admin/write-edit-device-form',
+          data: {
+            _token: token,
+            id: deviceId
+          },
+          dataType: 'json',
+          success: function success(response) {
+            if (response) {
+              $controllerElement.find('.edit-device-modal-window .form-content__field').each(function (index, element) {
+                var $fieldNameElement = $(element).find('[name]'),
+                    fieldName = $fieldNameElement.attr('name'),
+                    date,
+                    year,
+                    month,
+                    day;
+
+                if (fieldName === 'receipt_date' || fieldName === 'warranty') {
+                  date = new Date(response[fieldName] * 1000);
+                  year = date.getFullYear();
+                  month = +date.getMonth() + 1;
+                  day = +date.getDate();
+
+                  if (month < 10) {
+                    month = '0' + month;
+                  }
+
+                  if (day < 10) {
+                    day = '0' + day;
+                  }
+
+                  $fieldNameElement.val("".concat(year, "-").concat(month, "-").concat(day));
+                } else {
+                  $fieldNameElement.val(response[fieldName]);
+                }
+              });
+              $controllerElement.find('.edit-device-modal-window .form-content input[name="id"]').val(deviceId);
+              $controllerElement.find('.edit-device-modal-window .form-content__field').removeClass('form-content__field_error');
+              $controllerElement.find('.edit-device-modal-window .form-content__error').text('');
+              $controllerElement.find('.edit-device-modal-window').addClass('modal-window_show');
+            }
+          }
+        });
+      }
+    }, {
+      key: "editDevice",
+      value: function editDevice($eventElement) {
+        var fields = $eventElement.serialize(),
+            $formContentField;
+        $eventElement.find('.form-content__field').removeClass('form-content__field_error');
+        $eventElement.find('.form-content__error').text('');
+        $.ajax({
+          type: 'POST',
+          url: '/admin/edit-device',
+          data: fields,
+          success: function success(response) {
+            if (response) {
+              window.location.href = '/admin/tab/devices';
+            }
+          },
+          error: function error(_error2) {
+            var errors;
+
+            if (_error2.status === 422) {
+              errors = _error2.responseJSON.errors;
+
+              if (errors !== undefined) {
+                for (var key in errors) {
+                  if (errors[key][0]) {
+                    $formContentField = $eventElement.find(".form-content__error[field-name=\"".concat(key, "\"]")).closest('.form-content__field');
+                    $formContentField.addClass('form-content__field_error');
+                    $formContentField.find('.form-content__error').text(errors[key][0]);
+                  }
+                }
+              }
+            }
+          }
+        });
+      }
+    }, {
+      key: "showAttachWorkerModalWndow",
+      value: function showAttachWorkerModalWndow($controllerElement, $eventElement, route, scope) {
+        var id = $eventElement.closest('.tab-content-wrapper__list-item').attr('id'),
+            token = $('meta[name="csrf-token"]').attr('content');
+        $controllerElement.find('.attach-worker-modal-window .form-content input[name="id"]').val(id);
+        $controllerElement.find('.attach-worker-modal-window .form-content__field').removeClass('form-content__field_error');
+        $controllerElement.find('.attach-worker-modal-window .form-content__error').text('');
+        $.ajax({
+          type: 'POST',
+          url: route,
+          data: {
+            _token: token
+          },
+          dataType: 'json',
+          success: function success(response) {
+            if (response) {
+              scope.workers = response;
+              scope.$apply();
+              $controllerElement.find('.attach-worker-modal-window__search-input').off('input');
+              $controllerElement.find('.attach-worker-modal-window__search-input').on('input', function (e) {
+                var inputText = $(e.currentTarget).val().toLowerCase().replace('ё', 'е');
+
+                if (inputText !== '') {
+                  scope.workers = [];
+                  response.forEach(function (worker) {
+                    var name = worker.name.toLowerCase().replace('ё', 'е');
+
+                    if (name.match(inputText)) {
+                      scope.workers.push(worker);
+                    }
+                  });
+                } else {
+                  scope.workers = response;
+                }
+
+                scope.$apply();
+              });
+              $controllerElement.find('.attach-worker-modal-window').addClass('modal-window_show');
+              setTimeout(function () {
+                $controllerElement.find('.attach-worker-modal-window__search-input').focus().val('');
+                $controllerElement.find('.attach-worker-modal-window .form-content__select').val('');
+              }, 0);
+            }
+          }
+        });
+      }
+    }, {
+      key: "attachWorker",
+      value: function attachWorker($eventElement, route, tab) {
+        var fields = $eventElement.serialize(),
+            $formContentField;
+        $eventElement.find('.form-content__field').removeClass('form-content__field_error');
+        $eventElement.find('.form-content__error').text('');
+        $.ajax({
+          type: 'POST',
+          url: route,
+          data: fields,
+          success: function success(response) {
+            if (response) {
+              window.location.href = tab;
+            }
+          },
+          error: function error(_error3) {
+            var errors;
+
+            if (_error3.status === 422) {
+              errors = _error3.responseJSON.errors;
+
+              if (errors !== undefined) {
+                for (var key in errors) {
+                  if (errors[key][0]) {
+                    $formContentField = $eventElement.find(".form-content__error[field-name=\"".concat(key, "\"]")).closest('.form-content__field');
+                    $formContentField.addClass('form-content__field_error');
+                    $formContentField.find('.form-content__error').text(errors[key][0]);
+                  }
+                }
+              }
+            }
+          }
+        });
+      }
+    }, {
+      key: "unattachWorker",
+      value: function unattachWorker($eventElement, route, tab) {
+        var id, workerId, token;
+
+        if (confirm('Вы действительно хотите открепить сотрудника?')) {
+          id = $eventElement.closest('.tab-content-wrapper__list-item').attr('id');
+          workerId = $eventElement.closest('.tab-content-wrapper__list-item').attr('worker_id');
+          token = $('meta[name="csrf-token"]').attr('content');
+          $.ajax({
+            type: 'POST',
+            url: route,
+            data: {
+              _token: token,
+              id: id,
+              worker_id: workerId
+            },
+            success: function success(response) {
+              if (response) {
+                window.location.href = tab;
+              }
+            }
+          });
+        }
+      }
+    }, {
+      key: "delDevice",
+      value: function delDevice($eventElement, route, tab, entityName) {
+        var id,
+            token,
+            name = $eventElement.closest('.tab-content-wrapper__list-item-head').find('.tab-content-wrapper__list-item-name').text();
+
+        if (confirm("\u0412\u044B \u0434\u0435\u0439\u0441\u0442\u0432\u0438\u0442\u0435\u043B\u044C\u043D\u043E \u0445\u043E\u0442\u0438\u0442\u0435 \u0443\u0434\u0430\u043B\u0438\u0442\u044C ".concat(entityName, " \"").concat(name, "\"?"))) {
+          id = $eventElement.closest('.tab-content-wrapper__list-item').attr('id');
+          token = $('meta[name="csrf-token"]').attr('content');
+          $.ajax({
+            type: 'POST',
+            url: route,
+            data: {
+              _token: token,
+              id: id
+            },
+            success: function success(response) {
+              if (response) {
+                window.location.href = tab;
+              }
+            }
+          });
+        }
+      }
+    }]);
+
+    return adminDevicesTabContentController;
+  }();
+
+  window.adminDevicesTabContentController = new adminDevicesTabContentController($('.admin-devices-tab-content-controller'));
+});
 
 /***/ }),
 

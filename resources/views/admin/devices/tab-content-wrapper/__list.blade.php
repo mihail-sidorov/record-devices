@@ -1,4 +1,3 @@
-<div class="tab-content-wrapper__title">Список:</div>
 <div class="tab-content-wrapper__list">
     @foreach ($devices as $device)
         <?php

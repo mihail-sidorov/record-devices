@@ -381,16 +381,16 @@ class AdminController extends Controller
                 'worker_id.required' => 'Выберите сотрудника из списка',
             ]);
 
-            $device_worker = DeviceWorker::where([['device_id', $request->device_id], ['worker_id', $request->worker_id], ['attach', 1]])->first();
+            $device_worker = DeviceWorker::where([['device_id', $request->id], ['worker_id', $request->worker_id], ['attach', 1]])->first();
 
             if (!$device_worker) {
-                $device = Devices::find($request->device_id);
+                $device = Devices::find($request->id);
                 $worker = Workers::find($request->worker_id);
 
                 if ($device && $worker && !$device->write_off()) {
                     $device_worker = new DeviceWorker;
 
-                    $device_worker->device_id = $request->device_id;
+                    $device_worker->device_id = $request->id;
                     $device_worker->worker_id = $request->worker_id;
 
                     $device_worker->save();
@@ -434,7 +434,7 @@ class AdminController extends Controller
     public function unattachWorkerFromDevice(Request $request)
     {
         if ($request->ajax() && Auth::user()->role === 'admin') {
-            $device_worker = DeviceWorker::where([['device_id', $request->device_id], ['worker_id', $request->worker_id], ['attach', 1]])->first();
+            $device_worker = DeviceWorker::where([['device_id', $request->id], ['worker_id', $request->worker_id], ['attach', 1]])->first();
             if ($device_worker) {
                 $device_worker->attach = 0;
                 $device_worker->save();
