@@ -1,4 +1,4 @@
-<div class="modal-window {{ $class }}" {{ $ng_controller }}>
+<div class="modal-window {{ $class }}" {{ $ng_controller }} show="" id="">
     <div class="modal-window__cover"></div>
     <div class="modal-window__wrapper">
         <div class="modal-window__content">

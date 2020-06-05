@@ -922,7 +922,7 @@ class AdminController extends Controller
     {
         if ($request->ajax() && Auth::user()->role === 'admin') {
             $component_part_ids = WorkPlaceComponentPart::where([
-                ['work_place_id', '<>', $request->work_place_id],
+                ['work_place_id', '<>', $request->id],
                 ['attach', '=', 1],
             ])
             ->pluck('component_part_id');
@@ -944,7 +944,7 @@ class AdminController extends Controller
                         $checked_array[] = false;
                     }
                 }
-                $result_array[] = ['category' => $category, 'component_parts' => $component_parts_array, 'checked' => $checked_array];
+                $result_array[] = ['category' => $category, 'elements' => $component_parts_array, 'checked' => $checked_array];
             }
 
             return json_encode($result_array);
@@ -985,9 +985,9 @@ class AdminController extends Controller
     public function attachComponentPartsToWorkPlace(Request $request)
     {
         if ($request->ajax() && Auth::user()->role === 'admin') {
-            if ($request->component_parts) {
-                foreach ($request->component_parts[0] as $index => $component_part_id) {
-                    $this->attachComponentPartToWorkPlace($request->work_place_id, $component_part_id, $request->component_parts[1][$index]);
+            if ($request->elements) {
+                foreach ($request->elements[0] as $index => $component_part_id) {
+                    $this->attachComponentPartToWorkPlace($request->id, $component_part_id, $request->elements[1][$index]);
                 }
 
                 return '{}';

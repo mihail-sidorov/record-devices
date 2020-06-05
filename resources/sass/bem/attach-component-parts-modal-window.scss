@@ -1,10 +1,10 @@
-.attach-component-parts-modal-window {
+.multi-attach-modal-window {
 
-    .attach-component-parts-modal-window__categories {
+    .multi-attach-modal-window__categories {
 
         margin-bottom: 20px;
 
-        .attach-component-parts-modal-window__category {
+        .multi-attach-modal-window__category {
 
             margin-bottom: 10px;
 
@@ -13,7 +13,7 @@
                 margin-bottom: 0;
             }
 
-            .attach-component-parts-modal-window__category-head {
+            .multi-attach-modal-window__category-head {
 
                 display: inline-block;
                 cursor: pointer;
@@ -35,7 +35,7 @@
                 }
             }
 
-            .attach-component-parts-modal-window__category-body {
+            .multi-attach-modal-window__category-body {
 
                 padding-left: 15px;
                 display: none;
@@ -46,13 +46,13 @@
                     display: block;
                 }
 
-                .attach-component-parts-modal-window__component-parts {
+                .multi-attach-modal-window__elements {
 
                     display: flex;
                     flex-direction: column;
                     align-items: flex-start;
 
-                    .attach-component-parts-modal-window__component-part {
+                    .multi-attach-modal-window__element {
 
                         margin-bottom: 10px;
 

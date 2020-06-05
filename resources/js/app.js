@@ -15,7 +15,9 @@ require('./bem/tab-content-wrapper');
 require('./bem/modal-window');
 
 // Подключение контроллеров
+require('./controllers//tab-content-controller');
 require('./controllers/admin-devices-tab-content-controller');
+require('./controllers/admin-work-places-tab-content-controller');
 
 //window.Vue = require('vue');
 

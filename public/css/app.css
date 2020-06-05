@@ -11211,59 +11211,59 @@ body.hide-scroll {
   margin-top: 4px;
 }
 
-.attach-component-parts-modal-window .attach-component-parts-modal-window__categories {
+.multi-attach-modal-window .multi-attach-modal-window__categories {
   margin-bottom: 20px;
 }
 
-.attach-component-parts-modal-window .attach-component-parts-modal-window__categories .attach-component-parts-modal-window__category {
+.multi-attach-modal-window .multi-attach-modal-window__categories .multi-attach-modal-window__category {
   margin-bottom: 10px;
 }
 
-.attach-component-parts-modal-window .attach-component-parts-modal-window__categories .attach-component-parts-modal-window__category:last-child {
+.multi-attach-modal-window .multi-attach-modal-window__categories .multi-attach-modal-window__category:last-child {
   margin-bottom: 0;
 }
 
-.attach-component-parts-modal-window .attach-component-parts-modal-window__categories .attach-component-parts-modal-window__category .attach-component-parts-modal-window__category-head {
+.multi-attach-modal-window .multi-attach-modal-window__categories .multi-attach-modal-window__category .multi-attach-modal-window__category-head {
   display: inline-block;
   cursor: pointer;
 }
 
-.attach-component-parts-modal-window .attach-component-parts-modal-window__categories .attach-component-parts-modal-window__category .attach-component-parts-modal-window__category-head::before {
+.multi-attach-modal-window .multi-attach-modal-window__categories .multi-attach-modal-window__category .multi-attach-modal-window__category-head::before {
   content: "+";
   display: inline-block;
   width: 15px;
   color: #0064b4;
 }
 
-.attach-component-parts-modal-window .attach-component-parts-modal-window__categories .attach-component-parts-modal-window__category .attach-component-parts-modal-window__category-head_show::before {
+.multi-attach-modal-window .multi-attach-modal-window__categories .multi-attach-modal-window__category .multi-attach-modal-window__category-head_show::before {
   content: "-";
 }
 
-.attach-component-parts-modal-window .attach-component-parts-modal-window__categories .attach-component-parts-modal-window__category .attach-component-parts-modal-window__category-body {
+.multi-attach-modal-window .multi-attach-modal-window__categories .multi-attach-modal-window__category .multi-attach-modal-window__category-body {
   padding-left: 15px;
   display: none;
   margin-top: 10px;
 }
 
-.attach-component-parts-modal-window .attach-component-parts-modal-window__categories .attach-component-parts-modal-window__category .attach-component-parts-modal-window__category-body_show {
+.multi-attach-modal-window .multi-attach-modal-window__categories .multi-attach-modal-window__category .multi-attach-modal-window__category-body_show {
   display: block;
 }
 
-.attach-component-parts-modal-window .attach-component-parts-modal-window__categories .attach-component-parts-modal-window__category .attach-component-parts-modal-window__category-body .attach-component-parts-modal-window__component-parts {
+.multi-attach-modal-window .multi-attach-modal-window__categories .multi-attach-modal-window__category .multi-attach-modal-window__category-body .multi-attach-modal-window__elements {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 }
 
-.attach-component-parts-modal-window .attach-component-parts-modal-window__categories .attach-component-parts-modal-window__category .attach-component-parts-modal-window__category-body .attach-component-parts-modal-window__component-parts .attach-component-parts-modal-window__component-part {
+.multi-attach-modal-window .multi-attach-modal-window__categories .multi-attach-modal-window__category .multi-attach-modal-window__category-body .multi-attach-modal-window__elements .multi-attach-modal-window__element {
   margin-bottom: 10px;
 }
 
-.attach-component-parts-modal-window .attach-component-parts-modal-window__categories .attach-component-parts-modal-window__category .attach-component-parts-modal-window__category-body .attach-component-parts-modal-window__component-parts .attach-component-parts-modal-window__component-part:last-child {
+.multi-attach-modal-window .multi-attach-modal-window__categories .multi-attach-modal-window__category .multi-attach-modal-window__category-body .multi-attach-modal-window__elements .multi-attach-modal-window__element:last-child {
   margin-bottom: 0;
 }
 
-.attach-component-parts-modal-window .attach-component-parts-modal-window__categories .attach-component-parts-modal-window__category .attach-component-parts-modal-window__category-body .attach-component-parts-modal-window__component-parts .attach-component-parts-modal-window__component-part input {
+.multi-attach-modal-window .multi-attach-modal-window__categories .multi-attach-modal-window__category .multi-attach-modal-window__category-body .multi-attach-modal-window__elements .multi-attach-modal-window__element input {
   margin-right: 5px;
 }
 
@@ -11286,61 +11286,5 @@ body.hide-scroll {
 .attach-worker-modal-window .attach-worker-modal-window__search .attach-worker-modal-window__search-input:focus {
   border-color: #a1cbef;
   box-shadow: 0 0 0 0.2rem rgba(52, 144, 220, 0.25);
-}
-
-.attach-devices-modal-window .attach-devices-modal-window__categories {
-  margin-bottom: 20px;
-}
-
-.attach-devices-modal-window .attach-devices-modal-window__categories .attach-devices-modal-window__category {
-  margin-bottom: 10px;
-}
-
-.attach-devices-modal-window .attach-devices-modal-window__categories .attach-devices-modal-window__category:last-child {
-  margin-bottom: 0;
-}
-
-.attach-devices-modal-window .attach-devices-modal-window__categories .attach-devices-modal-window__category .attach-devices-modal-window__category-head {
-  display: inline-block;
-  cursor: pointer;
-}
-
-.attach-devices-modal-window .attach-devices-modal-window__categories .attach-devices-modal-window__category .attach-devices-modal-window__category-head::before {
-  content: "+";
-  display: inline-block;
-  width: 15px;
-  color: #0064b4;
-}
-
-.attach-devices-modal-window .attach-devices-modal-window__categories .attach-devices-modal-window__category .attach-devices-modal-window__category-head_show::before {
-  content: "-";
-}
-
-.attach-devices-modal-window .attach-devices-modal-window__categories .attach-devices-modal-window__category .attach-devices-modal-window__category-body {
-  padding-left: 15px;
-  display: none;
-  margin-top: 10px;
-}
-
-.attach-devices-modal-window .attach-devices-modal-window__categories .attach-devices-modal-window__category .attach-devices-modal-window__category-body_show {
-  display: block;
-}
-
-.attach-devices-modal-window .attach-devices-modal-window__categories .attach-devices-modal-window__category .attach-devices-modal-window__category-body .attach-devices-modal-window__devices {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-
-.attach-devices-modal-window .attach-devices-modal-window__categories .attach-devices-modal-window__category .attach-devices-modal-window__category-body .attach-devices-modal-window__devices .attach-devices-modal-window__device {
-  margin-bottom: 10px;
-}
-
-.attach-devices-modal-window .attach-devices-modal-window__categories .attach-devices-modal-window__category .attach-devices-modal-window__category-body .attach-devices-modal-window__devices .attach-devices-modal-window__device:last-child {
-  margin-bottom: 0;
-}
-
-.attach-devices-modal-window .attach-devices-modal-window__categories .attach-devices-modal-window__category .attach-devices-modal-window__category-body .attach-devices-modal-window__devices .attach-devices-modal-window__device input {
-  margin-right: 5px;
 }
 
