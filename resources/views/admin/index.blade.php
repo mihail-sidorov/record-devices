@@ -42,8 +42,8 @@
             @include('admin.work-places.multi-attach-modal-window.modal-window')
             @include('admin.work-places.attach-worker-modal-window.modal-window')
         </div>
-        <div class="tab-pane fade<?php if ($active_tabs['component_parts']) echo $active_tabs['component_parts'][1]; ?> admin-component_parts-tab-content-controller" id="component_parts" role="tabpanel" aria-labelledby="component_parts-tab">
-
+        <div class="tab-pane fade<?php if ($active_tabs['component_parts']) echo $active_tabs['component_parts'][1]; ?> component-parts admin-component_parts-tab-content-controller" id="component_parts" role="tabpanel" aria-labelledby="component_parts-tab">
+            @include('admin.component-parts.tab-content-wrapper.tab-content-wrapper')
         </div>
         <div class="tab-pane fade<?php if ($active_tabs['workers']) echo $active_tabs['workers'][1]; ?> admin-workers-tab-content-controller" id="workers" role="tabpanel" aria-labelledby="workers-tab">
 
