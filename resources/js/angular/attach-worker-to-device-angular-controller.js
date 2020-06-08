@@ -1,4 +1,4 @@
-window.devicesApp.controller('attachWorkerToDeviceAngularController', ($scope, $http) => {
+window.devicesApp.controller('attachWorkerToDeviceAngularController', ($scope) => {
     window.attachWorkerToDeviceAngularControllerScope = $scope;
 
     window.attachWorkerToDeviceAngularControllerScope.workers = [];

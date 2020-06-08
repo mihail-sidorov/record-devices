@@ -411,16 +411,16 @@ class AdminController extends Controller
                 'worker_id.required' => 'Выберите сотрудника из списка',
             ]);
 
-            $work_place_worker = WorkPlaceWorker::where([['work_place_id', $request->work_place_id], ['worker_id', $request->worker_id], ['attach', 1]])->first();
+            $work_place_worker = WorkPlaceWorker::where([['work_place_id', $request->id], ['worker_id', $request->worker_id], ['attach', 1]])->first();
 
             if (!$work_place_worker) {
-                $work_place = WorkPlace::find($request->work_place_id);
+                $work_place = WorkPlace::find($request->id);
                 $worker = Workers::find($request->worker_id);
 
                 if ($work_place && $worker) {
                     $work_place_worker = new WorkPlaceWorker;
 
-                    $work_place_worker->work_place_id = $request->work_place_id;
+                    $work_place_worker->work_place_id = $request->id;
                     $work_place_worker->worker_id = $request->worker_id;
 
                     $work_place_worker->save();
@@ -447,7 +447,7 @@ class AdminController extends Controller
     public function unattachWorkerFromWorkPlace(Request $request)
     {
         if ($request->ajax() && Auth::user()->role === 'admin') {
-            $work_place_worker = WorkPlaceWorker::where([['work_place_id', $request->work_place_id], ['worker_id', $request->worker_id], ['attach', 1]])->first();
+            $work_place_worker = WorkPlaceWorker::where([['work_place_id', $request->id], ['worker_id', $request->worker_id], ['attach', 1]])->first();
             if ($work_place_worker) {
                 $work_place_worker->attach = 0;
                 $work_place_worker->save();

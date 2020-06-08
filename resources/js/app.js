@@ -9,6 +9,7 @@ require('./bootstrap');
 // Подключение скриптов для работы с angular
 require('./angular/init-ng-app');
 require('./angular/attach-worker-to-device-angular-controller');
+require('./angular/attach-worker-to-work-place-angular-controller');
 
 // Подключение БЭМ компонетов
 require('./bem/tab-content-wrapper');
