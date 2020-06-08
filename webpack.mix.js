@@ -14,6 +14,7 @@ const mix = require('laravel-mix');
 mix.js('resources/js/app.js', 'public/js')
    .sass('resources/sass/app.scss', 'public/css')
    .copyDirectory('resources/js/libraries', 'public/js/libraries')
+   .copyDirectory('resources/fonts', 'public/fonts')
    .browserSync({
-      proxy: '192.168.1.5'
+      proxy: '192.168.4.195'
    });
