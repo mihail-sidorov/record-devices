@@ -1,7 +1,11 @@
-/node_modules
-/public/
+/node_modules/
+/public/*
+!/public/.htaccess
+!/public/index.php
+!/public/robots.txt
+!/public/web.config
 /storage/*.key
-/vendor
+/vendor/
 .env
 .env.backup
 .phpunit.result.cache
