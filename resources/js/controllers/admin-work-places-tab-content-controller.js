@@ -1,5 +1,5 @@
 $(document).ready(() => {
-    class adminWorkPlacesTabContentController extends window.tabContentController{
+    class adminWorkPlacesTabContentController extends window.tabContentController {
         constructor($controllerElement) {
             super($controllerElement);
 

@@ -41,7 +41,7 @@ class AdminController extends Controller
             $active_tabs = [
                 'devices' => [],
                 'work-places' => [],
-                'component_parts' => [],
+                'component-parts' => [],
                 'workers' => [],
                 'providers'=> [],
                 'responsibles' => [],
@@ -58,9 +58,9 @@ class AdminController extends Controller
                     $active_tabs['work-places'][] = ' active';
                     $active_tabs['work-places'][] = ' show active';
                     break;
-                case 'component_parts':
-                    $active_tabs['component_parts'][] = ' active';
-                    $active_tabs['component_parts'][] = ' show active';
+                case 'component-parts':
+                    $active_tabs['component-parts'][] = ' active';
+                    $active_tabs['component-parts'][] = ' show active';
                     break;
                 case 'workers':
                     $active_tabs['workers'][] = ' active';

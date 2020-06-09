@@ -19,6 +19,7 @@ require('./bem/modal-window');
 require('./controllers//tab-content-controller');
 require('./controllers/admin-devices-tab-content-controller');
 require('./controllers/admin-work-places-tab-content-controller');
+require('./controllers/admin-component-parts-tab-content-controller');
 
 //window.Vue = require('vue');
 

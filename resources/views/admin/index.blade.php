@@ -10,7 +10,7 @@
             <a class="nav-link<?php if ($active_tabs['work-places']) echo $active_tabs['work-places'][0]; ?>" id="work-places-tab" data-toggle="tab" href="#work-places" role="tab" aria-controls="work-places" aria-selected="true">Рабочие места</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link<?php if ($active_tabs['component_parts']) echo $active_tabs['component_parts'][0]; ?>" id="component_parts-tab" data-toggle="tab" href="#component_parts" role="tab" aria-controls="component_parts" aria-selected="true">Комплектующие</a>
+            <a class="nav-link<?php if ($active_tabs['component-parts']) echo $active_tabs['component-parts'][0]; ?>" id="component-parts-tab" data-toggle="tab" href="#component-parts" role="tab" aria-controls="component-parts" aria-selected="true">Комплектующие</a>
         </li>
         <li class="nav-item">
             <a class="nav-link<?php if ($active_tabs['workers']) echo $active_tabs['workers'][0]; ?>" id="workers-tab" data-toggle="tab" href="#workers" role="tab" aria-controls="workers" aria-selected="false">Сотрудники</a>
@@ -42,8 +42,10 @@
             @include('admin.work-places.multi-attach-modal-window.modal-window')
             @include('admin.work-places.attach-worker-modal-window.modal-window')
         </div>
-        <div class="tab-pane fade<?php if ($active_tabs['component_parts']) echo $active_tabs['component_parts'][1]; ?> component-parts admin-component_parts-tab-content-controller" id="component_parts" role="tabpanel" aria-labelledby="component_parts-tab">
+        <div class="tab-pane fade<?php if ($active_tabs['component-parts']) echo $active_tabs['component-parts'][1]; ?> component-parts admin-component-parts-tab-content-controller" id="component-parts" role="tabpanel" aria-labelledby="component-parts-tab">
             @include('admin.component-parts.tab-content-wrapper.tab-content-wrapper')
+            @include('admin.component-parts.add-component-part-modal-window.modal-window')
+            @include('admin.component-parts.edit-component-part-modal-window.modal-window')
         </div>
         <div class="tab-pane fade<?php if ($active_tabs['workers']) echo $active_tabs['workers'][1]; ?> admin-workers-tab-content-controller" id="workers" role="tabpanel" aria-labelledby="workers-tab">
 
