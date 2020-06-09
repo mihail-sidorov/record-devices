@@ -19,8 +19,8 @@ $(document).ready(() => {
                 this.clearValidateErrors($(e.currentTarget));
             });
 
-            // Обнуляем сообщения об ошибках валидации у выпадающих списков
-            this.controllerElement.find('.form-content__select').on('input', (e) => {
+            // Обнуляем сообщения об ошибках валидации у дат и выпадающих списков
+            this.controllerElement.find('.form-content__select, .form-content__date').on('input', (e) => {
                 this.clearValidateErrors($(e.currentTarget));
             });
 
@@ -64,6 +64,18 @@ $(document).ready(() => {
             // Удаляем рабочее место
             this.controllerElement.find('.del-btn').click((e) => {
                 this.delEntity($(e.currentTarget), '/admin/del-work-place', '/admin/tab/work-places', 'рабочее место');
+            });
+
+            // Заполняем данными модальное окно для редактирования комплектующего и открываем его
+            this.controllerElement.find('.edit-btn').click((e) => {
+                this.writeEditEntityModalWindow($(e.currentTarget), '/admin/write-edit-component-part-form', this.controllerElement.find('.edit-component-part-modal-window'));
+                this.showModalWindow(this.controllerElement.find('.edit-component-part-modal-window'));
+            });
+
+            // Валидация и редактирование комплектующего
+            this.controllerElement.find('.edit-component-part-modal-window .form-content').on('submit', (e) => {
+                this.editEntity($(e.currentTarget), '/admin/edit-component-part', '/admin/tab/work-places');
+                return false;
             });
         }
     }
