@@ -67,7 +67,7 @@ $(document).ready(() => {
             });
 
             // Заполняем данными модальное окно для редактирования комплектующего и открываем его
-            this.controllerElement.find('.edit-btn').click((e) => {
+            this.controllerElement.find('.edit-component-part-btn .edit-btn').click((e) => {
                 this.writeEditEntityModalWindow($(e.currentTarget), '/admin/write-edit-component-part-form', this.controllerElement.find('.edit-component-part-modal-window'));
                 this.showModalWindow(this.controllerElement.find('.edit-component-part-modal-window'));
             });

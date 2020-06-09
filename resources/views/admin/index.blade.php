@@ -48,8 +48,8 @@
             @include('admin.component-parts.add-component-part-modal-window.modal-window')
             @include('admin.component-parts.edit-component-part-modal-window.modal-window')
         </div>
-        <div class="tab-pane fade<?php if ($active_tabs['workers']) echo $active_tabs['workers'][1]; ?> admin-workers-tab-content-controller" id="workers" role="tabpanel" aria-labelledby="workers-tab">
-
+        <div class="tab-pane fade<?php if ($active_tabs['workers']) echo $active_tabs['workers'][1]; ?> workers admin-workers-tab-content-controller" id="workers" role="tabpanel" aria-labelledby="workers-tab">
+            @include('admin.workers.tab-content-wrapper.tab-content-wrapper')
         </div>
         <div class="tab-pane fade<?php if ($active_tabs['providers']) echo $active_tabs['providers'][1]; ?> admin-providers-tab-content-controller" id="providers" role="tabpanel" aria-labelledby="providers-tab">
 
