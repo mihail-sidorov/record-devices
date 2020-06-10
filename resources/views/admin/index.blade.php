@@ -73,8 +73,10 @@
             @include('admin.departments.add-department-modal-window.modal-window')
             @include('admin.departments.edit-department-modal-window.modal-window')
         </div>
-        <div class="tab-pane fade<?php if ($active_tabs['categories']) echo $active_tabs['categories'][1]; ?> admin-categories-tab-content-controller" id="categories" role="tabpanel" aria-labelledby="categories-tab">
-
+        <div class="tab-pane fade<?php if ($active_tabs['categories']) echo $active_tabs['categories'][1]; ?> categories admin-categories-tab-content-controller" id="categories" role="tabpanel" aria-labelledby="categories-tab">
+            @include('admin.categories.tab-content-wrapper.tab-content-wrapper')
+            @include('admin.categories.add-category-modal-window.modal-window')
+            @include('admin.categories.edit-category-modal-window.modal-window')
         </div>
     </div>
 </div>
