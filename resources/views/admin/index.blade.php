@@ -63,8 +63,10 @@
             @include('admin.providers.add-provider-modal-window.modal-window')
             @include('admin.providers.edit-provider-modal-window.modal-window')
         </div>
-        <div class="tab-pane fade<?php if ($active_tabs['responsibles']) echo $active_tabs['responsibles'][1]; ?> admin-responsibles-tab-content-controller" id="responsibles" role="tabpanel" aria-labelledby="responsibles-tab">
-
+        <div class="tab-pane fade<?php if ($active_tabs['responsibles']) echo $active_tabs['responsibles'][1]; ?> responsibles admin-responsibles-tab-content-controller" id="responsibles" role="tabpanel" aria-labelledby="responsibles-tab">
+            @include('admin.responsibles.tab-content-wrapper.tab-content-wrapper')
+            @include('admin.responsibles.add-responsible-modal-window.modal-window')
+            @include('admin.responsibles.edit-responsible-modal-window.modal-window')
         </div>
         <div class="tab-pane fade<?php if ($active_tabs['departments']) echo $active_tabs['departments'][1]; ?> admin-departments-tab-content-controller" id="departments" role="tabpanel" aria-labelledby="departments-tab">
 
