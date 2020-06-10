@@ -14,16 +14,6 @@ $(document).ready(() => {
                 return false;
             });
 
-            // Обнуляем сообщения об ошибках валидации у текстовых полей
-            this.controllerElement.find('.form-content__text').on('input', (e) => {
-                this.clearValidateErrors($(e.currentTarget));
-            });
-
-            // Обнуляем сообщения об ошибках валидации у дат и выпадающих списков
-            this.controllerElement.find('.form-content__select, .form-content__date').on('input', (e) => {
-                this.clearValidateErrors($(e.currentTarget));
-            });
-
             // Заполняем данными модальное окно для редактирования рабочего места и открываем его
             this.controllerElement.find('.edit-work-place-btn .edit-btn').click((e) => {
                 this.writeEditEntityModalWindow($(e.currentTarget), '/admin/write-edit-work-place-form', this.controllerElement.find('.edit-work-place-modal-window'));

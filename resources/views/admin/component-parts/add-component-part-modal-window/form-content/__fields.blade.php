@@ -26,7 +26,6 @@
     <div class="form-content__field">
         <div class="form-content__title">Категория:</div>
         <select class="form-content__select" name="category_id">
-            <option value=""></option>
             @foreach ($categories as $category)
                 <option value="{{ $category->id }}">{{ $category->name }}</option>
             @endforeach

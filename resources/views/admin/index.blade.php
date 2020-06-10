@@ -58,8 +58,10 @@
             @include('admin.devices.edit-device-modal-window.modal-window')
             @include('admin.component-parts.edit-component-part-modal-window.modal-window')
         </div>
-        <div class="tab-pane fade<?php if ($active_tabs['providers']) echo $active_tabs['providers'][1]; ?> admin-providers-tab-content-controller" id="providers" role="tabpanel" aria-labelledby="providers-tab">
-
+        <div class="tab-pane fade<?php if ($active_tabs['providers']) echo $active_tabs['providers'][1]; ?> providers admin-providers-tab-content-controller" id="providers" role="tabpanel" aria-labelledby="providers-tab">
+            @include('admin.providers.tab-content-wrapper.tab-content-wrapper')
+            @include('admin.providers.add-provider-modal-window.modal-window')
+            @include('admin.providers.edit-provider-modal-window.modal-window')
         </div>
         <div class="tab-pane fade<?php if ($active_tabs['responsibles']) echo $active_tabs['responsibles'][1]; ?> admin-responsibles-tab-content-controller" id="responsibles" role="tabpanel" aria-labelledby="responsibles-tab">
 

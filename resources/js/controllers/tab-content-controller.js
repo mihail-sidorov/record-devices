@@ -1,6 +1,16 @@
 window.tabContentController = class tabContentController {
     constructor($controllerElement) {
         this.controllerElement = $controllerElement;
+
+        // Обнуляем сообщения об ошибках валидации у текстовых полей
+        this.controllerElement.find('.form-content__text').on('input', (e) => {
+            this.clearValidateErrors($(e.currentTarget));
+        });
+
+        // Обнуляем сообщения об ошибках валидации у дат и выпадающих списков
+        this.controllerElement.find('.form-content__select, .form-content__date').on('input', (e) => {
+            this.clearValidateErrors($(e.currentTarget));
+        });
     }
 
     showModalWindow($modalWindow) {
