@@ -68,8 +68,10 @@
             @include('admin.responsibles.add-responsible-modal-window.modal-window')
             @include('admin.responsibles.edit-responsible-modal-window.modal-window')
         </div>
-        <div class="tab-pane fade<?php if ($active_tabs['departments']) echo $active_tabs['departments'][1]; ?> admin-departments-tab-content-controller" id="departments" role="tabpanel" aria-labelledby="departments-tab">
-
+        <div class="tab-pane fade<?php if ($active_tabs['departments']) echo $active_tabs['departments'][1]; ?> departments admin-departments-tab-content-controller" id="departments" role="tabpanel" aria-labelledby="departments-tab">
+            @include('admin.departments.tab-content-wrapper.tab-content-wrapper')
+            @include('admin.departments.add-department-modal-window.modal-window')
+            @include('admin.departments.edit-department-modal-window.modal-window')
         </div>
         <div class="tab-pane fade<?php if ($active_tabs['categories']) echo $active_tabs['categories'][1]; ?> admin-categories-tab-content-controller" id="categories" role="tabpanel" aria-labelledby="categories-tab">
 

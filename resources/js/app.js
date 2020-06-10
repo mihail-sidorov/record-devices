@@ -23,6 +23,7 @@ require('./controllers/admin-component-parts-tab-content-controller');
 require('./controllers/admin-workers-tab-content-controller');
 require('./controllers/admin-providers-tab-content-controller');
 require('./controllers/admin-responsibles-tab-content-controller');
+require('./controllers/admin-departments-tab-content-controller');
 
 //window.Vue = require('vue');
 
