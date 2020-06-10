@@ -19,13 +19,11 @@
                 }
             }
         ?>
-        <div class="tab-content-wrapper__list-item" id="{{ $work_place->id }}" worker_id="{{ $worker_id }}">
+        <div class="tab-content-wrapper__list-item" id="{{ $work_place->id }}" worker-id="{{ $worker_id }}">
             <input type="hidden" class="tab-content-wrapper__list-item-filter-field" value="{{ $work_place->inventar_number }}">
 
             <div class="tab-content-wrapper__list-item-head">
                 <div class="tab-content-wrapper__list-item-name">{{ $work_place->name }}</div>
-
-                <div class="edit-work-place-btn">@include('btns.edit-btn')</div>
                 
                 @include('btns.attach-component-parts-btn')
 
@@ -34,6 +32,8 @@
                 @else
                     @include('btns.unattach-worker-btn')
                 @endif
+
+                <div class="edit-work-place-btn">@include('btns.edit-btn')</div>
                 
                 @include('btns.del-btn')
             </div>

@@ -19,7 +19,7 @@
                 }
             }
         ?>
-        <div class="tab-content-wrapper__list-item" id="{{ $worker_work_place->id }}" worker_id="{{ $worker_id }}">
+        <div class="tab-content-wrapper__list-item" id="{{ $worker_work_place->id }}" worker-id="{{ $worker_id }}">
             <div class="tab-content-wrapper__list-item-head">
                 <div class="tab-content-wrapper__list-item-name">{{ $worker_work_place->name }}</div>
 

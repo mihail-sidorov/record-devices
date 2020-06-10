@@ -1085,15 +1085,11 @@ class AdminController extends Controller
         }
     }
 
-    public function getFreeWorkersToDevice(Request $request)
+    public function getWorkersToDevice(Request $request)
     {
         if ($request->ajax() && Auth::user()->role === 'admin') {
-            $worker_ids = DeviceWorker::where([
-                ['attach', '=', 1],
-            ])
-            ->pluck('worker_id');
 
-            $workers = Workers::whereNotIn('id', $worker_ids)->get();
+            $workers = Workers::all();
 
             return json_encode($workers);
         }

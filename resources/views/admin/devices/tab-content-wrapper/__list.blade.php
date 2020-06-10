@@ -43,7 +43,6 @@
 
             <div class="tab-content-wrapper__list-item-head">
                 <div class="tab-content-wrapper__list-item-name">{{ $device->name }}</div>
-                    @include('btns.edit-btn')
                 
                 @if (!$worker)
                     @if (!$device->write_off())
@@ -52,6 +51,8 @@
                 @else
                     @include('btns.unattach-worker-btn')
                 @endif
+
+                @include('btns.edit-btn')
 
                 @include('btns.del-btn')
             </div>

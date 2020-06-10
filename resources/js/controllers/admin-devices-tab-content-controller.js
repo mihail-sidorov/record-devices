@@ -28,7 +28,7 @@ $(document).ready(() => {
 
             // Открываем модальное окно для прикрепления к устройству сотрудника и обнуляем в нем сообщения об ошибках валидации
             this.controllerElement.find('.attach-worker-btn').click((e) => {
-                this.writeAttachWorkerModalWindow(this.controllerElement, $(e.currentTarget), '/admin/get-free-workers-to-device', window.attachWorkerToDeviceAngularControllerScope);
+                this.writeAttachWorkerModalWindow(this.controllerElement, $(e.currentTarget), '/admin/get-workers-to-device', window.attachWorkerToDeviceAngularControllerScope);
             });
 
             // Валидация и прикрепление сотрудника к устройству

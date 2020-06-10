@@ -39,15 +39,14 @@
         <div class="tab-content-wrapper__list-item" id="{{ $worker_device->id }}" worker-id="{{ $worker_id }}">
             <div class="tab-content-wrapper__list-item-head">
                 <div class="tab-content-wrapper__list-item-name">{{ $worker_device->name }}</div>
-                <div class="edit-device-btn">
-                    @include('btns.edit-btn')
-                </div>
                 
                 @if ($worker)
                     <div class="unattach-worker-from-device-btn">
                         @include('btns.unattach-worker-btn')
                     </div>                  
                 @endif
+
+                <div class="edit-device-btn">@include('btns.edit-btn')</div>
             </div>
             <div class="tab-content-wrapper__list-item-body">
                 <table class="tab-content-wrapper__list-item-body-table">

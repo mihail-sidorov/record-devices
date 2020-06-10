@@ -11,11 +11,10 @@
 
             <div class="tab-content-wrapper__list-item-head">
                 <div class="tab-content-wrapper__list-item-name">{{ $worker->name }}</div>
-                <div class="edit-worker-btn">
-                    @include('btns.edit-btn')
-                </div>
 
                 @include('btns.attach-devices-btn')
+
+                <div class="edit-worker-btn">@include('btns.edit-btn')</div>
 
                 @include('btns.del-btn')
             </div>
