@@ -17,9 +17,7 @@
 
                 @include('btns.attach-devices-btn')
 
-                <div class="del-worker-btn">
-                    @include('btns.del-btn')
-                </div>
+                @include('btns.del-btn')
             </div>
             <div class="tab-content-wrapper__list-item-body">
                 <table class="tab-content-wrapper__list-item-body-table">

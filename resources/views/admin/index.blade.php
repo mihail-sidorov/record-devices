@@ -39,7 +39,7 @@
             @include('admin.work-places.tab-content-wrapper.tab-content-wrapper')
             @include('admin.work-places.add-work-place-modal-window.modal-window')
             @include('admin.work-places.edit-work-place-modal-window.modal-window')
-            @include('admin.work-places.multi-attach-modal-window.modal-window')
+            @include('admin.work-places.attach-component-parts-modal-window.modal-window')
             @include('admin.work-places.attach-worker-modal-window.modal-window')
             @include('admin.component-parts.edit-component-part-modal-window.modal-window')
         </div>
@@ -50,6 +50,13 @@
         </div>
         <div class="tab-pane fade<?php if ($active_tabs['workers']) echo $active_tabs['workers'][1]; ?> workers admin-workers-tab-content-controller" id="workers" role="tabpanel" aria-labelledby="workers-tab">
             @include('admin.workers.tab-content-wrapper.tab-content-wrapper')
+            @include('admin.workers.add-worker-modal-window.modal-window')
+            @include('admin.workers.edit-worker-modal-window.modal-window')
+            @include('admin.workers.attach-devices-modal-window.modal-window')
+            @include('admin.work-places.attach-component-parts-modal-window.modal-window')
+            @include('admin.work-places.edit-work-place-modal-window.modal-window')
+            @include('admin.devices.edit-device-modal-window.modal-window')
+            @include('admin.component-parts.edit-component-part-modal-window.modal-window')
         </div>
         <div class="tab-pane fade<?php if ($active_tabs['providers']) echo $active_tabs['providers'][1]; ?> admin-providers-tab-content-controller" id="providers" role="tabpanel" aria-labelledby="providers-tab">
 

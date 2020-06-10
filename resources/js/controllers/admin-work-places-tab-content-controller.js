@@ -38,11 +38,12 @@ $(document).ready(() => {
 
             // Заполняем модальное окно прикрепления комплектующих и открываем его
             this.controllerElement.find('.attach-component-parts-btn').click((e) => {
-                this.writeMultiAttachModalWindow(this.controllerElement, $(e.currentTarget), '/admin/write-attach-component-parts-modal-window');
+                this.writeMultiAttachModalWindow($(e.currentTarget), '/admin/write-attach-component-parts-modal-window', this.controllerElement.find('.attach-component-parts-modal-window'));
             });
 
-            this.controllerElement.find('.multi-attach-modal-window .action-btn').click((e) => {
-                this.multiAttach(this.controllerElement, '/admin/attach-component-parts-to-work-place', '/admin/tab/work-places');
+            // Прикрепляем к рабочему месту комплектующие
+            this.controllerElement.find('.attach-component-parts-modal-window .action-btn').click((e) => {
+                this.multiAttach('/admin/attach-component-parts-to-work-place', '/admin/tab/work-places', this.controllerElement.find('.attach-component-parts-modal-window'));
             });
             
             // Заполняем и открываем модальное окно прикрепления сотрудника к рабочему месту

@@ -1,5 +1,5 @@
 @component('modal-window')
-    @slot('class', 'multi-attach-modal-window')
+    @slot('class', 'multi-attach-modal-window attach-component-parts-modal-window')
 
     @slot('ng_controller', '')
 
@@ -8,6 +8,6 @@
     @slot('search', '')
 
     @slot('form')
-        @include('admin.work-places.multi-attach-modal-window.__categories')
+        @include('admin.work-places.attach-component-parts-modal-window.__categories')
     @endslot
 @endcomponent

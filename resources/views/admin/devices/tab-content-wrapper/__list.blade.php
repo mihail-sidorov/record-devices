@@ -36,16 +36,14 @@
             $category = $device->category;
             $purchase_price = $device->purchase_price;
         ?>
-        <div class="tab-content-wrapper__list-item" id="{{ $device->id }}" worker_id="{{ $worker_id }}">
+        <div class="tab-content-wrapper__list-item" id="{{ $device->id }}" worker-id="{{ $worker_id }}">
             <input type="hidden" class="tab-content-wrapper__list-item-filter-field" value="{{ $device->model }}">
             <input type="hidden" class="tab-content-wrapper__list-item-filter-field" value="{{ $device->serial_number }}">
             <input type="hidden" class="tab-content-wrapper__list-item-filter-field" value="{{ $device->type_device_id }}">
 
             <div class="tab-content-wrapper__list-item-head">
                 <div class="tab-content-wrapper__list-item-name">{{ $device->name }}</div>
-                <div class="tab-content-wrapper__edit-device-btn">
                     @include('btns.edit-btn')
-                </div>
                 
                 @if (!$worker)
                     @if (!$device->write_off())

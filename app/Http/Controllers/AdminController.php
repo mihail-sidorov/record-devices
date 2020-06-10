@@ -999,7 +999,7 @@ class AdminController extends Controller
     {
         if ($request->ajax() && Auth::user()->role === 'admin') {
             $device_ids = DeviceWorker::where([
-                ['worker_id', '<>', $request->worker_id],
+                ['worker_id', '<>', $request->id],
                 ['attach', '=', 1],
             ])
             ->pluck('device_id');
@@ -1021,7 +1021,7 @@ class AdminController extends Controller
                         $checked_array[] = false;
                     }
                 }
-                $result_array[] = ['category' => $category, 'devices' => $devices_array, 'checked' => $checked_array];
+                $result_array[] = ['category' => $category, 'elements' => $devices_array, 'checked' => $checked_array];
             }
 
             return json_encode($result_array);
@@ -1061,9 +1061,9 @@ class AdminController extends Controller
     public function attachDevicesToWorker(Request $request)
     {
         if ($request->ajax() && Auth::user()->role === 'admin') {
-            if ($request->devices) {
-                foreach ($request->devices[0] as $index => $device_id) {
-                    $this->attachDeviceToWorker($request->worker_id, $device_id, $request->devices[1][$index]);
+            if ($request->elements) {
+                foreach ($request->elements[0] as $index => $device_id) {
+                    $this->attachDeviceToWorker($request->id, $device_id, $request->elements[1][$index]);
                 }
 
                 return '{}';

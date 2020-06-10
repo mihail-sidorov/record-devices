@@ -212,7 +212,7 @@ window.tabContentController = class tabContentController {
 
         if (confirm('Вы действительно хотите открепить сотрудника?')) {
             id = $eventElement.closest('.tab-content-wrapper__list-item').attr('id');
-            workerId = $eventElement.closest('.tab-content-wrapper__list-item').attr('worker_id');
+            workerId = $eventElement.closest('.tab-content-wrapper__list-item').attr('worker-id');
             token = $('meta[name="csrf-token"]').attr('content');
             
             $.ajax({
@@ -255,8 +255,8 @@ window.tabContentController = class tabContentController {
         }
     }
 
-    writeMultiAttachModalWindow($controllerElement, $eventElement, route) {
-        var $modalWindow = $controllerElement.find('.multi-attach-modal-window'), token = $('meta[name="csrf-token"]').attr('content'), id = $eventElement.closest('.tab-content-wrapper__list-item').attr('id');
+    writeMultiAttachModalWindow($eventElement, route, $modalWindow) {
+        token = $('meta[name="csrf-token"]').attr('content'), id = $eventElement.closest('.tab-content-wrapper__list-item').attr('id');
         $.ajax({
             type: 'POST',
             url: route,
@@ -312,8 +312,8 @@ window.tabContentController = class tabContentController {
         });
     }
 
-    multiAttach($controllerElement, route, tab) {
-        var elements = [], elementIds = [], elementCheckes = [], $categories = $controllerElement.find('.multi-attach-modal-window__categories'), token = $('meta[name="csrf-token"]').attr('content');
+    multiAttach(route, tab, $modalWindow) {
+        var elements = [], elementIds = [], elementCheckes = [], $categories = $modalWindow.find('.multi-attach-modal-window__categories'), token = $('meta[name="csrf-token"]').attr('content');
 
         $categories.find('.multi-attach-modal-window__element').each((index, element) => {
             var $input = $(element).children('input');
@@ -333,7 +333,7 @@ window.tabContentController = class tabContentController {
             url: route,
             data: {
                 _token: token,
-                id: $controllerElement.find('.multi-attach-modal-window').attr('id'),
+                id: $modalWindow.attr('id'),
                 elements: elements,
             },
             dataType: 'json',
