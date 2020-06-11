@@ -1,12 +1,13 @@
-<div class="modal-window add-provider-modal-window">
-    <div class="modal-window__cover"></div>
-    <div class="modal-window__wrapper">
-        <div class="modal-window__content">
-            <div class="modal-window__close"></div>
-            <div class="modal-window__head">Добавить поставщика</div>
-            <div class="modal-window__body">
-                @include('admin.providers.add-provider-modal-window.form-content')
-            </div>
-        </div>
-    </div>
-</div>
+@component('modal-window')
+    @slot('class', 'add-provider-modal-window')
+
+    @slot('ng_controller', '')
+
+    @slot('name', 'Добавить поставщика')
+
+    @slot('search', '')
+
+    @slot('form')
+        @include('admin.providers.add-provider-modal-window.form-content.form-content')
+    @endslot
+@endcomponent

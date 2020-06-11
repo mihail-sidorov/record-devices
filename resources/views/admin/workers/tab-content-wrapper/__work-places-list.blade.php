@@ -19,19 +19,19 @@
                 }
             }
         ?>
-        <div class="tab-content-wrapper__list-item" id="{{ $worker_work_place->id }}" worker_id="{{ $worker_id }}">
+        <div class="tab-content-wrapper__list-item" id="{{ $worker_work_place->id }}" worker-id="{{ $worker_id }}">
             <div class="tab-content-wrapper__list-item-head">
                 <div class="tab-content-wrapper__list-item-name">{{ $worker_work_place->name }}</div>
 
-                @include('attach-component-parts-btn')
+                @include('btns.attach-component-parts-btn')
 
                 @if ($worker)
-                    <div class="tab-content-wrapper__unattach-worker-from-work-place-btn">
-                        @include('unattach-worker-btn')
+                    <div class="unattach-worker-from-work-place-btn">
+                        @include('btns.unattach-worker-btn')
                     </div>
                 @endif
 
-                <div class="tab-content-wrapper__edit-work-place-btn">@include('edit-btn')</div>
+                <div class="edit-work-place-btn">@include('btns.edit-btn')</div>
             </div>
             <div class="tab-content-wrapper__list-item-body">
                 <table class="tab-content-wrapper__list-item-body-table">

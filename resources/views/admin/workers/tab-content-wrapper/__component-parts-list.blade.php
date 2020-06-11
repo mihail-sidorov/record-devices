@@ -19,8 +19,8 @@
         <div class="tab-content-wrapper__list-item" id="{{ $work_place_component_part->id }}">
             <div class="tab-content-wrapper__list-item-head">
                 <div class="tab-content-wrapper__list-item-name">{{ $work_place_component_part->name }}</div>
-                <div class="tab-content-wrapper__edit-component-part-btn">
-                    @include('edit-btn')
+                <div class="edit-component-part-btn">
+                    @include('btns.edit-btn')
                 </div>
             </div>
             <div class="tab-content-wrapper__list-item-body">

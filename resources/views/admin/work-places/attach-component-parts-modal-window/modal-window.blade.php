@@ -1,15 +1,13 @@
-<div class="modal-window attach-component-parts-modal-window" work-place-id="" loading="no" url-tab="">
-    <div class="modal-window__cover"></div>
-    <div class="modal-window__wrapper">
-        <div class="modal-window__content">
-            <div class="modal-window__close"></div>
-            <div class="modal-window__head">Комплектующие</div>
-            <div class="modal-window__body">
-                <div class="attach-component-parts-modal-window__categories">
+@component('modal-window')
+    @slot('class', 'multi-attach-modal-window attach-component-parts-modal-window')
 
-                </div>
-                @include('action-btn')
-            </div>
-        </div>
-    </div>
-</div>
+    @slot('ng_controller', '')
+
+    @slot('name', 'Прикрепить комплектующие')
+
+    @slot('search', '')
+
+    @slot('form')
+        @include('admin.work-places.attach-component-parts-modal-window.__categories')
+    @endslot
+@endcomponent

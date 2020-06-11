@@ -1,0 +1,73 @@
+.multi-attach-modal-window {
+
+    .multi-attach-modal-window__categories {
+
+        margin-bottom: 20px;
+
+        .multi-attach-modal-window__category {
+
+            margin-bottom: 10px;
+
+            &:last-child {
+
+                margin-bottom: 0;
+            }
+
+            .multi-attach-modal-window__category-head {
+
+                display: inline-block;
+                cursor: pointer;
+
+                &::before {
+
+                    content: '+';
+                    display: inline-block;
+                    width: 15px;
+                    color: #0064b4;
+                }
+
+                &_show {
+
+                    &::before {
+
+                        content: '-';
+                    }
+                }
+            }
+
+            .multi-attach-modal-window__category-body {
+
+                padding-left: 15px;
+                display: none;
+                margin-top: 10px;
+
+                &_show {
+
+                    display: block;
+                }
+
+                .multi-attach-modal-window__elements {
+
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-start;
+
+                    .multi-attach-modal-window__element {
+
+                        margin-bottom: 10px;
+
+                        &:last-child {
+
+                            margin-bottom: 0;
+                        }
+
+                        input {
+
+                            margin-right: 5px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,5 +1,5 @@
-window.devicesApp.controller('attachWorkerToDeviceAngularController', ($scope, $http) => {
-    window.attachWorkerToDeviceAngularController = $scope;
+window.devicesApp.controller('attachWorkerToDeviceAngularController', ($scope) => {
+    window.attachWorkerToDeviceAngularControllerScope = $scope;
 
-    window.attachWorkerToDeviceAngularController.workers = [];
+    window.attachWorkerToDeviceAngularControllerScope.workers = [];
 });
