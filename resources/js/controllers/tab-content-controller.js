@@ -62,6 +62,8 @@ window.tabContentController = class tabContentController {
     writeEditEntityModalWindow($eventElement, route, $editEntityModalWindow) {
         var id = $eventElement.closest('.tab-content-wrapper__list-item').attr('id'), token = $('meta[name="csrf-token"]').attr('content');
 
+        $editEntityModalWindow.find('.form-content__field [name]').val('');
+        
         $.ajax({
             type: 'POST',
             url: route,

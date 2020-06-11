@@ -39,7 +39,7 @@ class WorkerController extends Controller
                     abort(404);
             }
 
-            $services = Service::where('user_id', Auth::user()->id)->get();
+            $services = Auth::user()->services;
 
             return view('worker.index', [
                 'active_tabs' => $active_tabs,
@@ -84,7 +84,7 @@ class WorkerController extends Controller
     public function writeEditServiceForm(Request $request)
     {
         if ($request->ajax() && Auth::user()->role === 'worker') {
-            $service = Service::find($request->id);
+            $service = Service::where([['id', $request->id], ['user_id', Auth::user()->id]])->first();
 
             return "{
                 \"name\": \"$service->name\",
@@ -111,13 +111,15 @@ class WorkerController extends Controller
                 'password.max' => 'Количество символов в поле "Пароль" не может превышать 255',
             ]);
 
-            $service = Service::find($request->id);
+            $service = Service::where([['id', $request->id], ['user_id', Auth::user()->id]])->first();
 
-            $service->name = $request->name;
-            $service->login = $request->login;
-            $service->password = $request->password;
+            if ($service) {
+                $service->name = $request->name;
+                $service->login = $request->login;
+                $service->password = $request->password;
 
-            $service->save();
+                $service->save();
+            }
         }
 
         return 'OK';
@@ -126,7 +128,11 @@ class WorkerController extends Controller
     public function delService(Request $request)
     {
         if ($request->ajax() && Auth::user()->role === 'worker') {
-            Service::destroy($request->id);
+            $service = Service::where([['id', $request->id], ['user_id', Auth::user()->id]])->first();
+
+            if ($service) {
+                Service::destroy($service->id);
+            }
         }
         
         return 'OK';
