@@ -276,12 +276,12 @@ class AdminController extends Controller
                 'role' => 'worker',
             ]);
 
-            $workers = new Workers;
-            $workers->name = $request->name;
-            $workers->post = $request->post;
-            $workers->department_id = $request->department_id;
-            $workers->user_id = $user->id;
-            $workers->save();
+            $worker = new Workers;
+            $worker->name = $request->name;
+            $worker->post = $request->post;
+            $worker->department_id = $request->department_id;
+            $worker->user_id = $user->id;
+            $worker->save();
         }
 
         return 'OK';

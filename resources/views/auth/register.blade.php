@@ -12,7 +12,7 @@
                         @csrf
 
                         <div class="form-group row">
-                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Имя') }}</label>
+                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('ФИО') }}</label>
 
                             <div class="col-md-6">
                                 <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
@@ -58,6 +58,38 @@
 
                             <div class="col-md-6">
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="post" class="col-md-4 col-form-label text-md-right">{{ __('Должность') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="post" type="text" class="form-control @error('post') is-invalid @enderror" name="post" value="{{ old('post') }}" required autocomplete="post">
+
+                                @error('post')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="department_id" class="col-md-4 col-form-label text-md-right">{{ __('Отдел') }}</label>
+
+                            <div class="col-md-6">
+                                <select id="department_id" class="form-control @error('department_id') is-invalid @enderror" name="department_id" required autocomplete="department_id">
+                                    @foreach ($departments as $department)
+                                        <option value="{{ $department->id }}" <?php if (old('department_id') == $department->id) echo 'selected'; ?>>{{ $department->name }}</option>
+                                    @endforeach
+                                </select>
+                                
+                                @error('department_id')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
                         </div>
 

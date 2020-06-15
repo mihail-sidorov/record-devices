@@ -8,6 +8,8 @@ use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Departments;
+use App\Workers;
 
 class RegisterController extends Controller
 {
@@ -50,9 +52,27 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'name' => 'bail|required|max:255',
+            'post' => 'bail|required|max:255',
+            'department_id' => 'required',
+            'email' => 'bail|required|string|email|max:255|unique:users',
+            'password' => 'bail|required|string|min:8|confirmed',
+        ],
+        [
+            'name.required' => 'Поле "ФИО" обязательно для заполнения',
+            'name.max' => 'Количество символов в поле "ФИО" не может превышать 255',
+            'post.required' => 'Поле "Должность" обязательно для заполнения',
+            'post.max' => 'Количество символов в поле "Должность" не может превышать 255',
+            'department_id.required' => 'Поле "Отдел" обязательно для заполнения',
+            'email.required' => 'Поле "Эл. почта" обязательно для заполнения',
+            'email.string' => 'Поле "Эл. почта" должно быть строкой',
+            'email.email' => 'Поле "Эл. почта" не валидно',
+            'email.max' => 'Количество символов в поле "Эл. почта" не может превышать 255',
+            'email.unique' => 'Поле "Эл. почта" с таким именем уже существует',
+            'password.required' => 'Поле "Пароль" обязательно для заполнения',
+            'password.string' => 'Поле "Пароль" должно быть строкой',
+            'password.min' => 'Количество символов в поле "Пароль" не может быть меньше 8',
+            'password.confirmed' => 'Поле "Пароль" не совпадает с подтверждением',
         ]);
     }
 
@@ -64,11 +84,34 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'role' => 'worker',
+        ]);
+
+        $worker = new Workers;
+        $worker->name = $data['name'];
+        $worker->post = $data['post'];
+        $worker->department_id = $data['department_id'];
+        $worker->user_id = $user->id;
+        $worker->save();
+
+        return $user;
+    }
+
+    /**
+     * Show the application registration form.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function showRegistrationForm()
+    {
+        $departments = Departments::all();
+
+        return view('auth.register', [
+            'departments' => $departments,
         ]);
     }
 }
