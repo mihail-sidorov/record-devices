@@ -16,6 +16,9 @@ window.tabContentController = class tabContentController {
     showModalWindow($modalWindow) {
         $modalWindow.find('.form-content__field').removeClass('form-content__field_error');
         $modalWindow.find('.form-content__error').text('');
+        if ($modalWindow.hasClass('edit-worker-modal-window')) {
+            $modalWindow.find('input[name="password"], input[name="password_confirmation"]').closest('.form-content__field').css('display', 'none');
+        }
         $modalWindow.attr('show', 'yes');
     }
 
@@ -45,6 +48,11 @@ window.tabContentController = class tabContentController {
                                 $formContentField = $eventElement.find(`.form-content__error[field-name="${key}"]`).closest('.form-content__field');
                                 $formContentField.addClass('form-content__field_error');
                                 $formContentField.find('.form-content__error').text(errors[key][0]);
+
+                                if (key === 'password') {
+                                    $formContentField.find('input').val('');
+                                    $formContentField.closest('.form-content__fields').find('input[name="password_confirmation"]').val('');
+                                }
                             }
                         }
                     }

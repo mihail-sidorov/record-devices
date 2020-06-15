@@ -17,6 +17,8 @@ use App\ComponentPart;
 use App\DeviceComponentPart;
 use App\WorkPlaceComponentPart;
 use App\WorkPlaceWorker;
+use App\User;
+use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
@@ -247,6 +249,8 @@ class AdminController extends Controller
                 'name' => 'bail|required|max:255',
                 'post' => 'bail|required|max:255',
                 'department_id' => 'required',
+                'email' => 'bail|required|string|email|max:255|unique:users',
+                'password' => 'bail|required|string|min:8|confirmed',
             ],
             [
                 'name.required' => 'Поле "ФИО" обязательно для заполнения',
@@ -254,14 +258,29 @@ class AdminController extends Controller
                 'post.required' => 'Поле "Должность" обязательно для заполнения',
                 'post.max' => 'Количество символов в поле "Должность" не может превышать 255',
                 'department_id.required' => 'Поле "Отдел" обязательно для заполнения',
+                'email.required' => 'Поле "Эл. почта" обязательно для заполнения',
+                'email.string' => 'Поле "Эл. почта" должно быть строкой',
+                'email.email' => 'Поле "Эл. почта" не валидно',
+                'email.max' => 'Количество символов в поле "Эл. почта" не может превышать 255',
+                'email.unique' => 'Поле "Эл. почта" с таким именем уже существует',
+                'password.required' => 'Поле "Пароль" обязательно для заполнения',
+                'password.string' => 'Поле "Пароль" должно быть строкой',
+                'password.min' => 'Количество символов в поле "Пароль" не может быть меньше 8',
+                'password.confirmed' => 'Поле "Пароль" не совпадает с подтверждением',
+            ]);
+
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'role' => 'worker',
             ]);
 
             $workers = new Workers;
-
             $workers->name = $request->name;
             $workers->post = $request->post;
             $workers->department_id = $request->department_id;
-
+            $workers->user_id = $user->id;
             $workers->save();
         }
 
@@ -588,26 +607,46 @@ class AdminController extends Controller
     public function editWorker(Request $request)
     {
         if ($request->ajax() && Auth::user()->role === 'admin') {
-            $this->validate($request, [
+            $worker = Workers::find($request->id);
+            $user = User::find($worker->user_id);
+
+            $validate_rules = [
                 'name' => 'bail|required|max:255',
                 'post' => 'bail|required|max:255',
                 'department_id' => 'required',
-            ],
-            [
+            ];
+
+            $validate_errors = [
                 'name.required' => 'Поле "ФИО" обязательно для заполнения',
                 'name.max' => 'Количество символов в поле "ФИО" не может превышать 255',
                 'post.required' => 'Поле "Должность" обязательно для заполнения',
                 'post.max' => 'Количество символов в поле "Должность" не может превышать 255',
                 'department_id.required' => 'Поле "Отдел" обязательно для заполнения',
-            ]);
+            ];
 
-            $workers = Workers::find($request->id);
+            if ($user->email !== $request->email) {
+                $validate_rules += [
+                    'email' => 'bail|required|string|email|max:255|unique:users',
+                ];
 
-            $workers->name = $request->name;
-            $workers->post = $request->post;
-            $workers->department_id = $request->department_id;
+                $validate_errors += [
+                    'email.required' => 'Поле "Эл. почта" обязательно для заполнения',
+                    'email.string' => 'Поле "Эл. почта" должно быть строкой',
+                    'email.email' => 'Поле "Эл. почта" не валидно',
+                    'email.max' => 'Количество символов в поле "Эл. почта" не может превышать 255',
+                    'email.unique' => 'Поле "Эл. почта" с таким именем уже существует',
+                ];
+            }
 
-            $workers->save();
+            $this->validate($request, $validate_rules, $validate_errors);
+
+            $worker->name = $request->name;
+            $worker->post = $request->post;
+            $worker->department_id = $request->department_id;
+            $worker->save();
+
+            $user->email = $request->email;
+            $user->save();
         }
 
         return 'OK';
@@ -845,9 +884,11 @@ class AdminController extends Controller
     {
         if ($request->ajax() && Auth::user()->role === 'admin') {
             $worker = Workers::find($request->id);
+            $email = User::where('id', $worker->user_id)->value('email');
 
             return "{
                 \"name\": \"$worker->name\",
+                \"email\": \"$email\",
                 \"post\": \"$worker->post\",
                 \"department_id\": \"$worker->department_id\"
             }";

@@ -6,6 +6,24 @@
     </div>
 
     <div class="form-content__field">
+        <div class="form-content__title">Эл. почта:</div>
+        <input class="form-content__text" type="text" name="email">
+        <div class="form-content__error" field-name="email"></div>
+    </div>
+
+    <div class="form-content__field">
+        <div class="form-content__title">Пароль:</div>
+        <input class="form-content__text" type="password" name="password">
+        <div class="form-content__error" field-name="password"></div>
+    </div>
+
+    <div class="form-content__field">
+        <div class="form-content__title">Подтвердите пароль:</div>
+        <input class="form-content__text" type="password" name="password_confirmation">
+        <div class="form-content__error" field-name="password_confirmation"></div>
+    </div>
+
+    <div class="form-content__field">
         <div class="form-content__title">Должность:</div>
         <input class="form-content__text" type="text" name="post">
         <div class="form-content__error" field-name="post"></div>
