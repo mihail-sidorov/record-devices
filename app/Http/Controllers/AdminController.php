@@ -758,7 +758,13 @@ class AdminController extends Controller
     public function delDevice(Request $request)
     {
         if ($request->ajax() && Auth::user()->role === 'admin') {
-            Devices::destroy($request->id);
+            if (DeviceWorker::where([['device_id', '=', $request->id], ['attach', '=', 1]])->count() > 0) {
+                return response()->json(['error' => 'К данному устройству имеются прикрепленные сотрудники, поэтому его сейчас нельзя удалить!'], 422);
+            }
+            else {
+                Devices::destroy($request->id);
+                DeviceWorker::where('device_id', $request->id)->delete();
+            }
         }
         
         return 'OK';
@@ -767,7 +773,14 @@ class AdminController extends Controller
     public function delWorkPlace(Request $request)
     {
         if ($request->ajax() && Auth::user()->role === 'admin') {
-            WorkPlace::destroy($request->id);
+            if ((WorkPlaceComponentPart::where([['work_place_id', '=', $request->id], ['attach', '=', 1]])->count() > 0) || (WorkPlaceWorker::where([['work_place_id', '=', $request->id], ['attach', '=', 1]])->count() > 0)) {
+                return response()->json(['error' => 'У рабочего места есть прикрепленные комплектующие или сотрудники!'], 422);
+            }
+            else {
+                WorkPlace::destroy($request->id);
+                WorkPlaceComponentPart::where('work_place_id', $request->id)->delete();
+                WorkPlaceWorker::where('work_place_id', $request->id)->delete();
+            }
         }
         
         return 'OK';
@@ -776,7 +789,13 @@ class AdminController extends Controller
     public function delComponentPart(Request $request)
     {
         if ($request->ajax() && Auth::user()->role === 'admin') {
-            ComponentPart::destroy($request->id);
+            if (WorkPlaceComponentPart::where([['component_part_id', '=', $request->id], ['attach', '=', 1]])->count() > 0) {
+                return response()->json(['error' => 'Данное комплектующее прикреплено к рабочему месту!'], 422);
+            }
+            else {
+                ComponentPart::destroy($request->id);
+                WorkPlaceComponentPart::where('component_part_id', $request->id)->delete();
+            }
         }
         
         return 'OK';
@@ -785,7 +804,16 @@ class AdminController extends Controller
     public function delWorker(Request $request)
     {
         if ($request->ajax() && Auth::user()->role === 'admin') {
-            Workers::destroy($request->id);
+            if ((DeviceWorker::where([['worker_id', '=', $request->id], ['attach', '=', 1]])->count() > 0) || (WorkPlaceWorker::where([['worker_id', '=', $request->id], ['attach', '=', 1]])->count() > 0)) {
+                return response()->json(['error' => 'К данному сотруднику прикреплены устройства или рабочее место, поэтому его нельзя удалить!'], 422);
+            }
+            else {
+                $worker = Workers::find($request->id);
+                Workers::destroy($worker->id);
+                User::destroy($worker->user_id);
+                DeviceWorker::where('worker_id', $request->id)->delete();
+                WorkPlaceWorker::where('worker_id', $request->id)->delete();
+            }
         }
         
         return 'OK';
@@ -794,6 +822,13 @@ class AdminController extends Controller
     public function delProvider(Request $request)
     {
         if ($request->ajax() && Auth::user()->role === 'admin') {
+            if (ComponentPart::where('provider_id', $request->id)->count() > 0) {
+                return response()->json(['error' => 'Данный поставщик прикреплен к комплектующему!'], 422);
+            }
+            if (Devices::where('provider_id', $request->id)->count() > 0) {
+                return response()->json(['error' => 'Данный поставщик прикреплен к устройству!'], 422);
+            }
+
             Providers::destroy($request->id);
         }
         
@@ -803,6 +838,16 @@ class AdminController extends Controller
     public function delResponsible(Request $request)
     {
         if ($request->ajax() && Auth::user()->role === 'admin') {
+            if (ComponentPart::where('responsible_id', $request->id)->count() > 0) {
+                return response()->json(['error' => 'Данный ответственный прикреплен к комплектующему!'], 422);
+            }
+            if (Devices::where('responsible_id', $request->id)->count() > 0) {
+                return response()->json(['error' => 'Данный ответственный прикреплен к устройству!'], 422);
+            }
+            if (WorkPlace::where('responsible_id', $request->id)->count() > 0) {
+                return response()->json(['error' => 'Данный ответственный прикреплен к рабочему месту!'], 422);
+            }
+
             Responsibles::destroy($request->id);
         }
         
@@ -812,6 +857,13 @@ class AdminController extends Controller
     public function delDepartment(Request $request)
     {
         if ($request->ajax() && Auth::user()->role === 'admin') {
+            if (Responsibles::where('department_id', $request->id)->count() > 0) {
+                return response()->json(['error' => 'Данный отдел прикреплен к ответственному!'], 422);
+            }
+            if (Workers::where('department_id', $request->id)->count() > 0) {
+                return response()->json(['error' => 'Данный отдел прикреплен к сотруднику!'], 422);
+            }
+
             Departments::destroy($request->id);
         }
         
@@ -821,6 +873,13 @@ class AdminController extends Controller
     public function delCategory(Request $request)
     {
         if ($request->ajax() && Auth::user()->role === 'admin') {
+            if (ComponentPart::where('category_id', $request->id)->count() > 0) {
+                return response()->json(['error' => 'Данная категория прикреплена к комплектующему!'], 422);
+            }
+            if (Devices::where('category_id', $request->id)->count() > 0) {
+                return response()->json(['error' => 'Данная категория прикреплена к устройству!'], 422);
+            }
+
             Categories::destroy($request->id);
         }
         

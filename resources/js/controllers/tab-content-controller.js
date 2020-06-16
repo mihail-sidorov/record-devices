@@ -271,6 +271,11 @@ window.tabContentController = class tabContentController {
                         window.location.href = tab;
                     }
                 },
+                error: (error) => {
+                    if (error.status === 422) {
+                        alert(error.responseJSON.error);
+                    }
+                },
             });
         }
     }
