@@ -57,6 +57,7 @@
             @include('admin.work-places.edit-work-place-modal-window.modal-window')
             @include('admin.devices.edit-device-modal-window.modal-window')
             @include('admin.component-parts.edit-component-part-modal-window.modal-window')
+            @include('admin.workers.change-password-modal-window.modal-window')
         </div>
         <div class="tab-pane fade<?php if ($active_tabs['providers']) echo $active_tabs['providers'][1]; ?> providers admin-providers-tab-content-controller" id="providers" role="tabpanel" aria-labelledby="providers-tab">
             @include('admin.providers.tab-content-wrapper.tab-content-wrapper')

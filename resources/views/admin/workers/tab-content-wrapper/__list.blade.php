@@ -14,6 +14,8 @@
 
                 @include('btns.attach-devices-btn')
 
+                @include('btns.change-password-btn')
+
                 <div class="edit-worker-btn">@include('btns.edit-btn')</div>
 
                 @include('btns.del-btn')

@@ -51,7 +51,7 @@ window.tabContentController = class tabContentController {
 
                                 if (key === 'password') {
                                     $formContentField.find('input').val('');
-                                    $formContentField.closest('.form-content__fields').find('input[name="password_confirmation"]').val('');
+                                    $formContentField.closest('.form-content').find('input[name="password_confirmation"]').val('');
                                 }
                             }
                         }
@@ -137,6 +137,13 @@ window.tabContentController = class tabContentController {
                                 $formContentField = $eventElement.find(`.form-content__error[field-name="${key}"]`).closest('.form-content__field');
                                 $formContentField.addClass('form-content__field_error');
                                 $formContentField.find('.form-content__error').text(errors[key][0]);
+
+                                if (key === 'current_password' || key === 'password') {
+                                    $formContentField.find('input').val('');
+                                }
+                                if (key === 'password') {
+                                    $formContentField.closest('.form-content').find('input[name="password_confirmation"]').val('');
+                                }
                             }
                         }
                     }

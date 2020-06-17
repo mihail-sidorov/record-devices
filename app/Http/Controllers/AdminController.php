@@ -1194,4 +1194,31 @@ class AdminController extends Controller
             return json_encode($workers);
         }
     }
+
+    public function changePassword(Request $request)
+    {
+        if ($request->ajax() && Auth::user()->role === 'admin') {
+            $user = User::find(Workers::where('id', $request->id)->value('user_id'));
+
+            $current_password = $user->password;
+
+            $this->validate($request, [
+                'current_password' => "bail|required|current_password_match:$current_password",
+                'password' => 'bail|required|string|min:8|confirmed',
+            ],
+            [
+                'current_password.required' => 'Поле "Текущий пароль" обязательно для заполнения',
+                'current_password.current_password_match' => 'Поле "Текущий пароль" не совпадает',
+                'password.required' => 'Поле "Новый пароль" обязательно для заполнения',
+                'password.string' => 'Поле "Новый пароль" должно быть строкой',
+                'password.min' => 'Количество символов в поле "Новый пароль" не может быть меньше 8',
+                'password.confirmed' => 'Поле "Новый пароль" не совпадает с подтверждением',
+            ]);
+
+            $user->password = Hash::make($request->password);
+            $user->save();
+        }
+
+        return 'OK';
+    }
 }

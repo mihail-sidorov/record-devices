@@ -96,6 +96,19 @@ $(document).ready(() => {
                 this.editEntity($(e.currentTarget), '/admin/edit-component-part', '/admin/tab/workers');
                 return false;
             });
+
+            // Открываем модальное окно редактирования пароля
+            this.controllerElement.find('.change-password-btn').click((e) => {
+                $changePasswordModalWindow = this.controllerElement.find('.change-password-modal-window');
+                $changePasswordModalWindow.find('.form-content [name="id"]').val($(e.currentTarget).closest('.tab-content-wrapper__list-item').attr('id'));
+                this.showModalWindow($changePasswordModalWindow);
+            });
+
+            // Валидация и редактирование пароля
+            this.controllerElement.find('.change-password-modal-window .form-content').on('submit', (e) => {
+                this.editEntity($(e.currentTarget), '/admin/change-password', '/admin/tab/workers');
+                return false;
+            });
         }
     }
 

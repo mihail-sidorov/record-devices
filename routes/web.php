@@ -66,6 +66,7 @@ Route::post('/admin/attach-component-parts-to-work-place', 'AdminController@atta
 Route::post('/admin/attach-devices-to-worker', 'AdminController@attachDevicesToWorker');
 Route::post('/admin/get-free-workers-to-work-place', 'AdminController@getFreeWorkersToWorkPlace');
 Route::post('/admin/get-workers-to-device', 'AdminController@getWorkersToDevice');
+Route::post('/admin/change-password', 'AdminController@changePassword');
 
 Route::get('/worker', 'WorkerController@index')->name('worker');
 Route::get('/worker/tab/{tab_name}', 'WorkerController@index');
