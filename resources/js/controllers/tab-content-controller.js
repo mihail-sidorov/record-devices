@@ -16,9 +16,6 @@ window.tabContentController = class tabContentController {
     showModalWindow($modalWindow) {
         $modalWindow.find('.form-content__field').removeClass('form-content__field_error');
         $modalWindow.find('.form-content__error').text('');
-        if ($modalWindow.hasClass('edit-worker-modal-window')) {
-            $modalWindow.find('input[name="password"], input[name="password_confirmation"]').closest('.form-content__field').css('display', 'none');
-        }
         $modalWindow.attr('show', 'yes');
     }
 

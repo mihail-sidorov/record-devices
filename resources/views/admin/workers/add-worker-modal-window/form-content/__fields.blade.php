@@ -11,6 +11,7 @@
         <div class="form-content__error" field-name="email"></div>
     </div>
 
+    @isset($add)
     <div class="form-content__field">
         <div class="form-content__title">Пароль:</div>
         <input class="form-content__text" type="password" name="password">
@@ -22,6 +23,7 @@
         <input class="form-content__text" type="password" name="password_confirmation">
         <div class="form-content__error" field-name="password_confirmation"></div>
     </div>
+    @endisset
 
     <div class="form-content__field">
         <div class="form-content__title">Должность:</div>
