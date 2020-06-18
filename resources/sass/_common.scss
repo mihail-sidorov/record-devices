@@ -29,37 +29,42 @@
 
     .nav-tabs {
 
-        .settings-block {
+        .worker-settings-controller {
 
             margin-left: auto;
+            display: flex;
 
-            .settings-block__main-btn {
-
-                & > .app-btn {
-
-                    outline: none;
-                }
-        
-                &_open {
-        
+            .settings-block {
+    
+                .settings-block__main-btn {
+    
                     & > .app-btn {
-        
-                        background-color: #0064b4;
-                        border-color: #0064b4;
-                        color: #fff;
+    
+                        outline: none;
+                    }
+            
+                    &_open {
+            
+                        & > .app-btn {
+            
+                            background-color: #0064b4;
+                            border-color: #0064b4;
+                            color: #fff;
+                        }
                     }
                 }
-            }
-
-            .settings-block__btns {
-
-                & > .app-btn {
-        
-                    margin-bottom: 5px;
-        
-                    &:last-child {
-        
-                        margin-bottom: 0;
+    
+                .settings-block__btns {
+    
+                    & > .app-btn {
+            
+                        margin-bottom: 5px;
+                        outline: none;
+            
+                        &:last-child {
+            
+                            margin-bottom: 0;
+                        }
                     }
                 }
             }

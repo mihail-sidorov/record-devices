@@ -27,6 +27,7 @@ require('./controllers/admin-responsibles-tab-content-controller');
 require('./controllers/admin-departments-tab-content-controller');
 require('./controllers/admin-categories-tab-content-controller');
 require('./controllers/worker-services-tab-content-controller');
+require('./controllers/worker-settings-controller');
 
 //window.Vue = require('vue');
 

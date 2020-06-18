@@ -64,8 +64,12 @@ window.tabContentController = class tabContentController {
         $formContentField.find('.form-content__error').text('');
     }
 
-    writeEditEntityModalWindow($eventElement, route, $editEntityModalWindow) {
-        var id = $eventElement.closest('.tab-content-wrapper__list-item').attr('id'), token = $('meta[name="csrf-token"]').attr('content');
+    writeEditEntityModalWindow($eventElement, route, $editEntityModalWindow, id) {
+        var token = $('meta[name="csrf-token"]').attr('content');
+
+        if (!id) {
+            id = $eventElement.closest('.tab-content-wrapper__list-item').attr('id');
+        }
 
         $editEntityModalWindow.find('.form-content__field [name]').val('');
         

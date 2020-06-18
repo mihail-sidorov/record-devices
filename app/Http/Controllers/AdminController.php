@@ -606,7 +606,7 @@ class AdminController extends Controller
 
     public function editWorker(Request $request)
     {
-        if ($request->ajax() && Auth::user()->role === 'admin') {
+        if ($request->ajax() && (Auth::user()->role === 'admin' || Auth::user()->role === 'worker')) {
             $worker = Workers::find($request->id);
             $user = User::find($worker->user_id);
 
@@ -941,7 +941,7 @@ class AdminController extends Controller
 
     public function writeEditWorkerForm(Request $request)
     {
-        if ($request->ajax() && Auth::user()->role === 'admin') {
+        if ($request->ajax() && (Auth::user()->role === 'admin' || Auth::user()->role === 'worker')) {
             $worker = Workers::find($request->id);
             $email = User::where('id', $worker->user_id)->value('email');
 

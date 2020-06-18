@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Notifications\ResetPassword as ResetPasswordNotification;
+use App\Workers;
 
 class User extends Authenticatable
 {
@@ -46,5 +47,10 @@ class User extends Authenticatable
     public function services()
     {
         return $this->hasMany('App\Service');
+    }
+
+    public function getWorkerId()
+    {
+        return Workers::where('user_id', $this->id)->value('id');
     }
 }

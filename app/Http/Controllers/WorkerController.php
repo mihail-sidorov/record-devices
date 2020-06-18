@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Service;
+use App\Departments;
 
 class WorkerController extends Controller
 {
@@ -40,10 +41,12 @@ class WorkerController extends Controller
             }
 
             $services = Auth::user()->services;
+            $departments = Departments::all();
 
             return view('worker.index', [
                 'active_tabs' => $active_tabs,
                 'services' => $services,
+                'departments' => $departments,
             ]);
         }
         else {
