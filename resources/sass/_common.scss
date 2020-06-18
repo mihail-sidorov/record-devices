@@ -24,3 +24,45 @@
         }
     }
 }
+
+.worker {
+
+    .nav-tabs {
+
+        .settings-block {
+
+            margin-left: auto;
+
+            .settings-block__main-btn {
+
+                & > .app-btn {
+
+                    outline: none;
+                }
+        
+                &_open {
+        
+                    & > .app-btn {
+        
+                        background-color: #0064b4;
+                        border-color: #0064b4;
+                        color: #fff;
+                    }
+                }
+            }
+
+            .settings-block__btns {
+
+                & > .app-btn {
+        
+                    margin-bottom: 5px;
+        
+                    &:last-child {
+        
+                        margin-bottom: 0;
+                    }
+                }
+            }
+        }
+    }
+}

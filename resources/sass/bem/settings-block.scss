@@ -1,0 +1,17 @@
+.settings-block {
+
+    display: inline-block;
+    position: relative;
+
+    .settings-block__btns {
+
+        display: none;
+        position: absolute;
+        top: calc(100% + 10px);
+        right: 0;
+        background-color: #f8fafc;
+        border: 1px solid #dee2e6;
+        border-radius: 0.25rem;
+        padding: 5px;
+    }
+}

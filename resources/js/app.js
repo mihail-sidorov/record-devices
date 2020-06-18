@@ -14,6 +14,7 @@ require('./angular/attach-worker-to-work-place-angular-controller');
 // Подключение БЭМ компонетов
 require('./bem/tab-content-wrapper');
 require('./bem/modal-window');
+require('./bem/settings-block');
 
 // Подключение контроллеров
 require('./controllers//tab-content-controller');
