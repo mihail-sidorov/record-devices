@@ -1197,7 +1197,7 @@ class AdminController extends Controller
 
     public function changePassword(Request $request)
     {
-        if ($request->ajax() && Auth::user()->role === 'admin') {
+        if ($request->ajax() && (Auth::user()->role === 'admin' || Auth::user()->role === 'worker')) {
             $user = User::find(Workers::where('id', $request->id)->value('user_id'));
 
             $current_password = $user->password;

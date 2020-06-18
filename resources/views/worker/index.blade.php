@@ -9,6 +9,7 @@
         <div class="worker-settings-controller">
             @include('settings-block')
             @include('admin.workers.edit-worker-modal-window.modal-window')
+            @include('admin.workers.change-password-modal-window.modal-window')
         </div>
     </ul>
     <div class="tab-content" id="myTabContent">

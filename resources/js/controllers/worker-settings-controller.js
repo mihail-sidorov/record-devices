@@ -14,6 +14,19 @@ $(document).ready(() => {
                 this.editEntity($(e.currentTarget), '/admin/edit-worker', '/worker/tab/services');
                 return false;
             });
+
+            // Открываем модальное окно редактирования пароля
+            this.controllerElement.find('.change-password-btn').click((e) => {
+                $changePasswordModalWindow = this.controllerElement.find('.change-password-modal-window');
+                $changePasswordModalWindow.find('.form-content [name="id"]').val($('.content.worker').attr('id'));
+                this.showModalWindow($changePasswordModalWindow);
+            });
+
+            // Валидация и редактирование пароля
+            this.controllerElement.find('.change-password-modal-window .form-content').on('submit', (e) => {
+                this.editEntity($(e.currentTarget), '/admin/change-password', '/worker/tab/services');
+                return false;
+            });
         }
     }
 
