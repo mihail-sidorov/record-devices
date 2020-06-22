@@ -251,6 +251,8 @@ class AdminController extends Controller
                 'department_id' => 'required',
                 'email' => 'bail|required|string|email|max:255|unique:users',
                 'password' => 'bail|required|string|min:8|confirmed',
+                'employer_id' => 'required',
+                'placement_date' => 'date',
             ],
             [
                 'name.required' => 'Поле "ФИО" обязательно для заполнения',
@@ -267,6 +269,8 @@ class AdminController extends Controller
                 'password.string' => 'Поле "Пароль" должно быть строкой',
                 'password.min' => 'Количество символов в поле "Пароль" не может быть меньше 8',
                 'password.confirmed' => 'Поле "Пароль" не совпадает с подтверждением',
+                'employer_id.required' => 'Поле "Работодатель" обязательно для заполнения',
+                'placement_date.date' => 'Поле "Дата трудоустройства" не является датой',
             ]);
 
             $user = User::create([
@@ -281,6 +285,8 @@ class AdminController extends Controller
             $worker->post = $request->post;
             $worker->department_id = $request->department_id;
             $worker->user_id = $user->id;
+            $worker->employer_id = $request->employer_id;
+            $worker->placement_date = strtotime($request->placement_date);
             $worker->save();
         }
 
@@ -614,6 +620,8 @@ class AdminController extends Controller
                 'name' => 'bail|required|max:255',
                 'post' => 'bail|required|max:255',
                 'department_id' => 'required',
+                'employer_id' => 'required',
+                'placement_date' => 'date',
             ];
 
             $validate_errors = [
@@ -622,6 +630,8 @@ class AdminController extends Controller
                 'post.required' => 'Поле "Должность" обязательно для заполнения',
                 'post.max' => 'Количество символов в поле "Должность" не может превышать 255',
                 'department_id.required' => 'Поле "Отдел" обязательно для заполнения',
+                'employer_id.required' => 'Поле "Работодатель" обязательно для заполнения',
+                'placement_date.date' => 'Поле "Дата трудоустройства" не является датой',
             ];
 
             if ($user->email !== $request->email) {
@@ -643,6 +653,8 @@ class AdminController extends Controller
             $worker->name = $request->name;
             $worker->post = $request->post;
             $worker->department_id = $request->department_id;
+            $worker->employer_id = $request->employer_id;
+            $worker->placement_date = strtotime($request->placement_date);
             $worker->save();
 
             $user->email = $request->email;
@@ -949,7 +961,9 @@ class AdminController extends Controller
                 \"name\": \"$worker->name\",
                 \"email\": \"$email\",
                 \"post\": \"$worker->post\",
-                \"department_id\": \"$worker->department_id\"
+                \"department_id\": \"$worker->department_id\",
+                \"employer_id\": \"$worker->employer_id\",
+                \"placement_date\": \"$worker->placement_date\"
             }";
         }
     }

@@ -32,6 +32,15 @@
     </div>
 
     <div class="form-content__field">
+        <div class="form-content__title">Работодатель:</div>
+        <select class="form-content__select" name="employer_id">
+            <option value="1">ИП Корсун А.В.</option>
+            <option value="2">ИП Корсун В.П.</option>
+        </select>
+        <div class="form-content__error" field-name="employer_id"></div>
+    </div>
+
+    <div class="form-content__field">
         <div class="form-content__title">Отдел:</div>
         <select class="form-content__select" name="department_id">
             @foreach ($departments as $department)
@@ -39,5 +48,11 @@
             @endforeach
         </select>
         <div class="form-content__error" field-name="department_id"></div>
+    </div>
+
+    <div class="form-content__field">
+        <div class="form-content__title">Дата трудоустройства:</div>
+        <input class="form-content__date" type="date" name="placement_date">
+        <div class="form-content__error" field-name="placement_date"></div>
     </div>
 </div>

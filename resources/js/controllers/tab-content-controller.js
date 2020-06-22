@@ -86,7 +86,7 @@ window.tabContentController = class tabContentController {
                     $editEntityModalWindow.find('.form-content__field').each((index, element) => {
                         var $fieldNameElement = $(element).find('[name]'), fieldName = $fieldNameElement.attr('name'), date, year, month, day;
 
-                        if (fieldName === 'receipt_date' || fieldName === 'warranty') {
+                        if (fieldName === 'receipt_date' || fieldName === 'warranty' || fieldName === 'placement_date') {
                             date = new Date(response[fieldName] * 1000);
                             year = date.getFullYear();
                             month = +date.getMonth() + 1;

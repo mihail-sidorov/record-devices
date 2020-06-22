@@ -19,6 +19,8 @@ class CreateWorkersTable extends Migration
             $table->string('post');
             $table->integer('department_id');
             $table->integer('user_id');
+            $table->integer('employer_id');
+            $table->integer('placement_date');
         });
     }
 
