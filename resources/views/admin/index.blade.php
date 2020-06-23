@@ -16,6 +16,9 @@
             <a class="nav-link<?php if ($active_tabs['workers']) echo $active_tabs['workers'][0]; ?>" id="workers-tab" data-toggle="tab" href="#workers" role="tab" aria-controls="workers" aria-selected="false">Сотрудники</a>
         </li>
         <li class="nav-item">
+            <a class="nav-link<?php if ($active_tabs['acts']) echo $active_tabs['acts'][0]; ?>" id="acts-tab" data-toggle="tab" href="#acts" role="tab" aria-controls="acts" aria-selected="false">Акты</a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link<?php if ($active_tabs['providers']) echo $active_tabs['providers'][0]; ?>" id="providers-tab" data-toggle="tab" href="#providers" role="tab" aria-controls="providers" aria-selected="false">Поставщики</a>
         </li>
         <li class="nav-item">
@@ -59,6 +62,9 @@
             @include('admin.component-parts.edit-component-part-modal-window.modal-window')
             @include('admin.workers.change-password-modal-window.modal-window')
             @include('admin.workers.create-act-modal-window.modal-window')
+        </div>
+        <div class="tab-pane fade<?php if ($active_tabs['acts']) echo $active_tabs['acts'][1]; ?> acts admin-acts-tab-content-controller" id="acts" role="tabpanel" aria-labelledby="acts-tab">
+            @include('admin.acts.tab-content-wrapper.tab-content-wrapper')
         </div>
         <div class="tab-pane fade<?php if ($active_tabs['providers']) echo $active_tabs['providers'][1]; ?> providers admin-providers-tab-content-controller" id="providers" role="tabpanel" aria-labelledby="providers-tab">
             @include('admin.providers.tab-content-wrapper.tab-content-wrapper')

@@ -46,6 +46,7 @@ class AdminController extends Controller
                 'work-places' => [],
                 'component-parts' => [],
                 'workers' => [],
+                'acts' => [],
                 'providers'=> [],
                 'responsibles' => [],
                 'departments' => [],
@@ -68,6 +69,10 @@ class AdminController extends Controller
                 case 'workers':
                     $active_tabs['workers'][] = ' active';
                     $active_tabs['workers'][] = ' show active';
+                    break;
+                case 'acts':
+                    $active_tabs['acts'][] = ' active';
+                    $active_tabs['acts'][] = ' show active';
                     break;
                 case 'providers':
                     $active_tabs['providers'][] = ' active';
@@ -93,6 +98,7 @@ class AdminController extends Controller
             $work_places = WorkPlace::all();
             $component_parts = ComponentPart::all();
             $workers = Workers::all();
+            $acts = Act::all();
             $providers = Providers::all();
             $responsibles = Responsibles::all();
             $departments = Departments::all();
@@ -103,6 +109,7 @@ class AdminController extends Controller
                 'work_places' => $work_places,
                 'component_parts' => $component_parts,
                 'workers' => $workers,
+                'acts' => $acts,
                 'providers' => $providers,
                 'responsibles' => $responsibles,
                 'departments' => $departments,
@@ -1251,7 +1258,7 @@ class AdminController extends Controller
                 $type = 'return';
             }
 
-            if (($devices_workers->count() > 0) && ($work_places_workers->count() > 0)) {
+            if (($devices_workers->count() > 0) || ($work_places_workers->count() > 0)) {
                 $act = new Act;
                 $act->type = $type;
                 $act->save();

@@ -119,7 +119,7 @@ $(document).ready(() => {
 
             // Создаем новый акт
             this.controllerElement.find('.create-act-modal-window .form-content').on('submit', (e) => {
-                this.createAct($(e.currentTarget), '/admin/create-act', '/admin/tab/workers');
+                this.createAct($(e.currentTarget), '/admin/create-act', '/admin/tab/acts');
             });
         }
     }
