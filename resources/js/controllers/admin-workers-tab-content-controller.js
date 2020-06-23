@@ -109,6 +109,18 @@ $(document).ready(() => {
                 this.editEntity($(e.currentTarget), '/admin/change-password', '/admin/tab/workers');
                 return false;
             });
+
+            // Открываем модальное окно создания акта
+            this.controllerElement.find('.create-act-btn').click((e) => {
+                $createActModalWindow = this.controllerElement.find('.create-act-modal-window');
+                $createActModalWindow.find('.form-content [name="id"]').val($(e.currentTarget).closest('.tab-content-wrapper__list-item').attr('id'));
+                this.showModalWindow($createActModalWindow);
+            });
+
+            // Создаем новый акт
+            this.controllerElement.find('.create-act-modal-window .form-content').on('submit', (e) => {
+                this.createAct($(e.currentTarget), '/admin/create-act', '/admin/tab/workers');
+            });
         }
     }
 

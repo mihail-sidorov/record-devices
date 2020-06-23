@@ -12,4 +12,11 @@ class DeviceWorker extends Model
      * @var string
      */
     protected $table = 'device_worker';
+
+    /**
+     * Определяет необходимость отметок времени для модели.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
 }

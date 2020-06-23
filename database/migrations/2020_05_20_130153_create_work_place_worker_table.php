@@ -17,7 +17,8 @@ class CreateWorkPlaceWorkerTable extends Migration
             $table->increments('id');
             $table->integer('work_place_id');
             $table->integer('worker_id');
-            $table->timestamps();
+            $table->integer('act_give_id')->nullable()->default(null);
+            $table->integer('act_return_id')->nullable()->default(null);
             $table->boolean('attach')->default(true);
         });
     }

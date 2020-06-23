@@ -16,6 +16,8 @@
 
                 @include('btns.change-password-btn')
 
+                @include('btns.create-act-btn')
+
                 <div class="edit-worker-btn">@include('btns.edit-btn')</div>
 
                 @include('btns.del-btn')

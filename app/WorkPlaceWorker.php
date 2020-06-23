@@ -12,4 +12,11 @@ class WorkPlaceWorker extends Model
      * @var string
      */
     protected $table = 'work_place_worker';
+
+    /**
+     * Определяет необходимость отметок времени для модели.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
 }
