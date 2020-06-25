@@ -12,12 +12,6 @@
             $responsible = $work_place->get_responsible();
             
             $work_place_component_parts = $work_place->component_parts;
-            $purchase_price = 0;
-            if (count($work_place_component_parts)) {
-                foreach ($work_place_component_parts as $work_place_component_part) {
-                    $purchase_price += $work_place_component_part->purchase_price;
-                }
-            }
         ?>
         <div class="tab-content-wrapper__list-item" id="{{ $work_place->id }}" worker-id="{{ $worker_id }}">
             <input type="hidden" class="tab-content-wrapper__list-item-filter-field" value="{{ $work_place->inventar_number }}">
@@ -61,7 +55,7 @@
                                     {{ $responsible->name }}
                                 @endif
                             </td>
-                            <td>{{ $purchase_price }}</td>
+                            <td>{{ $work_place->get_purchase_price() }}</td>
                             <td>
                                 {{ $work_place->get_status() }}
                             </td>

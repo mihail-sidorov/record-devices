@@ -79,4 +79,18 @@ class WorkPlace extends Model
 
         return $status;
     }
+
+    public function get_purchase_price()
+    {
+        $purchase_price = 0;
+        $component_parts = $this->component_parts;
+
+        if ($component_parts->count() > 0) {
+            foreach ($component_parts as $component_part) {
+                $purchase_price += $component_part->purchase_price;
+            }
+        }
+
+        return $purchase_price;
+    }
 }

@@ -13,6 +13,7 @@
 
             <div class="tab-content-wrapper__list-item-head">
                 <div class="tab-content-wrapper__list-item-name">{{ $act->get_worker()->name }}</div>
+                @include('btns.open-act-btn', ['id' => $act->id])
             </div>
             <div class="tab-content-wrapper__list-item-body">
                 <table class="tab-content-wrapper__list-item-body-table">

@@ -34,4 +34,24 @@ class Act extends Model
 
         return Workers::find($worker_id);
     }
+
+    public function devices()
+    {
+        if ($this->type === 'give') {
+            return $this->belongsToMany('App\Devices', 'device_worker', 'act_give_id', 'device_id');
+        }
+        else {
+            return $this->belongsToMany('App\Devices', 'device_worker', 'act_return_id', 'device_id');
+        }
+    }
+
+    public function work_places()
+    {
+        if ($this->type === 'give') {
+            return $this->belongsToMany('App\WorkPlace', 'work_place_worker', 'act_give_id', 'work_place_id');
+        }
+        else {
+            return $this->belongsToMany('App\WorkPlace', 'work_place_worker', 'act_return_id', 'work_place_id');
+        }
+    }
 }
