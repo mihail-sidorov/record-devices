@@ -98,7 +98,7 @@ class AdminController extends Controller
             $work_places = WorkPlace::all();
             $component_parts = ComponentPart::all();
             $workers = Workers::all();
-            $acts = Act::all();
+            $acts = Act::orderBy('document', 'asc')->get();
             $providers = Providers::all();
             $responsibles = Responsibles::all();
             $departments = Departments::all();

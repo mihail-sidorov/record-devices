@@ -76,3 +76,14 @@
 
     padding: 20px;
 }
+
+.no-original-act {
+
+    background-color: rgba(227, 52, 47, 0.2);
+    border-radius: 0.25rem;
+
+    .tab-content-wrapper__list-item-body {
+
+        padding-bottom: 10px;
+    }
+}
