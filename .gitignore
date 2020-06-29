@@ -1,6 +1,5 @@
 /node_modules/
 /public/*
-!/public/uploads/
 !/public/.htaccess
 !/public/index.php
 !/public/robots.txt
