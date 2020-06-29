@@ -70,6 +70,8 @@ Route::post('/admin/change-password', 'AdminController@changePassword');
 Route::post('/admin/create-act', 'AdminController@createAct');
 
 Route::get('/act/{act_id}', 'ActController@index');
+Route::post('/act/upload', 'ActController@upload');
+Route::get('/act/download/{act_id}', 'ActController@download');
 
 Route::get('/worker', 'WorkerController@index')->name('worker');
 Route::get('/worker/tab/{tab_name}', 'WorkerController@index');

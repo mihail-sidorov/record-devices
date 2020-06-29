@@ -11,9 +11,14 @@
         <div class="tab-content-wrapper__list-item" id="{{ $act->id }}">
             <input type="hidden" class="tab-content-wrapper__list-item-filter-field" value="{{ $act->get_worker()->name }}">
 
-            <div class="tab-content-wrapper__list-item-head">
+            <div class="tab-content-wrapper__list-item-head upload-act-controller">
                 <div class="tab-content-wrapper__list-item-name">{{ $act->get_worker()->name }}</div>
                 @include('btns.open-act-btn', ['id' => $act->id])
+                @if ($act->document === null)
+                    @include('btns.upload-act-btn')
+                @else
+                    @include('btns.download-act-btn', ['id' => $act->id])
+                @endif
             </div>
             <div class="tab-content-wrapper__list-item-body">
                 <table class="tab-content-wrapper__list-item-body-table">

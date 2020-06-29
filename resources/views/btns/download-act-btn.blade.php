@@ -1,0 +1,1 @@
+<a href="/act/download/{{ $id }}" class="download-act-btn app-btn"><i class="fas fa-file-download"></i></a>
