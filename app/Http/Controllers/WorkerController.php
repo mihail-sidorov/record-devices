@@ -86,8 +86,13 @@ class WorkerController extends Controller
 
     public function writeEditServiceForm(Request $request)
     {
-        if ($request->ajax() && Auth::user()->role === 'worker') {
-            $service = Service::where([['id', $request->id], ['user_id', Auth::user()->id]])->first();
+        if ($request->ajax() && (Auth::user()->role === 'worker' || Auth::user()->role === 'admin')) {
+            if (Auth::user()->role === 'worker') {
+                $service = Service::where([['id', $request->id], ['user_id', Auth::user()->id]])->first();
+            }
+            if (Auth::user()->role === 'admin') {
+                $service = Service::where('id', $request->id)->first();
+            }
 
             return "{
                 \"name\": \"$service->name\",
@@ -99,7 +104,7 @@ class WorkerController extends Controller
 
     public function editService(Request $request)
     {
-        if ($request->ajax() && Auth::user()->role === 'worker') {
+        if ($request->ajax() && (Auth::user()->role === 'worker' || Auth::user()->role === 'admin')) {
             $this->validate($request, [
                 'name' => 'bail|required|max:255',
                 'login' => 'bail|required|max:255',
@@ -114,7 +119,12 @@ class WorkerController extends Controller
                 'password.max' => 'Количество символов в поле "Пароль" не может превышать 255',
             ]);
 
-            $service = Service::where([['id', $request->id], ['user_id', Auth::user()->id]])->first();
+            if (Auth::user()->role === 'worker') {
+                $service = Service::where([['id', $request->id], ['user_id', Auth::user()->id]])->first();
+            }
+            if (Auth::user()->role === 'admin') {
+                $service = Service::where('id', $request->id)->first();
+            }
 
             if ($service) {
                 $service->name = $request->name;
@@ -130,8 +140,13 @@ class WorkerController extends Controller
 
     public function delService(Request $request)
     {
-        if ($request->ajax() && Auth::user()->role === 'worker') {
-            $service = Service::where([['id', $request->id], ['user_id', Auth::user()->id]])->first();
+        if ($request->ajax() && (Auth::user()->role === 'worker' || Auth::user()->role === 'admin')) {
+            if (Auth::user()->role === 'worker') {
+                $service = Service::where([['id', $request->id], ['user_id', Auth::user()->id]])->first();
+            }
+            if (Auth::user()->role === 'admin') {
+                $service = Service::where('id', $request->id)->first();
+            }
 
             if ($service) {
                 Service::destroy($service->id);

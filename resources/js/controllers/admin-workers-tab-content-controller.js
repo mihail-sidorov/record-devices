@@ -37,7 +37,7 @@ $(document).ready(() => {
             });
 
             // Удаляем сотрудника
-            this.controllerElement.find('.del-btn').click((e) => {
+            this.controllerElement.find('.del-worker-btn .del-btn').click((e) => {
                 this.delEntity($(e.currentTarget), '/admin/del-worker', '/admin/tab/workers', 'сотрудника');
             });
 
@@ -120,6 +120,23 @@ $(document).ready(() => {
             // Создаем новый акт
             this.controllerElement.find('.create-act-modal-window .form-content').on('submit', (e) => {
                 this.createAct($(e.currentTarget), '/admin/create-act', '/admin/tab/acts');
+            });
+
+            // Заполняем данными модальное окно для редактирования сервиса и открываем его
+            this.controllerElement.find('.tab-content-wrapper__services-list .edit-btn').click((e) => {
+                this.writeEditEntityModalWindow($(e.currentTarget), '/worker/write-edit-service-form', this.controllerElement.find('.edit-service-modal-window'));
+                this.showModalWindow(this.controllerElement.find('.edit-service-modal-window'));
+            });
+
+            // Валидация и редактирование сервиса
+            this.controllerElement.find('.edit-service-modal-window .form-content').on('submit', (e) => {
+                this.editEntity($(e.currentTarget), '/worker/edit-service', '/admin/tab/workers');
+                return false;
+            });
+
+            // Удаляем сервис
+            this.controllerElement.find('.tab-content-wrapper__services-list .del-btn').click((e) => {
+                this.delEntity($(e.currentTarget), '/worker/del-service', '/admin/tab/workers', 'сервис');
             });
         }
     }

@@ -21,7 +21,9 @@
 
                 <div class="edit-worker-btn">@include('btns.edit-btn')</div>
 
-                @include('btns.del-btn')
+                <div class="del-worker-btn">
+                    @include('btns.del-btn')
+                </div>
             </div>
             <div class="tab-content-wrapper__list-item-body">
                 <table class="tab-content-wrapper__list-item-body-table">
