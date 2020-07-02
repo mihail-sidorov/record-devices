@@ -87,3 +87,25 @@
         padding-bottom: 10px;
     }
 }
+
+.tab-content-wrapper__fixed-technique-list {
+
+    .tab-content-wrapper__work-places-list {
+
+        margin-top: 0 !important;
+    }
+}
+
+.tab-content-wrapper__services-list {
+
+    .tab-content-wrapper__list {
+
+        margin-top: 0 !important;
+    }
+}
+
+.form-control.is-invalid {
+
+    background: transparent;
+    padding-right: 12px;
+}

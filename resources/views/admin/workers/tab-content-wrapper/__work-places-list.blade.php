@@ -1,4 +1,4 @@
-<div class="tab-content-wrapper__list tab-content-wrapper__work-places-lis">
+<div class="tab-content-wrapper__list tab-content-wrapper__work-places-list">
     @foreach ($worker_work_places as $worker_work_place)
         <?php
             $worker = $worker_work_place->get_attach_worker();

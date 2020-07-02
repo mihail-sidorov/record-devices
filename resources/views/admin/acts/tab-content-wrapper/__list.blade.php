@@ -13,7 +13,7 @@
         <div class="tab-content-wrapper__list-item{{ $no_original_act }}" id="{{ $act->id }}">
             <input type="hidden" class="tab-content-wrapper__list-item-filter-field" value="{{ $act->get_worker()->name }}">
 
-            <div class="tab-content-wrapper__list-item-head upload-act-controller">
+            <div class="tab-content-wrapper__list-item-head act-controller">
                 <div class="tab-content-wrapper__list-item-name">{{ $act->get_worker()->name }}</div>
                 @if ($act->document === null)
                     @include('btns.open-act-btn', ['id' => $act->id])

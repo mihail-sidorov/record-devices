@@ -50,4 +50,9 @@ class Workers extends Model
             return false;
         }
     }
+
+    public function services()
+    {
+        return $this->hasMany('App\Service', 'user_id', 'user_id');
+    }
 }

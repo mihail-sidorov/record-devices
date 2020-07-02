@@ -57,6 +57,8 @@ class RegisterController extends Controller
             'department_id' => 'required',
             'email' => 'bail|required|string|email|max:255|unique:users',
             'password' => 'bail|required|string|min:8|confirmed',
+            'employer_id' => 'required',
+            'placement_date' => 'date',
         ],
         [
             'name.required' => 'Поле "ФИО" обязательно для заполнения',
@@ -73,6 +75,8 @@ class RegisterController extends Controller
             'password.string' => 'Поле "Пароль" должно быть строкой',
             'password.min' => 'Количество символов в поле "Пароль" не может быть меньше 8',
             'password.confirmed' => 'Поле "Пароль" не совпадает с подтверждением',
+            'employer_id.required' => 'Поле "Работодатель" обязательно для заполнения',
+            'placement_date.date' => 'Поле "Дата трудоустройства" не является датой',
         ]);
     }
 
@@ -96,6 +100,8 @@ class RegisterController extends Controller
         $worker->post = $data['post'];
         $worker->department_id = $data['department_id'];
         $worker->user_id = $user->id;
+        $worker->employer_id = $data['employer_id'];
+        $worker->placement_date = strtotime($data['placement_date']);
         $worker->save();
 
         return $user;

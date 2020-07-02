@@ -1,7 +1,7 @@
 $(document).ready(() => {
-    class uploadActController {
-        constructor($uploadActController) {
-            $uploadActController.find('input[type="file"]').on('change', (e) => {
+    class ActController {
+        constructor($ActController) {
+            $ActController.find('input[type="file"]').on('change', (e) => {
                 var data = new FormData(), token = $('meta[name="csrf-token"]').attr('content'), id = $(e.currentTarget).closest('.tab-content-wrapper__list-item').attr('id');
 
                 data.append('img', e.currentTarget.files[0]);
@@ -34,5 +34,5 @@ $(document).ready(() => {
         }
     }
 
-    new uploadActController($('.upload-act-controller'));
+    new ActController($('.act-controller'));
 });
