@@ -78,7 +78,7 @@ class ActController extends Controller
 
     public function download($act_id = null)
     {
-        if (Auth::user()->role === 'admin') {
+        if ((Auth::user()->role === 'admin') || (Auth::user()->role === 'worker')) {
             if (preg_match('/^[1-9][0-9]*$/u', $act_id)) {
                 $act = Act::find($act_id);
 

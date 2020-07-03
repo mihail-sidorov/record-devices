@@ -16,8 +16,10 @@
             <div class="tab-content-wrapper__list-item-head act-controller">
                 <div class="tab-content-wrapper__list-item-name">{{ $act->get_worker()->name }}</div>
                 @if ($act->document === null)
-                    @include('btns.open-act-btn', ['id' => $act->id])
-                    @include('btns.upload-act-btn')
+                    @if (Auth::user()->role === 'admin')
+                        @include('btns.open-act-btn', ['id' => $act->id])
+                        @include('btns.upload-act-btn')
+                    @endif
                 @else
                     @include('btns.download-act-btn', ['id' => $act->id])
                 @endif

@@ -9,6 +9,9 @@
         <li class="nav-item">
             <a class="nav-link<?php if ($active_tabs['fixed-technique']) echo $active_tabs['fixed-technique'][0]; ?>" id="fixed-technique-tab" data-toggle="tab" href="#fixed-technique" role="tab" aria-controls="fixed-technique" aria-selected="true">Закрепленная техника</a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link<?php if ($active_tabs['acts']) echo $active_tabs['acts'][0]; ?>" id="acts-tab" data-toggle="tab" href="#acts" role="tab" aria-controls="acts" aria-selected="true">Акты</a>
+        </li>
         <div class="worker-settings-controller">
             @include('settings-block')
             @include('admin.workers.edit-worker-modal-window.modal-window')
@@ -23,6 +26,9 @@
         </div>
         <div class="tab-pane fade<?php if ($active_tabs['fixed-technique']) echo $active_tabs['fixed-technique'][1]; ?> fixed-technique worker-fixed-technique-tab-content-controller" id="fixed-technique" role="tabpanel" aria-labelledby="fixed-technique-tab">
             @include('worker.fixed-technique.tab-content-wrapper.tab-content-wrapper')
+        </div>
+        <div class="tab-pane fade<?php if ($active_tabs['acts']) echo $active_tabs['acts'][1]; ?> acts worker-acts-tab-content-controller" id="acts" role="tabpanel" aria-labelledby="acts-tab">
+            @include('worker.acts.tab-content-wrapper')
         </div>
     </div>
 </div>

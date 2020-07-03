@@ -6,7 +6,6 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Notifications\ResetPassword as ResetPasswordNotification;
-use App\Workers;
 
 class User extends Authenticatable
 {
@@ -62,5 +61,18 @@ class User extends Authenticatable
     public function get_devices()
     {
         return Workers::find($this->getWorkerId())->devices;
+    }
+
+    public function get_acts()
+    {
+        $act_give_ids_form_work_place_worker = WorkPlaceWorker::select('act_give_id')->where([['worker_id', $this->getWorkerId()], ['act_give_id', '<>', null]])->distinct()->pluck('act_give_id');
+        $act_give_ids_form_device_worker = DeviceWorker::select('act_give_id')->where([['worker_id', $this->getWorkerId()], ['act_give_id', '<>', null]])->whereNotIn('act_give_id', $act_give_ids_form_work_place_worker)->distinct()->pluck('act_give_id');
+        $act_give_ids = $act_give_ids_form_work_place_worker->merge($act_give_ids_form_device_worker );
+
+        $act_return_ids_form_work_place_worker = WorkPlaceWorker::select('act_return_id')->where([['worker_id', $this->getWorkerId()], ['act_return_id', '<>', null]])->distinct()->pluck('act_return_id');
+        $act_return_ids_form_device_worker = DeviceWorker::select('act_return_id')->where([['worker_id', $this->getWorkerId()], ['act_return_id', '<>', null]])->whereNotIn('act_return_id', $act_return_ids_form_work_place_worker)->distinct()->pluck('act_return_id');
+        $act_return_ids = $act_return_ids_form_work_place_worker->merge($act_return_ids_form_device_worker );
+        
+        return Act::whereIn('id', $act_give_ids->merge($act_return_ids))->get();
     }
 }

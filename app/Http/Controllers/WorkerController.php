@@ -31,6 +31,7 @@ class WorkerController extends Controller
             $active_tabs = [
                 'services' => [],
                 'fixed-technique' => [],
+                'acts' => [],
             ];
 
             switch ($tab_name) {
@@ -42,6 +43,10 @@ class WorkerController extends Controller
                     $active_tabs['fixed-technique'][] = ' active';
                     $active_tabs['fixed-technique'][] = ' show active';
                     break;
+                case 'acts':
+                    $active_tabs['acts'][] = ' active';
+                    $active_tabs['acts'][] = ' show active';
+                    break;
                 default:
                     abort(404);
             }
@@ -50,6 +55,7 @@ class WorkerController extends Controller
             $departments = Departments::all();
             $work_places = Auth::user()->get_work_places();
             $devices = Auth::user()->get_devices();
+            $acts = Auth::user()->get_acts();
 
             return view('worker.index', [
                 'active_tabs' => $active_tabs,
@@ -57,6 +63,7 @@ class WorkerController extends Controller
                 'departments' => $departments,
                 'work_places' => $work_places,
                 'devices' => $devices,
+                'acts' => $acts,
             ]);
         }
         else {

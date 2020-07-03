@@ -1253,8 +1253,8 @@ class AdminController extends Controller
                 $type = 'give';
             }
             else {
-                $devices_workers = DeviceWorker::where([['worker_id', '=', $request->id], ['act_return_id', '=', null], ['attach', '=', 0]])->get();
-                $work_places_workers = WorkPlaceWorker::where([['worker_id', '=', $request->id], ['act_return_id', '=', null], ['attach', '=', 0]])->get();
+                $devices_workers = DeviceWorker::where([['worker_id', '=', $request->id], ['act_give_id', '<>', null], ['act_return_id', '=', null], ['attach', '=', 0]])->get();
+                $work_places_workers = WorkPlaceWorker::where([['worker_id', '=', $request->id], ['act_give_id', '<>', null], ['act_return_id', '=', null], ['attach', '=', 0]])->get();
                 $type = 'return';
             }
 
