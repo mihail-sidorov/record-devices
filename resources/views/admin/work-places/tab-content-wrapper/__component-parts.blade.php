@@ -19,9 +19,12 @@
         <div class="tab-content-wrapper__list-item" id="{{ $work_place_component_part->id }}">
             <div class="tab-content-wrapper__list-item-head">
                 <div class="tab-content-wrapper__list-item-name">{{ $work_place_component_part->name }}</div>
-                <div class="edit-component-part-btn">
-                    @include('btns.edit-btn')
-                </div>
+
+                @if(Auth::user()->role === 'admin')
+                    <div class="edit-component-part-btn">
+                        @include('btns.edit-btn')
+                    </div>
+                @endif
             </div>
             <div class="tab-content-wrapper__list-item-body">
                 <table class="tab-content-wrapper__list-item-body-table">

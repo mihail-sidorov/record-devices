@@ -53,4 +53,14 @@ class User extends Authenticatable
     {
         return Workers::where('user_id', $this->id)->value('id');
     }
+
+    public function get_work_places()
+    {
+        return Workers::find($this->getWorkerId())->work_places;
+    }
+
+    public function get_devices()
+    {
+        return Workers::find($this->getWorkerId())->devices;
+    }
 }

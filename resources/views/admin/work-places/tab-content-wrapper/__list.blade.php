@@ -19,17 +19,19 @@
             <div class="tab-content-wrapper__list-item-head">
                 <div class="tab-content-wrapper__list-item-name">{{ $work_place->name }}</div>
                 
-                @include('btns.attach-component-parts-btn')
+                @if(Auth::user()->role === 'admin')
+                    @include('btns.attach-component-parts-btn')
 
-                @if (!$worker)
-                    @include('btns.attach-worker-btn')
-                @else
-                    @include('btns.unattach-worker-btn')
+                    @if (!$worker)
+                        @include('btns.attach-worker-btn')
+                    @else
+                        @include('btns.unattach-worker-btn')
+                    @endif
+
+                    <div class="edit-work-place-btn">@include('btns.edit-btn')</div>
+                    
+                    @include('btns.del-btn')
                 @endif
-
-                <div class="edit-work-place-btn">@include('btns.edit-btn')</div>
-                
-                @include('btns.del-btn')
             </div>
             <div class="tab-content-wrapper__list-item-body">
                 <table class="tab-content-wrapper__list-item-body-table">

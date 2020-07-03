@@ -37,24 +37,30 @@
             $purchase_price = $device->purchase_price;
         ?>
         <div class="tab-content-wrapper__list-item" id="{{ $device->id }}" worker-id="{{ $worker_id }}">
-            <input type="hidden" class="tab-content-wrapper__list-item-filter-field" value="{{ $device->model }}">
-            <input type="hidden" class="tab-content-wrapper__list-item-filter-field" value="{{ $device->serial_number }}">
-            <input type="hidden" class="tab-content-wrapper__list-item-filter-field" value="{{ $device->type_device_id }}">
+            @if(Auth::user()->role === 'admin')
+                <input type="hidden" class="tab-content-wrapper__list-item-filter-field" value="{{ $device->model }}">
+                <input type="hidden" class="tab-content-wrapper__list-item-filter-field" value="{{ $device->serial_number }}">
+                <input type="hidden" class="tab-content-wrapper__list-item-filter-field" value="{{ $device->type_device_id }}">
+            @else
+                <input type="hidden" class="tab-content-wrapper__list-item-filter-field" value="{{ $device->serial_number }}">
+            @endif
 
             <div class="tab-content-wrapper__list-item-head">
                 <div class="tab-content-wrapper__list-item-name">{{ $device->name }}</div>
                 
-                @if (!$worker)
-                    @if (!$device->write_off())
-                        @include('btns.attach-worker-btn')
+                @if(Auth::user()->role === 'admin')
+                    @if (!$worker)
+                        @if (!$device->write_off())
+                            @include('btns.attach-worker-btn')
+                        @endif
+                    @else
+                        @include('btns.unattach-worker-btn')
                     @endif
-                @else
-                    @include('btns.unattach-worker-btn')
+
+                    @include('btns.edit-btn')
+
+                    @include('btns.del-btn')
                 @endif
-
-                @include('btns.edit-btn')
-
-                @include('btns.del-btn')
             </div>
             <div class="tab-content-wrapper__list-item-body">
                 <table class="tab-content-wrapper__list-item-body-table">

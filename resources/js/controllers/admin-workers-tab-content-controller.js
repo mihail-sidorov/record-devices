@@ -123,7 +123,7 @@ $(document).ready(() => {
             });
 
             // Заполняем данными модальное окно для редактирования сервиса и открываем его
-            this.controllerElement.find('.tab-content-wrapper__services-list .edit-btn').click((e) => {
+            this.controllerElement.find('.tab-content-wrapper__services-list-item .edit-btn').click((e) => {
                 this.writeEditEntityModalWindow($(e.currentTarget), '/worker/write-edit-service-form', this.controllerElement.find('.edit-service-modal-window'));
                 this.showModalWindow(this.controllerElement.find('.edit-service-modal-window'));
             });
@@ -135,7 +135,7 @@ $(document).ready(() => {
             });
 
             // Удаляем сервис
-            this.controllerElement.find('.tab-content-wrapper__services-list .del-btn').click((e) => {
+            this.controllerElement.find('.tab-content-wrapper__services-list-item .del-btn').click((e) => {
                 this.delEntity($(e.currentTarget), '/worker/del-service', '/admin/tab/workers', 'сервис');
             });
         }

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Service;
 use App\Departments;
+use App\Workers;
 
 class WorkerController extends Controller
 {
@@ -29,6 +30,7 @@ class WorkerController extends Controller
         if (Auth::user()->role === 'worker') {
             $active_tabs = [
                 'services' => [],
+                'fixed-technique' => [],
             ];
 
             switch ($tab_name) {
@@ -36,17 +38,25 @@ class WorkerController extends Controller
                     $active_tabs['services'][] = ' active';
                     $active_tabs['services'][] = ' show active';
                     break;
+                case 'fixed-technique':
+                    $active_tabs['fixed-technique'][] = ' active';
+                    $active_tabs['fixed-technique'][] = ' show active';
+                    break;
                 default:
                     abort(404);
             }
 
             $services = Auth::user()->services;
             $departments = Departments::all();
+            $work_places = Auth::user()->get_work_places();
+            $devices = Auth::user()->get_devices();
 
             return view('worker.index', [
                 'active_tabs' => $active_tabs,
                 'services' => $services,
                 'departments' => $departments,
+                'work_places' => $work_places,
+                'devices' => $devices,
             ]);
         }
         else {

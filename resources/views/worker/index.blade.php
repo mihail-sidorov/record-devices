@@ -6,6 +6,9 @@
         <li class="nav-item">
             <a class="nav-link<?php if ($active_tabs['services']) echo $active_tabs['services'][0]; ?>" id="services-tab" data-toggle="tab" href="#services" role="tab" aria-controls="services" aria-selected="true">Сервисы</a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link<?php if ($active_tabs['fixed-technique']) echo $active_tabs['fixed-technique'][0]; ?>" id="fixed-technique-tab" data-toggle="tab" href="#fixed-technique" role="tab" aria-controls="fixed-technique" aria-selected="true">Закрепленная техника</a>
+        </li>
         <div class="worker-settings-controller">
             @include('settings-block')
             @include('admin.workers.edit-worker-modal-window.modal-window')
@@ -17,6 +20,9 @@
             @include('worker.services.tab-content-wrapper.tab-content-wrapper')
             @include('worker.services.add-service-modal-window.modal-window')
             @include('worker.services.edit-service-modal-window.modal-window')
+        </div>
+        <div class="tab-pane fade<?php if ($active_tabs['fixed-technique']) echo $active_tabs['fixed-technique'][1]; ?> fixed-technique worker-fixed-technique-tab-content-controller" id="fixed-technique" role="tabpanel" aria-labelledby="fixed-technique-tab">
+            @include('worker.fixed-technique.tab-content-wrapper.tab-content-wrapper')
         </div>
     </div>
 </div>

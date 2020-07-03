@@ -88,19 +88,14 @@
     }
 }
 
-.tab-content-wrapper__fixed-technique-list {
+.tab-content-wrapper__fixed-technique-list-item, .tab-content-wrapper__services-list-item {
 
-    .tab-content-wrapper__work-places-list {
+    .tab-content-wrapper__list-item-body {
 
-        margin-top: 0 !important;
-    }
-}
+        .tab-content-wrapper__list:first-child {
 
-.tab-content-wrapper__services-list {
-
-    .tab-content-wrapper__list {
-
-        margin-top: 0 !important;
+            margin-top: 0 !important;
+        }
     }
 }
 
@@ -108,4 +103,31 @@
 
     background: transparent;
     padding-right: 12px;
+}
+
+.worker-fixed-technique-tab-content-controller {
+
+    .tab-content-wrapper {
+
+        .add-btn {
+
+            display: none;
+        }
+
+        .tab-content-wrapper__list {
+
+            margin-bottom: 0;
+        }
+    }
+}
+
+.admin-acts-tab-content-controller {
+
+    .tab-content-wrapper {
+
+        .add-btn {
+
+            display: none;
+        }
+    }
 }

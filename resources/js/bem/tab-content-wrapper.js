@@ -6,10 +6,10 @@ $(document).ready(() => {
 
     // Реализуем фильтр
     function filter(changedElement){
-        var $listItem = $(changedElement).closest('.tab-content-wrapper').find('.tab-content-wrapper__list-item'), $filterField = $(changedElement).closest('.tab-content-wrapper__filter').find('.tab-content-wrapper__filter-field');
+        var $listItem = $(changedElement).closest('.tab-content-wrapper').find('>.tab-content-wrapper__list >.tab-content-wrapper__list-item'), $filterField = $(changedElement).closest('.tab-content-wrapper__filter').find('.tab-content-wrapper__filter-field');
 
         $listItem.each((index, element) => {
-            var listItem = element, $listItemFilterField = $(element).find('.tab-content-wrapper__list-item-filter-field');
+            var listItem = element, $listItemFilterField = $(element).find('>.tab-content-wrapper__list-item-filter-field');
 
             if ($listItemFilterField.length > 0) {
                 $(listItem).show();
