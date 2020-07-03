@@ -49,7 +49,7 @@
                         <tr>
                             <td>№ п/п</td>
                             <td>Наименование материальных ценностей</td>
-                            <td>Инв. №</td>
+                            <td>Инв./сер. №</td>
                             <td>Ед. изм.</td>
                             <td>Кол-во</td>
                             <td>Стоимость, руб.</td>
@@ -73,7 +73,7 @@
                             <tr>
                                 <td>{{ $i }}</td>
                                 <td>{{ $device->name }}</td>
-                                <td>-</td>
+                                <td>{{ $device->serial_number }}</td>
                                 <td>шт.</td>
                                 <td>1</td>
                                 <td>{{ $device->purchase_price }}</td>
