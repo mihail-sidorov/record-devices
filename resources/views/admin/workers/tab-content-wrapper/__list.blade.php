@@ -13,17 +13,19 @@
             <div class="tab-content-wrapper__list-item-head">
                 <div class="tab-content-wrapper__list-item-name">{{ $worker->name }}</div>
 
-                @include('btns.attach-devices-btn')
+                @if (Auth::user()->role === 'admin')
+                    @include('btns.attach-devices-btn')
 
-                @include('btns.change-password-btn')
+                    @include('btns.change-password-btn')
 
-                @include('btns.create-act-btn')
+                    @include('btns.create-act-btn')
 
-                <div class="edit-worker-btn">@include('btns.edit-btn')</div>
+                    <div class="edit-worker-btn">@include('btns.edit-btn')</div>
 
-                <div class="del-worker-btn">
-                    @include('btns.del-btn')
-                </div>
+                    <div class="del-worker-btn">
+                        @include('btns.del-btn')
+                    </div>
+                @endif
             </div>
             <div class="tab-content-wrapper__list-item-body">
                 <table class="tab-content-wrapper__list-item-body-table">
@@ -47,7 +49,7 @@
 
                 @if ($worker_work_places->count() || $worker_devices->count() || $worker_services->count())
                     <div class="tab-content-wrapper__list">
-                        @if ($worker_work_places->count() || $worker_devices->count())
+                        @if ((Auth::user()->role === 'admin') && ($worker_work_places->count() || $worker_devices->count()))
                             <div class="tab-content-wrapper__list-item tab-content-wrapper__fixed-technique-list-item">
                                 <div class="tab-content-wrapper__list-item-head">
                                     <div class="tab-content-wrapper__list-item-name">Закрепленная техника</div>

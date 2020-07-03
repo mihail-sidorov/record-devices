@@ -12,6 +12,9 @@
         <li class="nav-item">
             <a class="nav-link<?php if ($active_tabs['acts']) echo $active_tabs['acts'][0]; ?>" id="acts-tab" data-toggle="tab" href="#acts" role="tab" aria-controls="acts" aria-selected="true">Акты</a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link<?php if ($active_tabs['workers']) echo $active_tabs['workers'][0]; ?>" id="workers-tab" data-toggle="tab" href="#workers" role="tab" aria-controls="workers" aria-selected="true">Сотрудники</a>
+        </li>
         <div class="worker-settings-controller">
             @include('settings-block')
             @include('admin.workers.edit-worker-modal-window.modal-window')
@@ -29,6 +32,9 @@
         </div>
         <div class="tab-pane fade<?php if ($active_tabs['acts']) echo $active_tabs['acts'][1]; ?> acts worker-acts-tab-content-controller" id="acts" role="tabpanel" aria-labelledby="acts-tab">
             @include('worker.acts.tab-content-wrapper')
+        </div>
+        <div class="tab-pane fade<?php if ($active_tabs['workers']) echo $active_tabs['workers'][1]; ?> workers worker-workers-tab-content-controller" id="workers" role="tabpanel" aria-labelledby="workers-tab">
+            @include('admin.workers.tab-content-wrapper.tab-content-wrapper')
         </div>
     </div>
 </div>
