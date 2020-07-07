@@ -71,6 +71,16 @@ class ComponentPart extends Model
         }
     }
 
+    public function is_attach_to_worker()
+    {
+        $work_place = $this->get_work_place();
+
+        if ($work_place && $work_place->is_attach_to_worker()) {
+            return true;
+        }
+        else return false;
+    }
+
     public function get_work_place()
     {
         $work_place_component_part = WorkPlaceComponentPart::where([['component_part_id', $this->id], ['attach', 1]])->first();

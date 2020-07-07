@@ -43,6 +43,17 @@ class Categories extends Model
             }
         }
 
-        return $devices_count;
+        $component_parts = $this->component_parts;
+        $component_parts_count = count($component_parts);
+        foreach ($component_parts as $component_part) {
+            if ($component_part->write_off()) {
+                $component_parts_count--;
+            }
+            elseif ($component_part->is_attach_to_worker()) {
+                $component_parts_count--;
+            }
+        }
+
+        return $devices_count + $component_parts_count;
     }
 }
