@@ -29,6 +29,7 @@ require('./controllers/admin-categories-tab-content-controller');
 require('./controllers/worker-services-tab-content-controller');
 require('./controllers/worker-settings-controller');
 require('./controllers/act-controller');
+require('./controllers/phone-mask-controller');
 
 //window.Vue = require('vue');
 

@@ -5,7 +5,7 @@
 
             <div class="tab-content-wrapper__list-item-head">
                 <div class="tab-content-wrapper__list-item-name">{{ $service->name }}</div>
-                @if (Auth::user()->role === 'admin')
+                @if ((Auth::user()->role === 'admin') || (Auth::user()->role === 'worker' && Auth::user()->id === $service->user_id))
                     @include('btns.edit-btn')
                     @include('btns.del-btn')
                 @endif
@@ -15,7 +15,7 @@
                     <thead>
                         <tr>
                             <td>Логин</td>
-                            @if (Auth::user()->role === 'admin')
+                            @if ((Auth::user()->role === 'admin') || (Auth::user()->role === 'worker' && Auth::user()->id === $service->user_id))
                                 <td>Пароль</td>
                             @endif
                         </tr>
@@ -23,7 +23,7 @@
                     <tbody>
                         <tr>
                             <td>{{ $service->login }}</td>
-                            @if (Auth::user()->role === 'admin')
+                            @if ((Auth::user()->role === 'admin') || (Auth::user()->role === 'worker' && Auth::user()->id === $service->user_id))
                                 <td>{{ $service->password }}</td>
                             @endif
                         </tr>

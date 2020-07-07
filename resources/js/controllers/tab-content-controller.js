@@ -3,7 +3,7 @@ window.tabContentController = class tabContentController {
         this.controllerElement = $controllerElement;
 
         // Обнуляем сообщения об ошибках валидации у текстовых полей
-        this.controllerElement.find('.form-content__text').on('input', (e) => {
+        this.controllerElement.find('.form-content__text').on('keydown input', (e) => {
             this.clearValidateErrors($(e.currentTarget));
         });
 

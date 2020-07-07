@@ -55,4 +55,9 @@ class Workers extends Model
     {
         return $this->hasMany('App\Service', 'user_id', 'user_id');
     }
+
+    public function get_email()
+    {
+        return User::find($this->user_id)->email;
+    }
 }

@@ -33,6 +33,8 @@
                         <tr>
                             <td>Должность</td>
                             <td>Отдел</td>
+                            <td>Телефон</td>
+                            <td>Эл. почта</td>
                         </tr>
                     </thead>
                     <tbody>
@@ -43,6 +45,8 @@
                                     {{ $worker->department->name }}
                                 @endif
                             </td>
+                            <td>{{ $worker->phone }}</td>
+                            <td>{{ $worker->get_email() }}</td>
                         </tr>
                     </tbody>
                 </table>

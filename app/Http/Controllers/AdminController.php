@@ -256,6 +256,7 @@ class AdminController extends Controller
             $this->validate($request, [
                 'name' => 'bail|required|max:255',
                 'post' => 'bail|required|max:255',
+                'phone' => 'bail|required|max:16|regex:/^\+7\([0-9]{3}\)[0-9]{3}\-[0-9]{2}\-[0-9]{2}$/u',
                 'department_id' => 'required',
                 'email' => 'bail|required|string|email|max:255|unique:users',
                 'password' => 'bail|required|string|min:8|confirmed',
@@ -267,6 +268,9 @@ class AdminController extends Controller
                 'name.max' => 'Количество символов в поле "ФИО" не может превышать 255',
                 'post.required' => 'Поле "Должность" обязательно для заполнения',
                 'post.max' => 'Количество символов в поле "Должность" не может превышать 255',
+                'phone.required' => 'Поле "Телефон" обязательно для заполнения',
+                'phone.max' => 'Количество символов в поле "Телефон" не может превышать 16',
+                'phone.regex' => 'Поле "Телефон" не соответствует формату',
                 'department_id.required' => 'Поле "Отдел" обязательно для заполнения',
                 'email.required' => 'Поле "Эл. почта" обязательно для заполнения',
                 'email.string' => 'Поле "Эл. почта" должно быть строкой',
@@ -291,6 +295,7 @@ class AdminController extends Controller
             $worker = new Workers;
             $worker->name = $request->name;
             $worker->post = $request->post;
+            $worker->phone = $request->phone;
             $worker->department_id = $request->department_id;
             $worker->user_id = $user->id;
             $worker->employer_id = $request->employer_id;
@@ -627,6 +632,7 @@ class AdminController extends Controller
             $validate_rules = [
                 'name' => 'bail|required|max:255',
                 'post' => 'bail|required|max:255',
+                'phone' => 'bail|required|max:16|regex:/^\+7\([0-9]{3}\)[0-9]{3}\-[0-9]{2}\-[0-9]{2}$/u',
                 'department_id' => 'required',
                 'employer_id' => 'required',
                 'placement_date' => 'date',
@@ -637,6 +643,9 @@ class AdminController extends Controller
                 'name.max' => 'Количество символов в поле "ФИО" не может превышать 255',
                 'post.required' => 'Поле "Должность" обязательно для заполнения',
                 'post.max' => 'Количество символов в поле "Должность" не может превышать 255',
+                'phone.required' => 'Поле "Телефон" обязательно для заполнения',
+                'phone.max' => 'Количество символов в поле "Телефон" не может превышать 16',
+                'phone.regex' => 'Поле "Телефон" не соответствует формату',
                 'department_id.required' => 'Поле "Отдел" обязательно для заполнения',
                 'employer_id.required' => 'Поле "Работодатель" обязательно для заполнения',
                 'placement_date.date' => 'Поле "Дата трудоустройства" не является датой',
@@ -660,6 +669,7 @@ class AdminController extends Controller
 
             $worker->name = $request->name;
             $worker->post = $request->post;
+            $worker->phone = $request->phone;
             $worker->department_id = $request->department_id;
             $worker->employer_id = $request->employer_id;
             $worker->placement_date = strtotime($request->placement_date);
@@ -969,6 +979,7 @@ class AdminController extends Controller
                 \"name\": \"$worker->name\",
                 \"email\": \"$email\",
                 \"post\": \"$worker->post\",
+                \"phone\": \"$worker->phone\",
                 \"department_id\": \"$worker->department_id\",
                 \"employer_id\": \"$worker->employer_id\",
                 \"placement_date\": \"$worker->placement_date\"

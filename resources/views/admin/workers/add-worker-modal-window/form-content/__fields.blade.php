@@ -32,6 +32,12 @@
     </div>
 
     <div class="form-content__field">
+        <div class="form-content__title">Телефон:</div>
+        <input class="form-content__text" type="text" name="phone">
+        <div class="form-content__error" field-name="phone"></div>
+    </div>
+
+    <div class="form-content__field">
         <div class="form-content__title">Работодатель:</div>
         <select class="form-content__select" name="employer_id">
             <option value="1">ИП Корсун А.В.</option>
