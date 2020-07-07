@@ -63,6 +63,7 @@
             @include('admin.workers.change-password-modal-window.modal-window')
             @include('admin.workers.create-act-modal-window.modal-window')
             @include('worker.services.edit-service-modal-window.modal-window')
+            @include('worker.services.add-service-modal-window.modal-window')
         </div>
         <div class="tab-pane fade<?php if ($active_tabs['acts']) echo $active_tabs['acts'][1]; ?> acts admin-acts-tab-content-controller" id="acts" role="tabpanel" aria-labelledby="acts-tab">
             @include('admin.acts.tab-content-wrapper.tab-content-wrapper')

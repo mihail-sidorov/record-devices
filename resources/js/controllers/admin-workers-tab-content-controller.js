@@ -138,6 +138,20 @@ $(document).ready(() => {
             this.controllerElement.find('.tab-content-wrapper__services-list-item .del-btn').click((e) => {
                 this.delEntity($(e.currentTarget), '/worker/del-service', '/admin/tab/workers', 'сервис');
             });
+
+            // Открываем модальное окно добавления сервиса
+            this.controllerElement.find('.add-service-btn').click((e) => {
+                var $modalWindow = this.controllerElement.find('.add-service-modal-window');
+
+                $modalWindow.attr('id', $(e.currentTarget).closest('.tab-content-wrapper__list-item').attr('id'));
+                this.showModalWindow($modalWindow);
+            });
+
+            // Валидация и добавление сервиса
+            this.controllerElement.find('.add-service-modal-window .form-content').on('submit', (e) => {
+                this.addEntity($(e.currentTarget), '/worker/add-service', '/admin/tab/workers');
+                return false;
+            });
         }
     }
 

@@ -20,7 +20,11 @@ window.tabContentController = class tabContentController {
     }
 
     addEntity($eventElement, route, tab) {
-        var fields = $eventElement.serialize(), $formContentField;
+        var fields = $eventElement.serialize(), $formContentField, id = $eventElement.closest('.modal-window').attr('id');
+
+        if (id !== '') {
+            fields += `&id=${id}`;
+        }
 
         $eventElement.find('.form-content__field').removeClass('form-content__field_error');
         $eventElement.find('.form-content__error').text('');

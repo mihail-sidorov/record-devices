@@ -20,6 +20,8 @@
 
                     @include('btns.create-act-btn')
 
+                    @include('btns.add-service-btn')
+
                     <div class="edit-worker-btn">@include('btns.edit-btn')</div>
 
                     <div class="del-worker-btn">

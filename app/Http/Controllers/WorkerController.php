@@ -80,7 +80,7 @@ class WorkerController extends Controller
 
     public function addService(Request $request)
     {
-        if ($request->ajax() && Auth::user()->role === 'worker') {
+        if ($request->ajax() && (Auth::user()->role === 'worker' || Auth::user()->role === 'admin')) {
             $this->validate($request, [
                 'name' => 'bail|required|max:255',
                 'login' => 'bail|required|max:255',
@@ -100,7 +100,12 @@ class WorkerController extends Controller
             $service->name = $request->name;
             $service->login = $request->login;
             $service->password = $request->password;
-            $service->user_id = Auth::user()->id;
+            if (Auth::user()->role === 'worker') {
+                $service->user_id = Auth::user()->id;
+            }
+            if (Auth::user()->role === 'admin') {
+                $service->user_id = Workers::find($request->id)->user_id;
+            }
 
             $service->save();
         }
