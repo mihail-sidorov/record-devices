@@ -93,4 +93,17 @@ class WorkPlace extends Model
 
         return $purchase_price;
     }
+
+    public function free_by_acts()
+    {
+        $work_places_workers = WorkPlaceWorker::where('work_place_id', $this->id)->get();
+
+        foreach($work_places_workers as $work_place_worker) {
+            if (($work_place_worker->act_give_id !== null || $work_place_worker->act_return_id !== null) && (!$work_place_worker->have_original_give_act() || !$work_place_worker->have_original_return_act())) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }

@@ -20,6 +20,7 @@ use App\WorkPlaceWorker;
 use App\User;
 use Illuminate\Support\Facades\Hash;
 use App\Act;
+use App\Service;
 
 class AdminController extends Controller
 {
@@ -792,6 +793,12 @@ class AdminController extends Controller
                 return response()->json(['error' => 'К данному устройству имеются прикрепленные сотрудники, поэтому его сейчас нельзя удалить!'], 422);
             }
             else {
+                $device = Devices::find($request->id);
+
+                if (!$device->free_by_acts()) {
+                    return response()->json(['error' => 'Чтобы удалить устройство, оно не должно входить в состав ни одого акта выдачи или сдачи, или все акты выдачи и сдачи, в которые входит устройство, попарно должны быть завершенными!'], 422);
+                }
+
                 Devices::destroy($request->id);
                 DeviceWorker::where('device_id', $request->id)->delete();
             }
@@ -807,6 +814,12 @@ class AdminController extends Controller
                 return response()->json(['error' => 'У рабочего места есть прикрепленные комплектующие или сотрудники!'], 422);
             }
             else {
+                $work_place = WorkPlace::find($request->id);
+
+                if (!$work_place->free_by_acts()) {
+                    return response()->json(['error' => 'Чтобы удалить рабочее место, оно не должно входить в состав ни одого акта выдачи или сдачи, или все акты выдачи и сдачи, в которые входит рабочее место, попарно должны быть завершенными!'], 422);
+                }
+
                 WorkPlace::destroy($request->id);
                 WorkPlaceComponentPart::where('work_place_id', $request->id)->delete();
                 WorkPlaceWorker::where('work_place_id', $request->id)->delete();
@@ -839,10 +852,16 @@ class AdminController extends Controller
             }
             else {
                 $worker = Workers::find($request->id);
+
+                if (!$worker->free_by_acts()) {
+                    return response()->json(['error' => 'Чтобы удалить сотрудника, на него не должен быть составлен ни один акт выдачи или сдачи, или все акты выдачи и сдачи попарно должны быть завершенными!'], 422);
+                }
+
                 Workers::destroy($worker->id);
                 User::destroy($worker->user_id);
                 DeviceWorker::where('worker_id', $request->id)->delete();
                 WorkPlaceWorker::where('worker_id', $request->id)->delete();
+                Service::where('user_id', $worker->user_id)->delete();
             }
         }
         
@@ -1118,6 +1137,12 @@ class AdminController extends Controller
     public function attachComponentPartsToWorkPlace(Request $request)
     {
         if ($request->ajax() && Auth::user()->role === 'admin') {
+            $work_place = WorkPlace::find($request->id);
+
+            if (!$work_place->free_by_acts()) {
+                return response()->json(['error' => 'Чтобы можно было прикреплять или откреплять комплектующие от рабочего места, рабочее место не должно входить в состав ни одного акта выдачи или сдачи, или все акты выдачи и сдачи, в которые входит рабочее место, должны быть попарно завершенными!'], 422);
+            }
+
             if ($request->elements) {
                 foreach ($request->elements[0] as $index => $component_part_id) {
                     $this->attachComponentPartToWorkPlace($request->id, $component_part_id, $request->elements[1][$index]);

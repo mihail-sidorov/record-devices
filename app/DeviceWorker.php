@@ -19,4 +19,22 @@ class DeviceWorker extends Model
      * @var bool
      */
     public $timestamps = false;
+
+    public function have_original_give_act()
+    {
+        if ($this->act_give_id !== null && Act::find($this->act_give_id)->document !== null) {
+            return true;
+        }
+        
+        return false;
+    }
+
+    public function have_original_return_act()
+    {
+        if ($this->act_return_id !== null && Act::find($this->act_return_id)->document !== null) {
+            return true;
+        }
+        
+        return false;
+    }
 }

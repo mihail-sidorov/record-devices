@@ -113,4 +113,17 @@ class Devices extends Model
 
         return $status;
     }
+
+    public function free_by_acts()
+    {
+        $devices_workers = DeviceWorker::where('device_id', $this->id)->get();
+
+        foreach($devices_workers as $device_worker) {
+            if (($device_worker->act_give_id !== null || $device_worker->act_return_id !== null) && (!$device_worker->have_original_give_act() || !$device_worker->have_original_return_act())) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }

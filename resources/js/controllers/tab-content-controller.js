@@ -377,6 +377,12 @@ window.tabContentController = class tabContentController {
             success: () => {
                 window.location.href = tab;
             },
+            error: (error) => {
+                if (error.status === 422) {
+                    alert(error.responseJSON.error);
+                    $modalWindow.attr('show', 'no');
+                }
+            },
         });
     }
 
