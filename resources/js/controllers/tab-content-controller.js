@@ -385,19 +385,4 @@ window.tabContentController = class tabContentController {
             },
         });
     }
-
-    createAct($eventElement, route, tab) {
-        var fields = $eventElement.serialize();
-
-        $.ajax({
-            type: 'POST',
-            url: route,
-            data: fields,
-            success: (response) => {
-                if (response) {
-                    window.location.href = tab;
-                }
-            },
-        });
-    }
 }

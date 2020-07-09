@@ -119,7 +119,7 @@ $(document).ready(() => {
 
             // Создаем новый акт
             this.controllerElement.find('.create-act-modal-window .form-content').on('submit', (e) => {
-                this.createAct($(e.currentTarget), '/admin/create-act', '/admin/tab/acts');
+                window.actController.createAct($(e.currentTarget), '/act/create-act', '/admin/tab/acts');
             });
 
             // Заполняем данными модальное окно для редактирования сервиса и открываем его

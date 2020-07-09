@@ -67,8 +67,8 @@ Route::post('/admin/attach-devices-to-worker', 'AdminController@attachDevicesToW
 Route::post('/admin/get-free-workers-to-work-place', 'AdminController@getFreeWorkersToWorkPlace');
 Route::post('/admin/get-workers-to-device', 'AdminController@getWorkersToDevice');
 Route::post('/admin/change-password', 'AdminController@changePassword');
-Route::post('/admin/create-act', 'AdminController@createAct');
 
+Route::post('/act/create-act', 'ActController@createAct');
 Route::get('/act/{act_id}', 'ActController@index');
 Route::post('/act/upload', 'ActController@upload');
 Route::get('/act/download/{act_id}', 'ActController@download');

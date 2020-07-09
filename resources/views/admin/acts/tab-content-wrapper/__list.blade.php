@@ -21,6 +21,7 @@
                         @include('btns.upload-act-btn')
                     @endif
                 @else
+                    @include('btns.upload-act-btn')
                     @include('btns.download-act-btn', ['id' => $act->id])
                 @endif
             </div>

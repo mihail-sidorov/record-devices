@@ -1279,48 +1279,4 @@ class AdminController extends Controller
 
         return 'OK';
     }
-
-    public function createAct(Request $request)
-    {
-        if ($request->ajax() && Auth::user()->role === 'admin') {
-            if ($request->type === '1') {
-                $devices_workers = DeviceWorker::where([['worker_id', '=', $request->id], ['act_give_id', '=', null], ['attach', '=', 1]])->get();
-                $work_places_workers = WorkPlaceWorker::where([['worker_id', '=', $request->id], ['act_give_id', '=', null], ['attach', '=', 1]])->get();
-                $type = 'give';
-            }
-            else {
-                $devices_workers = DeviceWorker::where([['worker_id', '=', $request->id], ['act_give_id', '<>', null], ['act_return_id', '=', null], ['attach', '=', 0]])->get();
-                $work_places_workers = WorkPlaceWorker::where([['worker_id', '=', $request->id], ['act_give_id', '<>', null], ['act_return_id', '=', null], ['attach', '=', 0]])->get();
-                $type = 'return';
-            }
-
-            if (($devices_workers->count() > 0) || ($work_places_workers->count() > 0)) {
-                $act = new Act;
-                $act->type = $type;
-                $act->save();
-
-                foreach($devices_workers as $device_worker) {
-                    if ($request->type === '1') {
-                        $device_worker->act_give_id = $act->id;
-                    }
-                    else {
-                        $device_worker->act_return_id = $act->id;
-                    }
-                    $device_worker->save();
-                }
-
-                foreach($work_places_workers as $work_place_worker) {
-                    if ($request->type === '1') {
-                        $work_place_worker->act_give_id = $act->id;
-                    }
-                    else {
-                        $work_place_worker->act_return_id = $act->id;
-                    }
-                    $work_place_worker->save();
-                }
-            }
-        }
-
-        return 'OK';
-    }
 }

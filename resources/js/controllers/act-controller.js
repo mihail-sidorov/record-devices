@@ -32,7 +32,22 @@ $(document).ready(() => {
                 });
             });
         }
+
+        createAct($eventElement, route, tab) {
+            var fields = $eventElement.serialize();
+    
+            $.ajax({
+                type: 'POST',
+                url: route,
+                data: fields,
+                success: (response) => {
+                    if (response) {
+                        window.location.href = tab;
+                    }
+                },
+            });
+        }
     }
 
-    new ActController($('.act-controller'));
+    window.actController = new ActController($('.act-controller'));
 });
