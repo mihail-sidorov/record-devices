@@ -143,4 +143,29 @@ class ActController extends Controller
             abort(403);
         }
     }
+
+    public function delete(Request $request)
+    {
+        if ($request->ajax() && Auth::user()->role === 'admin') {
+            $act = Act::find($request->id);
+
+            if ($act->type === 'give') {
+                if (DeviceWorker::where([['act_give_id', '=', $act->id], ['act_return_id', '<>', null]])->count() > 0 || WorkPlaceWorker::where([['act_give_id', '=', $act->id], ['act_return_id', '<>', null]])->count() > 0) {
+                    return response()->json(['error' => 'Чтобы удалить акт выдачи, необходимо удалить сперва акт сдачи!'], 422);
+                }
+
+                DeviceWorker::where('act_give_id', $act->id)->delete();
+                WorkPlaceWorker::where('act_give_id', $act->id)->delete();
+            }
+
+            if ($act->type === 'return') {
+                DeviceWorker::where('act_return_id', $act->id)->update(['act_return_id' => null]);
+                WorkPlaceWorker::where('act_return_id', $act->id)->update(['act_return_id' => null]);
+            }
+
+            $act::destroy($request->id);
+        }
+        
+        return 'OK';
+    }
 }

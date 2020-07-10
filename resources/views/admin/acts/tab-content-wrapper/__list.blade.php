@@ -24,6 +24,10 @@
                     @include('btns.upload-act-btn')
                     @include('btns.download-act-btn', ['id' => $act->id])
                 @endif
+
+                @if (Auth::user()->role === 'admin')
+                    @include('btns.del-btn')
+                @endif
             </div>
             <div class="tab-content-wrapper__list-item-body">
                 <table class="tab-content-wrapper__list-item-body-table">

@@ -72,6 +72,7 @@ Route::post('/act/create-act', 'ActController@createAct');
 Route::get('/act/{act_id}', 'ActController@index');
 Route::post('/act/upload', 'ActController@upload');
 Route::get('/act/download/{act_id}', 'ActController@download');
+Route::post('/act/delete', 'ActController@delete');
 
 Route::get('/worker', 'WorkerController@index')->name('worker');
 Route::get('/worker/tab/{tab_name}', 'WorkerController@index');

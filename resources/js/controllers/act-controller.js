@@ -31,6 +31,10 @@ $(document).ready(() => {
                     }
                 });
             });
+
+            $('.admin-acts-tab-content-controller .del-btn').on('click', (e) => {
+                this.delAct($(e.currentTarget), '/act/delete', '/admin/tab/acts', 'акт');
+            });
         }
 
         createAct($eventElement, route, tab) {
@@ -46,6 +50,34 @@ $(document).ready(() => {
                     }
                 },
             });
+        }
+
+        delAct($eventElement, route, tab, entityName) {
+            var id, token, name = $eventElement.closest('.tab-content-wrapper__list-item-head').find('.tab-content-wrapper__list-item-name').text();
+    
+            if (confirm(`Вы действительно хотите удалить ${entityName} "${name}"?`)) {
+                id = $eventElement.closest('.tab-content-wrapper__list-item').attr('id');
+                token = $('meta[name="csrf-token"]').attr('content');
+                
+                $.ajax({
+                    type: 'POST',
+                    url: route,
+                    data: {
+                        _token: token,
+                        id: id,
+                    },
+                    success: (response) => {
+                        if (response) {
+                            window.location.href = tab;
+                        }
+                    },
+                    error: (error) => {
+                        if (error.status === 422) {
+                            alert(error.responseJSON.error);
+                        }
+                    },
+                });
+            }
         }
     }
 
