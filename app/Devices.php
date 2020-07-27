@@ -116,14 +116,26 @@ class Devices extends Model
 
     public function free_by_acts()
     {
-        $devices_workers = DeviceWorker::where('device_id', $this->id)->get();
+        $devices_workers = DeviceWorker::
+        join('acts', function($join){
+            $join
+                ->on('device_worker.act_give_id', '=', 'acts.id')
+                ->orOn('device_worker.act_return_id', '=', 'acts.id');
+        })
+        ->where('device_worker.device_id', '=', $this->id)
+        ->where(function($query){
+            $query
+                ->where('device_worker.act_give_id', null)
+                ->orWhere('device_worker.act_return_id', null)
+                ->orWhere('acts.document', null);
+        })
+        ->get();
 
-        foreach($devices_workers as $device_worker) {
-            if (($device_worker->act_give_id !== null || $device_worker->act_return_id !== null) && (!$device_worker->have_original_give_act() || !$device_worker->have_original_return_act())) {
-                return false;
-            }
+        if ($devices_workers->count() > 0) {
+            return false;
         }
-
-        return true;
+        else {
+            return true;
+        }
     }
 }

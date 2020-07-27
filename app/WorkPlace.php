@@ -96,14 +96,26 @@ class WorkPlace extends Model
 
     public function free_by_acts()
     {
-        $work_places_workers = WorkPlaceWorker::where('work_place_id', $this->id)->get();
+        $work_places_workers = WorkPlaceWorker::
+        join('acts', function($join){
+            $join
+                ->on('work_place_worker.act_give_id', '=', 'acts.id')
+                ->orOn('work_place_worker.act_return_id', '=', 'acts.id');
+        })
+        ->where('work_place_worker.work_place_id', '=', $this->id)
+        ->where(function($query){
+            $query
+                ->where('work_place_worker.act_give_id', null)
+                ->orWhere('work_place_worker.act_return_id', null)
+                ->orWhere('acts.document', null);
+        })
+        ->get();
 
-        foreach($work_places_workers as $work_place_worker) {
-            if (($work_place_worker->act_give_id !== null || $work_place_worker->act_return_id !== null) && (!$work_place_worker->have_original_give_act() || !$work_place_worker->have_original_return_act())) {
-                return false;
-            }
+        if ($work_places_workers->count() > 0) {
+            return false;
         }
-
-        return true;
+        else {
+            return true;
+        }
     }
 }

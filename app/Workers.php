@@ -63,21 +63,41 @@ class Workers extends Model
 
     public function free_by_acts()
     {
-        $devices_workers = DeviceWorker::where('worker_id', $this->id)->get();
-        $work_places_workers = WorkPlaceWorker::where('worker_id', $this->id)->get();
+        $devices_workers = DeviceWorker::
+        join('acts', function($join){
+            $join
+                ->on('device_worker.act_give_id', '=', 'acts.id')
+                ->orOn('device_worker.act_return_id', '=', 'acts.id');
+        })
+        ->where('device_worker.worker_id', '=', $this->id)
+        ->where(function($query){
+            $query
+                ->where('device_worker.act_give_id', null)
+                ->orWhere('device_worker.act_return_id', null)
+                ->orWhere('acts.document', null);
+        })
+        ->get();
 
-        foreach($devices_workers as $device_worker) {
-            if (($device_worker->act_give_id !== null || $device_worker->act_return_id !== null) && (!$device_worker->have_original_give_act() || !$device_worker->have_original_return_act())) {
-                return false;
-            }
+        $work_places_workers = WorkPlaceWorker::
+        join('acts', function($join){
+            $join
+                ->on('work_place_worker.act_give_id', '=', 'acts.id')
+                ->orOn('work_place_worker.act_return_id', '=', 'acts.id');
+        })
+        ->where('work_place_worker.worker_id', '=', $this->id)
+        ->where(function($query){
+            $query
+                ->where('work_place_worker.act_give_id', null)
+                ->orWhere('work_place_worker.act_return_id', null)
+                ->orWhere('acts.document', null);
+        })
+        ->get();
+
+        if ($devices_workers->count() > 0 || $work_places_workers->count() > 0) {
+            return false;
         }
-
-        foreach($work_places_workers as $work_place_worker) {
-            if (($work_place_worker->act_give_id !== null || $work_place_worker->act_return_id !== null) && (!$work_place_worker->have_original_give_act() || !$work_place_worker->have_original_return_act())) {
-                return false;
-            }
+        else {
+            return true;
         }
-
-        return true;
     }
 }
