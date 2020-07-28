@@ -17,7 +17,7 @@ require('./bem/modal-window');
 require('./bem/settings-block');
 
 // Подключение контроллеров
-require('./controllers//tab-content-controller');
+require('./controllers/tab-content-controller');
 require('./controllers/admin-devices-tab-content-controller');
 require('./controllers/admin-work-places-tab-content-controller');
 require('./controllers/admin-component-parts-tab-content-controller');
